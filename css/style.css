@@ -459,7 +459,14 @@ h1, h2, h3 {
   letter-spacing: 0;
   margin-right: 4px;
 }
-.tier-blurb { margin-top: var(--s-1); color: var(--text-muted); font-size: 0.95rem; }
+.tier-care {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+.tier-blurb { margin-top: var(--s-2); color: var(--text-muted); font-size: 0.95rem; }
 .tier-features {
   list-style: none;
   padding: 0;
@@ -684,8 +691,8 @@ h1, h2, h3 {
   margin-top: var(--s-4);
 }
 .form-nav .btn { flex: 1; }
-/* hidden attribute must win over .btn display */
-.btn[hidden] { display: none; }
+/* hidden attribute must always win over flex/inline-flex display */
+[hidden] { display: none !important; }
 @media (max-width: 480px) {
   .field-row { grid-template-columns: 1fr; }
 }

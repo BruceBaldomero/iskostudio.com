@@ -232,6 +232,7 @@
           <div class="tier reveal">
             <h3 class="tier-name">Starter</h3>
             <p class="tier-price"><span class="tier-from">from</span> £500</p>
+            <p class="tier-care">+ £50/mo care plan</p>
             <p class="tier-blurb">A clean 1–3 page site to get you online and found.</p>
             <ul class="tier-features">
               <li>Mobile-responsive design</li>
@@ -246,6 +247,7 @@
             <p class="tier-flag">Most popular</p>
             <h3 class="tier-name">Standard</h3>
             <p class="tier-price"><span class="tier-from">from</span> £850</p>
+            <p class="tier-care">+ £75/mo care plan</p>
             <p class="tier-blurb">A bigger site with room to show off your business.</p>
             <ul class="tier-features">
               <li>Up to ~5 pages</li>
@@ -259,6 +261,7 @@
           <div class="tier reveal">
             <h3 class="tier-name">Premium</h3>
             <p class="tier-price"><span class="tier-from">from</span> £1,400</p>
+            <p class="tier-care">+ £100/mo care plan</p>
             <p class="tier-blurb">A bespoke site, designed from the ground up around you.</p>
             <ul class="tier-features">
               <li>Fully custom design</li>
@@ -271,7 +274,7 @@
         </div>
 
         <p class="care-line reveal">
-          Every site comes with a <strong>care plan — from £50/month</strong> — covering hosting, updates, backups, security and support.
+          Each tier includes an optional <strong>care plan — from £50/month</strong> — covering hosting, updates, backups, security and support. Cancel anytime, no lock-in.
         </p>
         <p class="quote-line reveal">Final price depends on your needs — <a href="#contact">book a quick chat</a> and I'll quote you.</p>
       </div>
@@ -285,10 +288,10 @@
         </div>
         <div class="about-copy">
           <p class="eyebrow reveal">About</p>
-          <h2 class="section-title reveal">I'm Bruce. I build websites for businesses that mean business.</h2>
-          <p class="reveal">ISKO Studio is just me — which means the person who designs your site is the same person who builds it, launches it, and looks after it. No handoffs, no account managers, no chasing.</p>
+          <h2 class="section-title reveal">I'm Bruce — the designer behind ISKO Studio.</h2>
+          <p class="reveal">When you work with ISKO, you work directly with me. The person who designs your site is the same person who builds it, launches it and is there afterwards — so you're never passed to an account manager or left chasing for an update.</p>
           <p class="reveal">I started ISKO because too many small businesses are stuck with slow, outdated websites — or none at all. You shouldn't need a big budget or a tech background to look the part online. So I keep things clean, fast and fairly priced, and I handle all the technical stuff for you.</p>
-          <p class="reveal">Build it once, look after it for life. That's the idea.</p>
+          <p class="reveal">The site is yours — your domain, your content. If you'd like, I'll keep it looked after every month. If not, that's fine too. No lock-in.</p>
           <a class="btn btn-primary reveal" href="#contact">Start a project</a>
         </div>
       </div>
@@ -359,7 +362,7 @@
             </div>
             <div class="field">
               <label for="email">Email address</label>
-              <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@example.com" required />
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@example.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Enter a valid email address, e.g. jane@example.com" required />
             </div>
           </div>
 
@@ -428,6 +431,10 @@
                 <input type="radio" name="Biggest challenge" value="Something else" />
                 <span class="choice-label">Something else</span>
               </label>
+            </div>
+            <div class="field field-message">
+              <label for="message">Anything else you'd like me to know? <span class="field-optional">(optional)</span></label>
+              <textarea id="message" name="Message" rows="3" placeholder="A few words about what you're after, a deadline, your budget — whatever's useful."></textarea>
             </div>
           </fieldset>
 
