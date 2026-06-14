@@ -1,5 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ISKO Studio">
-  <rect width="64" height="64" rx="12" fill="#1A1A1A"/>
-  <text x="50%" y="50%" dy="0.02em" text-anchor="middle" dominant-baseline="central"
-        font-family="Georgia, 'Times New Roman', serif" font-weight="600" font-size="30" fill="#FAFAF8">I<tspan fill="#B8884D">.</tspan></text>
+  <rect width="64" height="64" rx="10" fill="#1A1A1A"/>
+  <text x="32" y="43" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="22" fill="#FAFAF8" letter-spacing="-0.5">ISKO<tspan fill="#B8884D">.</tspan></text>
 </svg>
