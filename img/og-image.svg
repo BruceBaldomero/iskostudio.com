@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FAFAF8"/>
+  <rect x="0" y="0" width="6" height="630" fill="#B8884D"/>
+
+  <!-- Wordmark -->
+  <text x="80" y="120" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="72" fill="#1A1A1A" letter-spacing="2">ISKO<tspan fill="#B8884D">.</tspan></text>
+
+  <!-- Eyebrow -->
+  <text x="82" y="175" font-family="Arial,sans-serif" font-size="18" font-weight="600" fill="#6B6B6B" letter-spacing="3">WEB DESIGN STUDIO · LONDON</text>
+
+  <!-- Headline -->
+  <text x="80" y="290" font-family="Georgia,'Times New Roman',serif" font-size="58" fill="#1A1A1A" letter-spacing="-1">Get online. Get found.</text>
+  <text x="80" y="360" font-family="Georgia,'Times New Roman',serif" font-size="58" fill="#1A1A1A" letter-spacing="-1">Get back to running</text>
+  <text x="80" y="430" font-family="Georgia,'Times New Roman',serif" font-size="58" fill="#1A1A1A" letter-spacing="-1">your business.</text>
+
+  <!-- Sub -->
+  <text x="80" y="510" font-family="Arial,sans-serif" font-size="24" fill="#6B6B6B">Clean, modern websites for local businesses.</text>
+
+  <!-- URL -->
+  <text x="80" y="580" font-family="Arial,sans-serif" font-size="20" fill="#B8884D" letter-spacing="1">iskostudio.com</text>
+</svg>
