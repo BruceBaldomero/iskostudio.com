@@ -589,6 +589,22 @@ h1, h2, h3 {
   color: var(--text-muted);
   text-align: center;
 }
+.field-optional {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.form-success, .form-error {
+  margin-top: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  text-align: center;
+}
+.form-success { background: #f0faf4; color: #1a6b3a; border: 1px solid #b8e6cc; }
+.form-error   { background: #fdf2f2; color: #8b1a1a; border: 1px solid #f0b8b8; }
+.form-error a { color: inherit; font-weight: 600; }
+.btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
 /* ---------- Footer ---------- */
 .site-footer {

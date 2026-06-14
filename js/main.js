@@ -69,4 +69,40 @@
 
     reveals.forEach(function (el) { io.observe(el); });
   }
+  /* ---- 4. Contact form — AJAX submit via Formspree ---- */
+  var form = document.getElementById("contactForm");
+  var submitBtn = document.getElementById("formSubmit");
+  var successMsg = document.getElementById("formSuccess");
+  var errorMsg = document.getElementById("formError");
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+      successMsg.hidden = true;
+      errorMsg.hidden = true;
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      })
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            successMsg.hidden = false;
+            submitBtn.textContent = "Sent ✓";
+          } else {
+            return res.json().then(function (data) { throw data; });
+          }
+        })
+        .catch(function () {
+          errorMsg.hidden = false;
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send enquiry";
+        });
+    });
+  }
+
 })();
