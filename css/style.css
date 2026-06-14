@@ -256,12 +256,19 @@ h1, h2, h3 {
 /* ---------- Hero ---------- */
 .hero {
   padding-block: clamp(72px, 16vw, 160px) clamp(48px, 9vw, 96px);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.035) 0 1px,
+    transparent 1px 22px
+  );
 }
 .hero-inner { max-width: 56rem; }
 .hero-title {
   font-size: clamp(2.6rem, 8vw, 3.5rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
 }
 .hero-sub {
   margin-top: var(--s-3);
@@ -498,13 +505,8 @@ h1, h2, h3 {
   color: var(--text);
 }
 .care-line strong { font-weight: 600; }
-.quote-line {
-  margin-top: var(--s-1);
-  text-align: center;
-  color: var(--text-muted);
-}
-.quote-line a, .care-line a { color: var(--accent); text-decoration: none; }
-.quote-line a:hover, .care-line a:hover { text-decoration: underline; }
+.care-line a { color: var(--accent); text-decoration: none; }
+.care-line a:hover { text-decoration: underline; }
 
 /* ---------- About ---------- */
 .about-inner {
