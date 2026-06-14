@@ -69,18 +69,71 @@
 
     reveals.forEach(function (el) { io.observe(el); });
   }
-  /* ---- 4. Contact form — AJAX submit via Formspree ---- */
+  /* ---- 4. Contact form — multi-step + AJAX submit via Formspree ---- */
   var form = document.getElementById("contactForm");
-  var submitBtn = document.getElementById("formSubmit");
-  var successMsg = document.getElementById("formSuccess");
-  var errorMsg = document.getElementById("formError");
 
   if (form) {
+    var steps = Array.prototype.slice.call(form.querySelectorAll(".form-step"));
+    var total = steps.length;
+    var current = 0;
+
+    var progressBar = document.getElementById("formProgressBar");
+    var stepCurrent = document.getElementById("stepCurrent");
+    var backBtn = document.getElementById("formBack");
+    var nextBtn = document.getElementById("formNext");
+    var submitBtn = document.getElementById("formSubmit");
+    var successMsg = document.getElementById("formSuccess");
+    var errorMsg = document.getElementById("formError");
+
+    function showStep(i, focus) {
+      steps.forEach(function (s, idx) { s.classList.toggle("is-active", idx === i); });
+      progressBar.style.width = ((i + 1) / total) * 100 + "%";
+      stepCurrent.textContent = String(i + 1);
+      backBtn.hidden = i === 0;
+      var last = i === total - 1;
+      nextBtn.hidden = last;
+      submitBtn.hidden = !last;
+      if (focus) {
+        var firstField = steps[i].querySelector("input, textarea, select");
+        if (firstField) firstField.focus();
+      }
+    }
+
+    // Validate the visible step; show native messages if invalid
+    function validateStep(i) {
+      var required = steps[i].querySelectorAll("[required]");
+      for (var j = 0; j < required.length; j++) {
+        if (!required[j].checkValidity()) {
+          required[j].reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    nextBtn.addEventListener("click", function () {
+      if (!validateStep(current)) return;
+      if (current < total - 1) { current++; showStep(current, true); }
+    });
+
+    backBtn.addEventListener("click", function () {
+      if (current > 0) { current--; showStep(current, true); }
+    });
+
+    // Enter advances instead of submitting (except on the last step)
+    form.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && current < total - 1) {
+        var tag = e.target.tagName;
+        if (tag === "INPUT") { e.preventDefault(); nextBtn.click(); }
+      }
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!validateStep(current)) return;
+
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
-      successMsg.hidden = true;
       errorMsg.hidden = true;
 
       fetch(form.action, {
@@ -90,9 +143,12 @@
       })
         .then(function (res) {
           if (res.ok) {
-            form.reset();
+            form.querySelector(".form-progress").hidden = true;
+            document.querySelector(".form-step-count").hidden = true;
+            steps.forEach(function (s) { s.classList.remove("is-active"); });
+            document.querySelector(".form-nav").hidden = true;
+            document.querySelector(".form-note").hidden = true;
             successMsg.hidden = false;
-            submitBtn.textContent = "Sent ✓";
           } else {
             return res.json().then(function (data) { throw data; });
           }
@@ -103,6 +159,8 @@
           submitBtn.textContent = "Send enquiry";
         });
     });
+
+    showStep(0, false);
   }
 
 })();
