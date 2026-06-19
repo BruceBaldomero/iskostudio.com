@@ -317,18 +317,69 @@
       </div>
     </section>
 
-    <!-- ============ TESTIMONIALS ============ -->
-    <section class="section testimonials">
+    <!-- ============ REVIEWS ============ -->
+    <section class="section testimonials" id="reviews">
       <div class="container">
-        <blockquote class="testimonial-single reveal">
-          <p class="testimonial-quote">Bruce built our website from scratch and made the whole process completely stress-free. It looks exactly how I imagined — clean, professional, and my clients actually comment on it.</p>
-          <cite class="testimonial-cite">
-            <span class="testimonial-name">Mona</span>
-            <span class="testimonial-biz">Mukha Face Yoga</span>
-          </cite>
-        </blockquote>
+        <header class="section-head">
+          <p class="eyebrow reveal">Client reviews</p>
+          <h2 class="section-title reveal">What clients say.</h2>
+        </header>
+
+        <div class="review-scatter">
+
+          <!-- Add more .review-card articles here as new reviews come in -->
+
+          <article class="review-card reveal" aria-label="Review by Mona B">
+            <div class="review-card-stars">★★★★★</div>
+            <p class="review-card-excerpt">"I cannot recommend ISKO Studio highly enough. Bruce has been incredible from the very beginning — he took the time to understand my business and the experience I wanted my clients to have."</p>
+            <footer class="review-card-footer">
+              <div class="review-card-avatar" aria-hidden="true">M</div>
+              <div class="review-card-byline">
+                <span class="review-card-name">Mona B</span>
+                <span class="review-card-source">MUKHA Face Yoga · Google Review</span>
+              </div>
+            </footer>
+            <div class="review-full" hidden>
+              <p>I cannot recommend ISKO Studio highly enough. Bruce has been incredible from the very beginning. We started with a consultation where he took the time to understand my business, my goals for the website, and the experience I wanted my clients to have. He asked thoughtful questions that helped me clarify my vision and ensured the website was sleek, professional, organised, and easy to navigate for both myself and my clients.</p>
+              <p>What really sets Bruce apart is his attention to detail and ongoing support. He is always prompt when I request changes and is proactive in maintaining and updating the website. In fact, he often notices updates I've made on my Instagram and reflects them on my website without me even needing to ask. That level of care and initiative is rare.</p>
+              <p>Bruce also regularly suggests improvements to enhance the user experience and encourage client engagement. He actively manages my online presence, ensuring my business is discoverable on Google and helping to keep my Google reviews and business profile up to date.</p>
+              <p>The monthly subscription is absolutely worth it. Knowing that everything is maintained, updated, and optimised gives me complete peace of mind. It allows me to focus on what I do best — providing the highest level of care to my clients while Bruce takes care of the technical side of things.</p>
+              <p>If you're looking for someone who is knowledgeable, reliable, proactive, and genuinely invested in the success of your business, Bruce and ISKO Studio are an excellent choice.</p>
+            </div>
+          </article>
+
+          <article class="review-card reveal" aria-label="Review by Matt Lunberg">
+            <div class="review-card-stars">★★★★★</div>
+            <p class="review-card-excerpt">"Can't recommend Bruce and ISKO Studio highly enough. Within a week of our initial consultation, a beautiful and fully functional website was ready to go and integrated with other platforms in use for our business."</p>
+            <footer class="review-card-footer">
+              <div class="review-card-avatar" aria-hidden="true">M</div>
+              <div class="review-card-byline">
+                <span class="review-card-name">Matt Lunberg</span>
+                <span class="review-card-source">MUKHA Face Yoga · Google Review</span>
+              </div>
+            </footer>
+            <div class="review-full" hidden>
+              <p>Can't recommend Bruce and ISKO Studio highly enough. We had previously spent a lot of time and money with a different provider who had only half delivered the product before I gave up. Within a week of our initial consultation with Bruce, a beautiful and fully functional website was ready to go and integrated with other platforms in use for our business. Always very responsive via email at all times of the day with great client service. You won't regret using ISKO!</p>
+            </div>
+          </article>
+
+        </div>
       </div>
     </section>
+
+    <!-- Review modal -->
+    <div class="review-modal" id="review-modal" aria-hidden="true">
+      <div class="review-modal-backdrop" id="review-modal-backdrop"></div>
+      <div class="review-modal-box" role="dialog" aria-modal="true" aria-labelledby="review-modal-name">
+        <button class="review-modal-close" id="review-modal-close" aria-label="Close review">&#x2715;</button>
+        <div class="review-modal-stars" id="review-modal-stars"></div>
+        <blockquote class="review-modal-text" id="review-modal-text"></blockquote>
+        <footer class="review-modal-footer">
+          <span class="review-modal-name" id="review-modal-name"></span>
+          <span class="review-modal-meta" id="review-modal-meta"></span>
+        </footer>
+      </div>
+    </div>
 
     <!-- ============ PROCESS ============ -->
     <section class="section process" id="process">
