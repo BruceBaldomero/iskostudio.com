@@ -682,21 +682,48 @@ h1, h2, h3 {
   margin-top: auto;
   padding-top: var(--s-2);
   border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.review-card-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.review-card-byline {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .review-card-name {
-  display: block;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .review-card-source {
-  display: block;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin-top: 2px;
-  letter-spacing: 0.02em;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Review modal */
@@ -776,19 +803,22 @@ h1, h2, h3 {
   padding-top: var(--s-3);
   border-top: 1px solid var(--hairline);
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: var(--s-2);
 }
 
 .review-modal-name {
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--text);
+  display: block;
 }
 
 .review-modal-meta {
   font-size: 0.85rem;
   color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
 }
 
 /* Reviews mobile */

@@ -185,9 +185,25 @@
     const fullDiv = card.querySelector('.review-full');
     if (!fullDiv) return;
 
-    starsEl.textContent   = card.querySelector('.review-card-stars')  ? card.querySelector('.review-card-stars').textContent  : '★★★★★';
-    nameEl.textContent    = card.querySelector('.review-card-name')   ? card.querySelector('.review-card-name').textContent   : '';
-    metaEl.textContent    = card.querySelector('.review-card-source') ? card.querySelector('.review-card-source').textContent : '';
+    var starsNode  = card.querySelector('.review-card-stars');
+    var nameNode   = card.querySelector('.review-card-name');
+    var sourceNode = card.querySelector('.review-card-source');
+    var avatarNode = card.querySelector('.review-card-avatar');
+
+    starsEl.textContent = starsNode  ? starsNode.textContent  : '★★★★★';
+    nameEl.textContent  = nameNode   ? nameNode.textContent   : '';
+    metaEl.textContent  = sourceNode ? sourceNode.textContent : '';
+
+    /* Replicate avatar in modal header */
+    var existingAvatar = modal.querySelector('.review-modal-avatar');
+    if (existingAvatar) existingAvatar.remove();
+    if (avatarNode) {
+      var modalAvatar = document.createElement('div');
+      modalAvatar.className = 'review-modal-avatar review-card-avatar';
+      modalAvatar.setAttribute('aria-hidden', 'true');
+      modalAvatar.textContent = avatarNode.textContent;
+      nameEl.parentNode.insertBefore(modalAvatar, nameEl);
+    }
 
     textEl.innerHTML = '';
     Array.from(fullDiv.children).forEach(function (child) {
