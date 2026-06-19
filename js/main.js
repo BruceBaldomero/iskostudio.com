@@ -164,3 +164,62 @@
   }
 
 })();
+
+/* =========================================================
+   Review scatter modal
+   ========================================================= */
+(function () {
+  "use strict";
+
+  const modal     = document.getElementById('review-modal');
+  if (!modal) return;
+
+  const backdrop  = document.getElementById('review-modal-backdrop');
+  const closeBtn  = document.getElementById('review-modal-close');
+  const starsEl   = document.getElementById('review-modal-stars');
+  const textEl    = document.getElementById('review-modal-text');
+  const nameEl    = document.getElementById('review-modal-name');
+  const metaEl    = document.getElementById('review-modal-meta');
+
+  function openModal(card) {
+    const fullDiv = card.querySelector('.review-full');
+    if (!fullDiv) return;
+
+    starsEl.textContent   = card.querySelector('.review-card-stars')  ? card.querySelector('.review-card-stars').textContent  : '★★★★★';
+    nameEl.textContent    = card.querySelector('.review-card-name')   ? card.querySelector('.review-card-name').textContent   : '';
+    metaEl.textContent    = card.querySelector('.review-card-source') ? card.querySelector('.review-card-source').textContent : '';
+
+    textEl.innerHTML = '';
+    Array.from(fullDiv.children).forEach(function (child) {
+      var p = document.createElement('p');
+      p.textContent = child.textContent;
+      textEl.appendChild(p);
+    });
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.review-card').forEach(function (card) {
+    card.addEventListener('click', function () { openModal(card); });
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+    });
+  });
+
+  backdrop && backdrop.addEventListener('click', closeModal);
+  closeBtn  && closeBtn.addEventListener('click',  closeModal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+})();
