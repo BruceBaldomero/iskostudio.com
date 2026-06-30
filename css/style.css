@@ -388,6 +388,52 @@ h1, h2, h3 {
 .work-name { font-size: 1.25rem; }
 .work-desc { margin-top: 6px; color: var(--text-muted); font-size: 0.95rem; }
 
+.work-meta-body { flex: 1; min-width: 0; }
+
+.work-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+.work-features li {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--hairline);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
+.work-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 18px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--hairline);
+}
+.work-stats > div { display: flex; flex-direction: column; gap: 2px; }
+.work-stats dt {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.work-stats dd {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
 .tag {
   flex: none;
   font-family: var(--font-sans);
