@@ -526,6 +526,15 @@ h1, h2, h3 {
   letter-spacing: 0.01em;
 }
 .tier-blurb { margin-top: var(--s-2); color: var(--text-muted); font-size: 0.95rem; }
+.tier-for {
+  margin-top: var(--s-1);
+  padding-top: var(--s-1);
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
 .tier-features {
   list-style: none;
   padding: 0;
