@@ -58,6 +58,11 @@
   if (reduceMotion || !("IntersectionObserver" in window)) {
     reveals.forEach(function (el) { el.classList.add("is-visible"); });
   } else {
+    // Reveal as soon as an element crosses ~20% up from the bottom of the
+    // viewport. rootMargin trims 20% off the bottom edge so the trigger point
+    // sits well before an element reaches the middle of the screen — nothing
+    // should ever linger washed-out once it's a third of the way in. once:true
+    // via unobserve.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -65,7 +70,7 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    }, { threshold: 0, rootMargin: "0px 0px -12% 0px" });
 
     reveals.forEach(function (el) { io.observe(el); });
   }
@@ -107,6 +112,20 @@
 
     wirePillGroup("serviceTypeGroup", "serviceTypeInput");
     wirePillGroup("biggestChallengeGroup", "biggestChallengeInput");
+
+    // Deep links (e.g. the Fix-Up band CTA) can preselect a service pill.
+    Array.prototype.forEach.call(document.querySelectorAll("[data-preselect]"), function (link) {
+      link.addEventListener("click", function () {
+        var val = link.getAttribute("data-preselect");
+        var group = document.getElementById("serviceTypeGroup");
+        var input = document.getElementById("serviceTypeInput");
+        if (!group || !input) return;
+        Array.prototype.forEach.call(group.querySelectorAll(".pill"), function (p) {
+          p.classList.toggle("is-selected", p.dataset.value === val);
+        });
+        input.value = val;
+      });
+    });
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
