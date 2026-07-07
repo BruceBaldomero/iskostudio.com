@@ -113,6 +113,20 @@
     wirePillGroup("serviceTypeGroup", "serviceTypeInput");
     wirePillGroup("biggestChallengeGroup", "biggestChallengeInput");
 
+    // Deep links (e.g. the Fix-Up band CTA) can preselect a service pill.
+    Array.prototype.forEach.call(document.querySelectorAll("[data-preselect]"), function (link) {
+      link.addEventListener("click", function () {
+        var val = link.getAttribute("data-preselect");
+        var group = document.getElementById("serviceTypeGroup");
+        var input = document.getElementById("serviceTypeInput");
+        if (!group || !input) return;
+        Array.prototype.forEach.call(group.querySelectorAll(".pill"), function (p) {
+          p.classList.toggle("is-selected", p.dataset.value === val);
+        });
+        input.value = val;
+      });
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) {
