@@ -636,7 +636,7 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: 5fr 7fr;
   gap: clamp(32px, 6vw, 72px);
-  align-items: center;
+  align-items: start;
 }
 .about-photo {
   aspect-ratio: 4 / 5;
