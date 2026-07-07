@@ -75,7 +75,7 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#about">About</a></li>
-          <li><a class="nav-cta" href="#contact">Contact</a></li>
+          <li><a class="nav-cta" href="#contact">Start a project</a></li>
         </ul>
       </nav>
 
@@ -93,7 +93,7 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">Start a project</a></li>
       </ul>
     </nav>
   </header>
@@ -532,126 +532,114 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section contact" id="contact">
-      <div class="container contact-inner">
-        <div class="contact-intro">
-          <p class="eyebrow reveal">Free website review</p>
-          <h2 class="section-title reveal">See what your site could do better.</h2>
-          <p class="section-lead reveal">Answer four quick questions and I'll take a look at where you are now — and where you could be. No cost, no obligation. I reply within a working day.</p>
-          <p class="contact-email reveal">Prefer email? <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a></p>
+    <section class="section start-project" id="contact">
+      <div class="container start-project-inner">
+        <div class="start-project-intro">
+          <p class="eyebrow reveal">Let's talk</p>
+          <h2 class="section-title reveal">Tell me about your project.</h2>
+          <p class="section-lead reveal">Fill this in with as much or as little as you've got. I read every one myself and come back within 24 hours with a straight answer on whether I can help and what it would cost.</p>
         </div>
 
-        <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mnjylqod" method="POST" novalidate>
-          <!-- Progress -->
-          <div class="form-progress" aria-hidden="true">
-            <div class="form-progress-bar" id="formProgressBar"></div>
-          </div>
-          <p class="form-step-count"><span id="stepCurrent">1</span> of 4</p>
+        <form class="start-project-form reveal" id="contactForm" action="https://formspree.io/f/mnjylqod" method="POST" novalidate>
 
-          <!-- Step 1 — Your details -->
-          <div class="form-step is-active" data-step="1">
-            <h3 class="form-step-title">First, your details</h3>
-            <div class="field-row">
-              <div class="field">
-                <label for="firstName">First name</label>
-                <input type="text" id="firstName" name="First name" autocomplete="given-name" placeholder="Jane" required />
-              </div>
-              <div class="field">
-                <label for="lastName">Last name</label>
-                <input type="text" id="lastName" name="Last name" autocomplete="family-name" placeholder="Smith" required />
-              </div>
+          <!-- Service type: multi-select pills -->
+          <div class="field">
+            <span class="field-group-label">What do you need?</span>
+            <div class="pill-group" id="serviceTypeGroup" role="group" aria-label="What do you need?">
+              <button type="button" class="pill" data-value="A new website">A new website</button>
+              <button type="button" class="pill" data-value="Fix my current site">Fix my current site</button>
+              <button type="button" class="pill" data-value="Not sure yet">Not sure yet</button>
+            </div>
+            <input type="hidden" name="What they need" id="serviceTypeInput" />
+          </div>
+
+          <!-- Name & email -->
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="Name" autocomplete="name" placeholder="Jane Smith" required />
             </div>
             <div class="field">
-              <label for="email">Email address</label>
+              <label for="email">Email</label>
               <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@example.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Enter a valid email address, e.g. jane@example.com" required />
             </div>
           </div>
 
-          <!-- Step 2 — What to improve -->
-          <fieldset class="form-step" data-step="2">
-            <legend class="form-step-title">What are you looking to improve?</legend>
-            <p class="form-step-hint">Pick any that apply.</p>
-            <div class="choice-grid">
-              <label class="choice">
-                <input type="checkbox" name="Looking to improve" value="A new website or redesign" />
-                <span class="choice-label">A new website or redesign</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="Looking to improve" value="Getting found on Google (SEO)" />
-                <span class="choice-label">Getting found on Google (SEO)</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="Looking to improve" value="More enquiries & bookings" />
-                <span class="choice-label">More enquiries &amp; bookings</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="Looking to improve" value="Ongoing care & updates" />
-                <span class="choice-label">Ongoing care &amp; updates</span>
-              </label>
-            </div>
-          </fieldset>
-
-          <!-- Step 3 — About your business -->
-          <div class="form-step" data-step="3">
-            <h3 class="form-step-title">Tell me about your business</h3>
-            <div class="field">
-              <label for="business">Business name</label>
-              <input type="text" id="business" name="Business name" autocomplete="organization" placeholder="The Corner Café" required />
-            </div>
-            <div class="field">
-              <label for="website">Website <span class="field-optional">(if you have one)</span></label>
-              <input type="url" id="website" name="Website" autocomplete="url" placeholder="www.yourbusiness.co.uk" />
-            </div>
-            <div class="field">
-              <label for="phone">Phone <span class="field-optional">(optional)</span></label>
-              <input type="tel" id="phone" name="Phone" autocomplete="tel" placeholder="07700 900000" />
-            </div>
+          <!-- What's going on -->
+          <div class="field">
+            <label for="message">What's going on?</label>
+            <textarea id="message" name="Message" rows="4" placeholder="Tell me about your business and what you're trying to achieve. The more you tell me, the more useful my reply." required></textarea>
           </div>
 
-          <!-- Step 4 — Biggest challenge -->
-          <fieldset class="form-step" data-step="4">
-            <legend class="form-step-title">What's your biggest challenge right now?</legend>
-            <div class="choice-grid">
-              <label class="choice">
-                <input type="radio" name="Biggest challenge" value="Not showing up on Google" required />
-                <span class="choice-label">I'm not showing up on Google</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="Biggest challenge" value="Website looks outdated" />
-                <span class="choice-label">My website looks outdated</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="Biggest challenge" value="No website yet" />
-                <span class="choice-label">I don't have a website yet</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="Biggest challenge" value="Not enough enquiries" />
-                <span class="choice-label">I'm not getting enough enquiries</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="Biggest challenge" value="Something else" />
-                <span class="choice-label">Something else</span>
-              </label>
+          <!-- Biggest challenge: single-select pills -->
+          <div class="field">
+            <span class="field-group-label">What's your biggest challenge right now? <span class="field-optional">(optional)</span></span>
+            <div class="pill-group" id="biggestChallengeGroup" data-mode="single" role="group" aria-label="What's your biggest challenge right now?">
+              <button type="button" class="pill" data-value="Not showing up on Google">Not showing up on Google</button>
+              <button type="button" class="pill" data-value="Website looks outdated">Website looks outdated</button>
+              <button type="button" class="pill" data-value="No website yet">No website yet</button>
+              <button type="button" class="pill" data-value="Not enough enquiries">Not enough enquiries</button>
+              <button type="button" class="pill" data-value="Something else">Something else</button>
             </div>
-            <div class="field field-message">
-              <label for="message">Tell me a bit more: what are you after, any deadlines, budget in mind?</label>
-              <textarea id="message" name="Message" rows="3" placeholder="A few words is fine — the more you share, the better I can help." required></textarea>
+            <input type="hidden" name="Biggest challenge" id="biggestChallengeInput" />
+          </div>
+
+          <!-- Optional details -->
+          <div class="optional-details">
+            <p class="optional-details-label">A few optional details</p>
+            <div class="field-row">
+              <div class="field">
+                <label for="business">Business name <span class="field-optional">(optional)</span></label>
+                <input type="text" id="business" name="Business name" autocomplete="organization" placeholder="The Corner Café" />
+              </div>
+              <div class="field">
+                <label for="website">Current website <span class="field-optional">(optional)</span></label>
+                <input type="url" id="website" name="Current website" autocomplete="url" placeholder="www.yourbusiness.co.uk" />
+              </div>
             </div>
-          </fieldset>
+            <div class="field-row">
+              <div class="field">
+                <label for="location">Where you're based <span class="field-optional">(optional)</span></label>
+                <input type="text" id="location" name="Location" autocomplete="address-level2" placeholder="London" />
+              </div>
+              <div class="field">
+                <label for="timeline">Rough timeline <span class="field-optional">(optional)</span></label>
+                <select id="timeline" name="Timeline">
+                  <option value="">Select one</option>
+                  <option value="No rush">No rush</option>
+                  <option value="Within a month">Within a month</option>
+                  <option value="As soon as possible">As soon as possible</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="budget">Rough budget <span class="field-optional">(optional)</span></label>
+                <select id="budget" name="Budget">
+                  <option value="">Select one</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                  <option value="Under £500">Under £500</option>
+                  <option value="£500–£1,000">£500–£1,000</option>
+                  <option value="£1,000+">£1,000+</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="phone">Phone <span class="field-optional">(if you'd rather I call)</span></label>
+                <input type="tel" id="phone" name="Phone" autocomplete="tel" placeholder="07700 900000" />
+              </div>
+            </div>
+          </div>
 
           <!-- Honeypot spam trap -->
           <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
-          <!-- Navigation -->
-          <div class="form-nav">
-            <button type="button" class="btn btn-ghost" id="formBack" hidden>Back</button>
-            <button type="button" class="btn btn-primary" id="formNext">Next</button>
-            <button type="submit" class="btn btn-primary" id="formSubmit" hidden>Send enquiry</button>
+          <div class="form-submit-row">
+            <button type="submit" class="btn btn-primary" id="formSubmit">Send it over &rarr;</button>
+            <span class="form-note-inline">I reply within 24 hours.</span>
           </div>
-          <p class="form-note">I reply within a working day. No spam, ever.</p>
 
           <div class="form-success" id="formSuccess" hidden>
-            <p>✓ Thanks — I've got your details and I'll be in touch within a working day.</p>
+            <p>✓ Thanks — I've got your details and I'll reply within 24 hours.</p>
           </div>
           <div class="form-error" id="formError" hidden>
             <p>Something went wrong. Email me directly at <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a>.</p>
@@ -677,7 +665,7 @@
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Start a project</a></li>
         </ul>
       </nav>
 

@@ -69,68 +69,51 @@
 
     reveals.forEach(function (el) { io.observe(el); });
   }
-  /* ---- 4. Contact form — multi-step + AJAX submit via Formspree ---- */
+  /* ---- 4. Start a project form — pill toggle + AJAX submit via Formspree ---- */
   var form = document.getElementById("contactForm");
 
   if (form) {
-    var steps = Array.prototype.slice.call(form.querySelectorAll(".form-step"));
-    var total = steps.length;
-    var current = 0;
-
-    var progressBar = document.getElementById("formProgressBar");
-    var stepCurrent = document.getElementById("stepCurrent");
-    var backBtn = document.getElementById("formBack");
-    var nextBtn = document.getElementById("formNext");
     var submitBtn = document.getElementById("formSubmit");
     var successMsg = document.getElementById("formSuccess");
     var errorMsg = document.getElementById("formError");
 
-    function showStep(i, focus) {
-      steps.forEach(function (s, idx) { s.classList.toggle("is-active", idx === i); });
-      progressBar.style.width = ((i + 1) / total) * 100 + "%";
-      stepCurrent.textContent = String(i + 1);
-      backBtn.hidden = i === 0;
-      var last = i === total - 1;
-      nextBtn.hidden = last;
-      submitBtn.hidden = !last;
-      if (focus) {
-        var firstField = steps[i].querySelector("input, textarea, select");
-        if (firstField) firstField.focus();
-      }
+    // Pill groups: single-select (data-mode="single") acts like radios,
+    // otherwise multi-select toggle. Value stored in a paired hidden field.
+    function wirePillGroup(groupId, inputId) {
+      var group = document.getElementById(groupId);
+      var input = document.getElementById(inputId);
+      if (!group || !input) return;
+
+      var single = group.dataset.mode === "single";
+      var pills = Array.prototype.slice.call(group.querySelectorAll(".pill"));
+
+      pills.forEach(function (pill) {
+        pill.addEventListener("click", function () {
+          if (single) {
+            var wasSelected = pill.classList.contains("is-selected");
+            pills.forEach(function (p) { p.classList.remove("is-selected"); });
+            if (!wasSelected) pill.classList.add("is-selected");
+            input.value = wasSelected ? "" : pill.dataset.value;
+          } else {
+            pill.classList.toggle("is-selected");
+            var selected = pills
+              .filter(function (p) { return p.classList.contains("is-selected"); })
+              .map(function (p) { return p.dataset.value; });
+            input.value = selected.join(", ");
+          }
+        });
+      });
     }
 
-    // Validate the visible step; show native messages if invalid
-    function validateStep(i) {
-      var required = steps[i].querySelectorAll("[required]");
-      for (var j = 0; j < required.length; j++) {
-        if (!required[j].checkValidity()) {
-          required[j].reportValidity();
-          return false;
-        }
-      }
-      return true;
-    }
-
-    nextBtn.addEventListener("click", function () {
-      if (!validateStep(current)) return;
-      if (current < total - 1) { current++; showStep(current, true); }
-    });
-
-    backBtn.addEventListener("click", function () {
-      if (current > 0) { current--; showStep(current, true); }
-    });
-
-    // Enter advances instead of submitting (except on the last step)
-    form.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && current < total - 1) {
-        var tag = e.target.tagName;
-        if (tag === "INPUT") { e.preventDefault(); nextBtn.click(); }
-      }
-    });
+    wirePillGroup("serviceTypeGroup", "serviceTypeInput");
+    wirePillGroup("biggestChallengeGroup", "biggestChallengeInput");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!validateStep(current)) return;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
@@ -143,11 +126,9 @@
       })
         .then(function (res) {
           if (res.ok) {
-            form.querySelector(".form-progress").hidden = true;
-            document.querySelector(".form-step-count").hidden = true;
-            steps.forEach(function (s) { s.classList.remove("is-active"); });
-            document.querySelector(".form-nav").hidden = true;
-            document.querySelector(".form-note").hidden = true;
+            Array.prototype.forEach.call(form.children, function (child) {
+              if (child !== successMsg && child !== errorMsg) child.hidden = true;
+            });
             successMsg.hidden = false;
           } else {
             return res.json().then(function (data) { throw data; });
@@ -156,11 +137,9 @@
         .catch(function () {
           errorMsg.hidden = false;
           submitBtn.disabled = false;
-          submitBtn.textContent = "Send enquiry";
+          submitBtn.textContent = "Send it over →";
         });
     });
-
-    showStep(0, false);
   }
 
 })();
