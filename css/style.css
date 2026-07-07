@@ -7,16 +7,21 @@
 :root {
   --bg:          #FAFAF8;
   --surface:     #FFFFFF;
-  --text:        #1A1A1A;
-  --text-muted:  #6B6B6B;
-  --hairline:    #E5E4DF;
-  --accent:      #B8884D;
-  --accent-hover:#9A7240;
-  --dark-bg:     #1A1A1A;
+  --ink:         #1F1D1A;  /* headlines — near-black warm ink */
+  --text:        #2B2824;  /* body — strong, darker than #3D3A35 */
+  --text-muted:  #5C574F;  /* muted, still AA on cream */
+  --hairline:    #E4E2DC;
+  --accent:      #C25E33;  /* single strong accent — burnt terracotta */
+  --accent-hover:#A8481F;  /* darker accent for text-on-light + hover */
+  --dark-bg:     #1A1A1A;  /* footer / reviews band */
+  --panel:       #23211D;  /* inset dark contrast cards */
+  --panel-text:  #F4F1EA;  /* warm off-white on dark panels */
+  --panel-muted: rgba(244,241,234,0.68);
   --dark-text:   #FAFAF8;
 
   --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
   --font-sans:  "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono:  ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 
   --maxw: 1100px;
   --radius: 5px;
@@ -65,6 +70,7 @@ h1, h2, h3 {
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
 /* ---------- Layout helpers ---------- */
@@ -85,13 +91,16 @@ h1, h2, h3 {
 }
 
 .eyebrow {
-  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--accent-hover);
   margin-bottom: var(--s-2);
 }
+/* eyebrow on dark panels keeps the brighter accent for punch */
+.panel-dark .eyebrow { color: var(--accent); }
 
 .section-title {
   font-size: clamp(1.9rem, 4.2vw, 2.25rem);
@@ -133,29 +142,52 @@ h1, h2, h3 {
   font-size: 0.95rem;
   font-weight: 500;
   line-height: 1;
-  padding: 0.85em 1.4em;
-  border-radius: var(--radius);
+  padding: 0.9em 1.6em;
+  border-radius: 999px;   /* solid pills */
   border: 1px solid transparent;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.18s var(--ease),
               color 0.18s var(--ease),
               border-color 0.18s var(--ease),
+              box-shadow 0.18s var(--ease),
               transform 0.18s var(--ease);
 }
 
 .btn-primary {
-  background: var(--text);
+  background: var(--ink);
   color: var(--dark-text);
 }
-.btn-primary:hover { background: #000; transform: translateY(-1px); }
+.btn-primary:hover {
+  background: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px -12px rgba(26, 26, 26, 0.55);
+}
 
 .btn-ghost {
   background: transparent;
-  color: var(--text);
+  color: var(--ink);
   border-color: var(--hairline);
 }
-.btn-ghost:hover { border-color: var(--text); transform: translateY(-1px); }
+.btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+/* text link with arrow — secondary CTA */
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.4em 0;
+  cursor: pointer;
+  transition: gap 0.18s var(--ease), color 0.18s var(--ease);
+}
+.btn-text .arrow { transition: transform 0.18s var(--ease); }
+.btn-text:hover { color: var(--accent-hover); gap: 0.75em; }
+.btn-text:hover .arrow { transform: translateX(3px); }
 
 .btn-block { width: 100%; }
 
@@ -215,11 +247,13 @@ h1, h2, h3 {
 .primary-nav a:hover { color: var(--accent); }
 
 .nav-cta {
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  padding: 0.5em 1em;
+  background: var(--ink);
+  color: var(--dark-text);
+  border-radius: 999px;
+  padding: 0.55em 1.15em;
+  transition: background-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.nav-cta:hover { border-color: var(--text); }
+.primary-nav a.nav-cta:hover { background: #000; color: var(--dark-text); transform: translateY(-1px); }
 
 /* Hamburger */
 .nav-toggle {
@@ -276,18 +310,41 @@ h1, h2, h3 {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
 }
+/* accent word + hand-drawn ink underline */
+.accent-word {
+  position: relative;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.ink-underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  width: 100%;
+  height: 0.34em;
+  color: var(--accent);
+  overflow: visible;
+}
 .hero-sub {
   margin-top: var(--s-3);
   font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-  color: var(--text-muted);
+  color: var(--text);
   max-width: 38rem;
   line-height: 1.55;
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2);
+  align-items: center;
+  gap: var(--s-3);
   margin-top: var(--s-4);
+}
+.hero-microcopy {
+  margin-top: var(--s-3);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 34rem;
 }
 
 /* ---------- Work ---------- */
@@ -652,12 +709,7 @@ h1, h2, h3 {
 .about-copy .btn { margin-top: var(--s-4); }
 
 /* ---------- Reviews ---------- */
-.testimonials {
-  background: var(--dark-bg);
-  color: var(--dark-text);
-}
 .testimonials .section-head { margin-bottom: var(--s-4); }
-.testimonials .eyebrow { color: rgba(250,250,248,0.5); }
 
 .review-scatter {
   display: grid;
@@ -668,12 +720,12 @@ h1, h2, h3 {
 
 .review-card {
   position: relative;
-  background: var(--bg);
-  border-radius: 3px;
+  background: var(--surface);
+  border-radius: var(--radius);
   padding: var(--s-4);
   cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  border: 1px solid var(--hairline);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
   display: flex;
   flex-direction: column;
   gap: var(--s-2);
@@ -681,7 +733,8 @@ h1, h2, h3 {
 
 .review-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 14px 40px -22px rgba(26, 26, 26, 0.35);
+  border-color: var(--ink);
 }
 
 /* "Read more" cue on hover */
@@ -874,14 +927,15 @@ h1, h2, h3 {
   gap: clamp(20px, 3vw, 32px);
   counter-reset: step;
 }
-.step { border-top: 2px solid var(--text); padding-top: var(--s-2); }
+.step { border-top: 2px solid var(--ink); padding-top: var(--s-2); }
 .step-num {
   display: block;
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
   color: var(--accent);
   font-weight: 600;
-  margin-bottom: var(--s-1);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--s-2);
 }
 .step-title { font-size: 1.25rem; }
 .step-desc { margin-top: 6px; color: var(--text-muted); font-size: 0.95rem; }
@@ -889,10 +943,6 @@ h1, h2, h3 {
 /* ---------- Start a project ---------- */
 .start-project-inner { max-width: 44rem; margin-inline: auto; }
 .start-project-intro { text-align: left; }
-.start-project-intro .eyebrow {
-  font-family: var(--font-sans);
-  color: var(--accent);
-}
 
 .start-project-form {
   margin-top: var(--s-5);
@@ -1113,6 +1163,37 @@ h1, h2, h3 {
   will-change: opacity, transform;
 }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- Dark inset panels ---------- */
+/* Two sections (outcomes + process) become dark cards, inset from the page
+   edges by the container padding, for cream → dark → cream scroll rhythm. */
+.panel-dark {
+  padding-block: clamp(24px, 5vw, 56px);
+}
+.panel-dark .panel {
+  background: var(--panel);
+  color: var(--panel-text);
+  border-radius: 24px;
+  padding: clamp(32px, 5.5vw, 72px);
+}
+.panel-dark .section-title { color: var(--panel-text); }
+
+/* Services grid on dark */
+.panel-dark .services-list {
+  background: rgba(244, 241, 234, 0.12);
+  border-color: rgba(244, 241, 234, 0.12);
+}
+.panel-dark .service {
+  background: var(--panel);
+}
+.panel-dark .service-icon { color: var(--accent); }
+.panel-dark .service-title { color: var(--panel-text); }
+.panel-dark .service-desc { color: var(--panel-muted); }
+
+/* Process steps on dark */
+.panel-dark .step { border-top-color: rgba(244, 241, 234, 0.35); }
+.panel-dark .step-title { color: var(--panel-text); }
+.panel-dark .step-desc { color: var(--panel-muted); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
