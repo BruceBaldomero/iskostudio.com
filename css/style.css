@@ -246,7 +246,7 @@ h1, h2, h3 {
 }
 .primary-nav a:hover { color: var(--accent); }
 
-.nav-cta {
+.primary-nav a.nav-cta {
   background: var(--ink);
   color: var(--dark-text);
   border-radius: 999px;
