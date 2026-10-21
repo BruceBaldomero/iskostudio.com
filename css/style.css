@@ -5,12 +5,12 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  --bg:          #FAFAF8;
+  --bg:          #F6F3EC;  /* warm cream: white cards lift off it */
   --surface:     #FFFFFF;
   --ink:         #1F1D1A;  /* headlines — near-black warm ink */
   --text:        #2B2824;  /* body — strong, darker than #3D3A35 */
   --text-muted:  #5C574F;  /* muted, still AA on cream */
-  --hairline:    #E4E2DC;
+  --hairline:    #E6E1D6;
   --accent:      #C25E33;  /* single strong accent — burnt terracotta. Large text / icons /
                               decorative use only — fails WCAG AA for normal-size text. */
   --accent-hover:#A8481F;  /* darker accent for text-on-light + hover — passes AA on light/white */
@@ -27,8 +27,12 @@
   --btn-fg:        #FAFAF8;
   --btn-bg-hover:  #000;
   --on-accent:     #FAFAF8;  /* text on accent-filled pills, avatars, badges */
-  --header-glass:  rgba(250, 250, 248, 0.85);
+  --header-glass:  rgba(246, 243, 236, 0.85);
   --hero-stripe:   rgba(26, 26, 26, 0.035);
+  --hero-rib-hi:   rgba(255, 255, 255, 0.55);  /* bright edge of each reeded-glass rib */
+  --hero-light:    rgba(255, 251, 242, 0.95);  /* soft warm light falling on the hero */
+  --shadow-card:   0 1px 2px rgba(28, 26, 23, 0.04), 0 16px 40px -20px rgba(28, 26, 23, 0.16);
+  --shadow-lift:   0 2px 4px rgba(28, 26, 23, 0.05), 0 28px 60px -26px rgba(28, 26, 23, 0.28);
   --tint:          #F4EBE3;  /* warm terracotta-tinted bands and cards */
   --tint-hover:    #EFE2D7;
   --tint-line:     #EAD9CC;
@@ -44,7 +48,9 @@
   --font-mono:  ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 
   --maxw: 1100px;
-  --radius: 5px;
+  --radius: 5px;        /* small chips, inputs */
+  --radius-card: 16px;  /* cards, frames, panels */
+  --radius-tile: 12px;  /* icon tiles, small floating cards */
 
   /* spacing scale: 8 16 24 40 64 96 128 */
   --s-1: 8px;
@@ -69,6 +75,9 @@
   --dark-bg: #0E0D0B; --panel: #26221E;
   --btn-bg: #F4F1EA; --btn-fg: #161412; --btn-bg-hover: #FFFFFF; --on-accent: #161412;
   --header-glass: rgba(22, 20, 18, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(244, 241, 234, 0.05);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -20px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px -26px rgba(0, 0, 0, 0.75);
   --tint: #2A211B; --tint-hover: #33271F; --tint-line: #3A2C22;
   --tint-soft: #231C17; --tint-soft-line: #33281F; --link-line: rgba(224, 138, 97, 0.4);
   --ok-bg: #12261A; --ok-fg: #9BD8B3; --ok-line: #24503A;
@@ -83,6 +92,9 @@
     --dark-bg: #0E0D0B; --panel: #26221E;
     --btn-bg: #F4F1EA; --btn-fg: #161412; --btn-bg-hover: #FFFFFF; --on-accent: #161412;
     --header-glass: rgba(22, 20, 18, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(244, 241, 234, 0.05);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -20px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px -26px rgba(0, 0, 0, 0.75);
     --tint: #2A211B; --tint-hover: #33271F; --tint-line: #3A2C22;
     --tint-soft: #231C17; --tint-soft-line: #33281F; --link-line: rgba(224, 138, 97, 0.4);
     --ok-bg: #12261A; --ok-fg: #9BD8B3; --ok-line: #24503A;
@@ -135,7 +147,7 @@ h1, h2, h3 {
 }
 
 .section {
-  padding-block: clamp(64px, 12vw, 128px);
+  padding-block: clamp(72px, 13vw, 144px);
 }
 
 .section-head {
@@ -156,7 +168,9 @@ h1, h2, h3 {
 .panel-dark .eyebrow { color: var(--accent-on-dark); }
 
 .section-title {
-  font-size: clamp(1.9rem, 4.2vw, 2.25rem);
+  font-size: clamp(2rem, 5vw, 2.875rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
 }
 
 .section-lead {
@@ -380,16 +394,18 @@ h1, h2, h3 {
 /* ---------- Hero ---------- */
 .hero {
   padding-block: clamp(72px, 16vw, 160px) clamp(48px, 9vw, 96px);
-  background-image: repeating-linear-gradient(
-    135deg,
-    var(--hero-stripe) 0 1px,
-    transparent 1px 22px
-  );
+  /* reeded glass: fine vertical ribs under a soft warm light, fading out towards the bottom */
+  background-image:
+    radial-gradient(70% 70% at 72% 0%, var(--hero-light), transparent 70%),
+    linear-gradient(to bottom, transparent 35%, var(--bg) 100%),
+    repeating-linear-gradient(90deg,
+      var(--hero-stripe) 0 1px, transparent 1px 6px,
+      var(--hero-rib-hi) 6px 7px, transparent 7px 12px);
 }
 .hero-inner { max-width: 68rem; }
 .hero-title {
-  font-size: clamp(1.9rem, 8vw, 3.5rem);
-  line-height: 1.05;
+  font-size: clamp(2.2rem, 7.4vw, 3.9rem);
+  line-height: 1.04;
   letter-spacing: -0.025em;
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
@@ -471,15 +487,15 @@ h1, h2, h3 {
   text-decoration: none;
   color: inherit;
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--surface);
+  box-shadow: var(--shadow-card);
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 .work-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 40px -22px rgba(26, 26, 26, 0.35);
-  border-color: var(--ink);
+  box-shadow: var(--shadow-lift);
 }
 
 /* browser chrome bar overlaid on the screenshot */
@@ -692,7 +708,7 @@ h1, h2, h3 {
   gap: 1px;
   background: var(--hairline);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   overflow: hidden;
 }
 .service {
@@ -720,7 +736,8 @@ h1, h2, h3 {
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   padding: clamp(24px, 3.5vw, 36px);
 }
 .tier.is-recommended {
@@ -1012,7 +1029,7 @@ h1, h2, h3 {
 }
 .about-photo {
   aspect-ratio: 4 / 5;
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   width: 100%;
   object-fit: cover;
   object-position: center top;
@@ -1071,7 +1088,8 @@ h1, h2, h3 {
 .review-card {
   position: relative;
   background: var(--surface);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   padding: var(--s-4);
   cursor: pointer;
   border: 1px solid var(--hairline);
@@ -1299,7 +1317,8 @@ h1, h2, h3 {
   margin-top: var(--s-5);
   background: var(--surface);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   padding: clamp(24px, 4vw, 40px);
 }
 .field { margin-bottom: var(--s-3); }
@@ -1410,7 +1429,7 @@ h1, h2, h3 {
   margin-top: var(--s-4);
   background: var(--bg);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
+  border-radius: var(--radius-tile);
   padding: var(--s-3);
 }
 .optional-details-label {
