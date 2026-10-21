@@ -237,6 +237,18 @@
 
     reveals.forEach(function (el) { io.observe(el); });
   }
+  // How it works: the connecting line draws itself once the steps scroll into view
+  var timeline = document.querySelector(".timeline");
+  if (timeline && !reduceMotion && "IntersectionObserver" in window) {
+    timeline.classList.add("will-draw");
+    var lineIo = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      lineIo.disconnect();
+      timeline.classList.add("is-drawn");
+    }, { rootMargin: "0px 0px -25% 0px" });
+    lineIo.observe(timeline);
+  }
+
   /* ---- 4. Start a project form — pill toggle + AJAX submit via Formspree ---- */
   var form = document.getElementById("contactForm");
 
