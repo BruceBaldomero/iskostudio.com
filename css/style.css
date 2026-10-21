@@ -29,6 +29,13 @@
   --on-accent:     #FAFAF8;  /* text on accent-filled pills, avatars, badges */
   --header-glass:  rgba(246, 243, 236, 0.85);
   --hero-stripe:   rgba(26, 26, 26, 0.035);
+  --nav-bg:          rgba(31, 29, 26, 0.95);   /* floating capsule: always dark */
+  --nav-solid:       #1F1D1A;                  /* mobile menu panel, which sits over text */
+  --nav-line:        rgba(255, 255, 255, 0.10);
+  --nav-text:        rgba(244, 241, 234, 0.72);
+  --nav-text-strong: #F4F1EA;
+  --nav-cta-bg:      #F4F1EA;
+  --nav-cta-fg:      #1F1D1A;
   --hero-rib-hi:   rgba(255, 255, 255, 0.55);  /* bright edge of each reeded-glass rib */
   --hero-light:    rgba(255, 251, 242, 0.95);  /* soft warm light falling on the hero */
   --shadow-card:   0 1px 2px rgba(28, 26, 23, 0.04), 0 16px 40px -20px rgba(28, 26, 23, 0.16);
@@ -75,6 +82,7 @@
   --dark-bg: #0E0D0B; --panel: #26221E;
   --btn-bg: #F4F1EA; --btn-fg: #161412; --btn-bg-hover: #FFFFFF; --on-accent: #161412;
   --header-glass: rgba(22, 20, 18, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --nav-bg: rgba(42, 38, 34, 0.92); --nav-solid: #2A2622; --nav-line: rgba(255, 255, 255, 0.09);
   --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(244, 241, 234, 0.05);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -20px rgba(0, 0, 0, 0.6);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px -26px rgba(0, 0, 0, 0.75);
@@ -92,6 +100,7 @@
     --dark-bg: #0E0D0B; --panel: #26221E;
     --btn-bg: #F4F1EA; --btn-fg: #161412; --btn-bg-hover: #FFFFFF; --on-accent: #161412;
     --header-glass: rgba(22, 20, 18, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --nav-bg: rgba(42, 38, 34, 0.92); --nav-solid: #2A2622; --nav-line: rgba(255, 255, 255, 0.09);
   --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(244, 241, 234, 0.05);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -20px rgba(0, 0, 0, 0.6);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px -26px rgba(0, 0, 0, 0.75);
@@ -109,7 +118,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px; /* offset for sticky header */
+  scroll-padding-top: 96px; /* offset for the floating header */
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 }
@@ -258,74 +267,87 @@ h1, h2, h3 {
 
 .btn-block { width: 100%; }
 
-/* ---------- Header / nav ---------- */
+/* ---------- Header / nav ----------
+   A dark capsule floating at the top centre, on every theme. The header itself
+   is a transparent sticky strip; .header-inner is the pill. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: transparent;
-  transition: background-color 0.25s var(--ease),
-              border-color 0.25s var(--ease),
-              box-shadow 0.25s var(--ease);
-  border-bottom: 1px solid transparent;
+  padding: 12px clamp(12px, 3vw, 24px) 0;
+  pointer-events: none; /* only the capsule and menu take clicks */
 }
-.site-header.is-scrolled {
-  background: var(--header-glass);
-  backdrop-filter: saturate(180%) blur(10px);
-  border-bottom-color: var(--hairline);
-}
-.site-header:has([aria-expanded="true"]) {
-  background: var(--bg);
-  border-bottom-color: var(--hairline);
-}
-
 .header-inner {
+  pointer-events: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 72px;
+  gap: var(--s-3);
+  width: fit-content;
+  max-width: 100%;
+  height: 56px;
+  margin-inline: auto;
+  padding: 0 8px 0 22px;
+  border: 1px solid var(--nav-line);
+  border-radius: 999px;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px -16px rgba(20, 18, 16, 0.45);
+  color: var(--nav-text);
 }
 
 .wordmark {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   letter-spacing: 0.02em;
   text-decoration: none;
   color: var(--text);
 }
 .wordmark-dot { color: var(--accent-hover); }
+.site-header .wordmark { color: var(--nav-text-strong); }
+.site-header .wordmark-dot { color: var(--accent-on-dark); }
 .wordmark-light { color: var(--dark-text); }
 /* on the dark footer, the dot needs the dark-safe accent variant to clear AA */
 .wordmark-light .wordmark-dot { color: var(--accent-on-dark); }
 
+.primary-nav { margin-left: var(--s-2); }
 .primary-nav .nav-list {
   display: flex;
   align-items: center;
-  gap: var(--s-4);
+  gap: 4px;
   list-style: none;
   padding: 0;
 }
 .primary-nav a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 999px;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text);
-  transition: color 0.15s var(--ease);
+  color: var(--nav-text);
+  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
 }
-.primary-nav a:hover { color: var(--accent-hover); }
+.primary-nav a:hover { color: var(--nav-text-strong); background: rgba(255, 255, 255, 0.07); }
+/* thin divider before the call to action, when there are links before it */
+.primary-nav li + li:has(> .nav-cta) {
+  margin-left: 10px;
+  padding-left: 14px;
+  border-left: 1px solid var(--nav-line);
+}
 
 .primary-nav a.nav-cta {
-  background: var(--btn-bg);
-  color: var(--btn-fg);
-  border-radius: 999px;
-  padding: 0.55em 1.15em;
+  background: var(--nav-cta-bg);
+  color: var(--nav-cta-fg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 20px;
   transition: background-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.primary-nav a.nav-cta:hover { background: var(--btn-bg-hover); color: var(--btn-fg); transform: translateY(-1px); }
+.primary-nav a.nav-cta:hover { background: #FFFFFF; color: var(--nav-cta-fg); transform: translateY(-1px); }
 
 /* Theme toggle: moon shows in light mode, sun in dark */
-.primary-nav { margin-left: auto; }
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -333,16 +355,15 @@ h1, h2, h3 {
   flex: none;
   width: 40px;
   height: 40px;
-  margin-left: var(--s-3);
   padding: 0;
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--nav-line);
   border-radius: 999px;
   background: transparent;
-  color: var(--ink);
+  color: var(--nav-text-strong);
   cursor: pointer;
   transition: border-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.theme-toggle:hover { border-color: var(--ink); }
+.theme-toggle:hover { border-color: var(--nav-text); }
 .theme-toggle:active { transform: scale(0.94); }
 .theme-toggle svg { width: 18px; height: 18px; }
 .theme-toggle .icon-sun { display: none; }
@@ -357,43 +378,71 @@ h1, h2, h3 {
 .nav-toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 5px;
   width: 44px;
   height: 44px;
+  border-radius: 999px;
   background: none;
   border: 0;
   cursor: pointer;
 }
 .nav-toggle-bar {
   display: block;
-  width: 24px;
+  width: 20px;
   height: 2px;
-  background: var(--text);
+  border-radius: 2px;
+  background: var(--nav-text-strong);
   transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
 }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+/* Mobile menu: a dark rounded panel dropping from the capsule */
+/* it overlays the page rather than pushing it down, so closing it after a
+   link tap doesn't shift the section you just jumped to */
 .mobile-nav {
-  border-top: 1px solid var(--hairline);
-  background: var(--bg);
+  pointer-events: auto;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: clamp(12px, 3vw, 24px);
+  right: clamp(12px, 3vw, 24px);
+  margin-inline: auto;
+  max-width: 480px;
+  border: 1px solid var(--nav-line);
+  border-radius: 24px;
+  background: var(--nav-solid);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 48px -24px rgba(20, 18, 16, 0.5);
 }
-.mobile-nav ul { list-style: none; padding: var(--s-2) 0; margin: 0; }
+.mobile-nav ul { list-style: none; padding: 10px; margin: 0; }
 .mobile-nav a {
   display: block;
-  padding: var(--s-2) clamp(20px, 5vw, 40px);
+  padding: 14px 18px;
+  border-radius: 16px;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 500;
-  color: var(--text);
+  color: var(--nav-text-strong);
 }
-.mobile-nav a:hover { color: var(--accent-hover); }
+.mobile-nav a:hover { background: rgba(255, 255, 255, 0.07); }
+.mobile-nav li:last-child a {
+  margin-top: 6px;
+  background: var(--nav-cta-bg);
+  color: var(--nav-cta-fg);
+  text-align: center;
+  border-radius: 999px;
+  font-weight: 600;
+}
 
 /* ---------- Hero ---------- */
+/* the floating header overlaps the hero so its texture runs to the top edge */
+body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .hero {
-  padding-block: clamp(72px, 16vw, 160px) clamp(48px, 9vw, 96px);
+  padding-block: calc(68px + clamp(72px, 16vw, 160px)) clamp(48px, 9vw, 96px);
   /* reeded glass: fine vertical ribs under a soft warm light, fading out towards the bottom */
   background-image:
     radial-gradient(70% 70% at 72% 0%, var(--hero-light), transparent 70%),
@@ -561,6 +610,8 @@ h1, h2, h3 {
   .fc-langs { right: 12px; }
 }
 @media (max-width: 640px) {
+  .hero-badge { flex-wrap: nowrap; font-size: 0.8rem; white-space: nowrap; }
+  .hero-badge-more { display: none; }
   .float-card { padding: 8px 12px; font-size: 0.8rem; }
   .fc-before { left: 8px; bottom: -36px; }
   .fc-langs { right: 8px; top: -30px; }
@@ -1842,7 +1893,7 @@ h1, h2, h3 {
    stay stuck lifted on phones */
 @media (hover: none) {
   .btn-primary:hover, .btn-ghost:hover, .primary-nav a.nav-cta:hover,
-  .work-card:hover, .review-card:hover { transform: none; box-shadow: none; }
+  .work-card:hover, .review-card:hover { transform: none; box-shadow: var(--shadow-card); }
 }
 
 /* Press feedback: the page confirms it heard the tap */
@@ -1964,7 +2015,8 @@ h1, h2, h3 {
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .primary-nav { display: none; }
-  .theme-toggle { margin-left: auto; margin-right: var(--s-1); }
+  .header-inner { width: 100%; max-width: 480px; gap: 4px; padding-left: 20px; }
+  .theme-toggle { margin-left: auto; }
   .nav-toggle { display: flex; }
 
   .about-inner { grid-template-columns: 1fr; }
