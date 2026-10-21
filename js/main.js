@@ -55,20 +55,44 @@
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Cards in a row cascade in: each gets its index (capped at 4) as --i, which
+  // the CSS turns into a 60ms-per-item delay.
+  Array.prototype.forEach.call(
+    document.querySelectorAll(".value-grid, .services-list, .tier-grid, .process-steps, .review-scatter"),
+    function (group) {
+      Array.prototype.forEach.call(group.children, function (child, i) {
+        if (child.classList.contains("reveal")) child.style.setProperty("--i", Math.min(i, 4));
+      });
+    }
+  );
+
+  // Once an element has arrived, drop the reveal classes so its own hover and
+  // press transitions apply again (the reveal rule would otherwise override them).
+  function settle(el) {
+    el.classList.remove("reveal", "is-visible");
+    el.style.removeProperty("--i");
+  }
+
   if (reduceMotion || !("IntersectionObserver" in window)) {
-    reveals.forEach(function (el) { el.classList.add("is-visible"); });
+    reveals.forEach(settle);
   } else {
-    // Reveal as soon as an element crosses ~20% up from the bottom of the
-    // viewport. rootMargin trims 20% off the bottom edge so the trigger point
-    // sits well before an element reaches the middle of the screen — nothing
-    // should ever linger washed-out once it's a third of the way in. once:true
-    // via unobserve.
+    // Reveal as soon as an element crosses ~12% up from the bottom of the
+    // viewport, so nothing lingers washed-out once it's a third of the way in.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        io.unobserve(el);
+        el.classList.add("is-visible");
+        var done = false;
+        var finish = function () { if (!done) { done = true; settle(el); } };
+        el.addEventListener("transitionend", function onEnd(e) {
+          if (e.target === el && e.propertyName === "opacity") {
+            el.removeEventListener("transitionend", onEnd);
+            finish();
+          }
+        });
+        setTimeout(finish, 1200); // fallback if transitionend never fires
       });
     }, { threshold: 0, rootMargin: "0px 0px -12% 0px" });
 

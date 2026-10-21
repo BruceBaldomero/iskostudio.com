@@ -1392,7 +1392,7 @@ h1, h2, h3 {
   border-radius: 999px;
   padding: 0.55em 1.1em;
   cursor: pointer;
-  transition: border-color 0.15s var(--ease), background 0.15s var(--ease), color 0.15s var(--ease);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease), color 0.15s var(--ease), transform 0.15s var(--ease);
 }
 .pill:hover { border-color: var(--text-muted); }
 .pill.is-selected {
@@ -1588,7 +1588,82 @@ h1, h2, h3 {
   transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
   will-change: opacity, transform;
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 60ms); /* row cascade, set by main.js */
+}
+
+/* ---------- Motion pass ---------- */
+/* Hero underline draws itself once the headline has settled */
+.ink-underline path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ink-draw 700ms cubic-bezier(0.77, 0, 0.175, 1) 800ms forwards;
+}
+@keyframes ink-draw { to { stroke-dashoffset: 0; } }
+
+/* Review modal: fades and grows in, closes faster than it opens.
+   Browsers without @starting-style / allow-discrete keep today's instant behaviour. */
+.review-modal { transition: display 160ms allow-discrete; }
+.review-modal-backdrop { opacity: 0; transition: opacity 160ms ease; }
+.review-modal-box {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 160ms ease, transform 160ms var(--ease);
+}
+.review-modal.open .review-modal-backdrop { opacity: 1; transition-duration: 200ms; }
+.review-modal.open .review-modal-box { opacity: 1; transform: none; transition-duration: 240ms; }
+@starting-style {
+  .review-modal.open .review-modal-backdrop { opacity: 0; }
+  .review-modal.open .review-modal-box { opacity: 0; transform: scale(0.96); }
+}
+
+/* Mobile menu drops from the header */
+.mobile-nav {
+  transition: opacity 200ms var(--ease), transform 200ms var(--ease), display 150ms allow-discrete;
+}
+.mobile-nav[hidden] { opacity: 0; transform: translateY(-8px); transition-duration: 150ms; }
+@starting-style {
+  .mobile-nav:not([hidden]) { opacity: 0; transform: translateY(-8px); }
+}
+
+/* FAQ answer settles in on open (closing stays instant) */
+.faq-item[open] > .faq-a { animation: faq-in 220ms var(--ease); }
+@keyframes faq-in { from { opacity: 0; transform: translateY(-4px); } }
+
+/* Contact form success: the page's one celebration */
+.form-success:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  animation: success-in 400ms var(--ease) both;
+}
+@keyframes success-in { from { opacity: 0; transform: translateY(8px); } }
+.success-tick { width: 1.35em; height: 1.35em; flex: none; }
+.success-tick path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ink-draw 300ms var(--ease) 380ms forwards;
+}
+
+/* Hover lifts only on devices with a real pointer, so tapped cards don't
+   stay stuck lifted on phones */
+@media (hover: none) {
+  .btn-primary:hover, .btn-ghost:hover, .primary-nav a.nav-cta:hover,
+  .work-card:hover, .review-card:hover { transform: none; box-shadow: none; }
+}
+
+/* Press feedback: the page confirms it heard the tap */
+.btn:active, .pill:active, .primary-nav a.nav-cta:active {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+}
+.work-card:active, .review-card:active {
+  transform: scale(0.985);
+  transition-duration: 120ms;
+}
 
 /* ---------- Local SEO pages ---------- */
 .back-link {
@@ -1734,4 +1809,7 @@ h1, h2, h3 {
     transition-duration: 0.001ms !important;
   }
   .reveal { opacity: 1; transform: none; }
+  /* underline and tick are simply shown drawn; no delayed pop-in */
+  .ink-underline path, .success-tick path { animation: none; stroke-dashoffset: 0; }
+  *, *::before, *::after { animation-delay: 0s !important; transition-delay: 0s !important; }
 }
