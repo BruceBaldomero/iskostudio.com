@@ -123,13 +123,17 @@
       if (!dirty) { dirty = true; requestAnimationFrame(frame); }
     };
 
-    var events = ["keydown", "wheel", "pointerdown", "scroll"];
+    var events = ["keydown", "wheel", "pointerdown"];
+    // Phones fire small scroll events on their own while loading (address bar,
+    // scroll restoration), so only a real scroll away from the top counts.
+    var onScrollAway = function () { if (window.scrollY > 40) clearAll(); };
     var clearAll = function () {
       if (cleared) return;
       cleared = true;
       clearTimeout(idleTimer);
       clearTimeout(hintTimer);
       hero.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", onScrollAway);
       events.forEach(function (t) { window.removeEventListener(t, clearAll); });
       fog.classList.remove("show-hint");
       fog.classList.add("is-clearing");
@@ -151,7 +155,7 @@
         var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
         lens.push(l); total += l;
       }
-      var start = performance.now(), DURATION = 1400;
+      var start = performance.now(), DURATION = finePointer ? 1400 : 1700;
       last = null;
       var tick = function (now) {
         if (cleared) return;
@@ -176,12 +180,13 @@
     };
 
     events.forEach(function (t) { window.addEventListener(t, clearAll, { passive: true }); });
+    window.addEventListener("scroll", onScrollAway, { passive: true });
     if (finePointer) {
       hero.addEventListener("pointermove", onMove);
       hintTimer = setTimeout(function () { if (!moved) fog.classList.add("show-hint"); }, 700);
       idleTimer = setTimeout(selfWipe, 3500); // never touched the mouse: wipe it for them
     } else {
-      idleTimer = setTimeout(selfWipe, 900);
+      idleTimer = setTimeout(selfWipe, 1100);
     }
   }
 
