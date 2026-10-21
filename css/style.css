@@ -1603,111 +1603,49 @@ h1, h2, h3 {
 }
 @keyframes ink-draw { to { stroke-dashoffset: 0; } }
 
-/* Hero intro: an exaggerated "old website" is wiped away to reveal the real hero.
-   Only runs when the head script adds .intro (first visit this session, motion allowed). */
+/* Hero intro: the hero sits behind misted glass that the visitor wipes clear.
+   Only runs when the head script adds .intro (first visit this session, motion allowed).
+   main.js paints the wiped areas into a small canvas and uses it as the fog's mask. */
 .hero { position: relative; overflow: hidden; }
-.hero-before { display: none; }
-/* Sliding mask: the outer box moves right while its content moves left by the same
-   amount, so the old site stays put and is uncovered from its left edge. Both are
-   transforms, so the gold edge line stays locked to the wipe. */
-.intro .hero-before {
+.hero-fog { display: none; }
+.intro .hero-fog {
   display: block;
   position: absolute;
   inset: 0;
   z-index: 2;
-  overflow: hidden;
-  animation: wipe-out 1000ms cubic-bezier(0.65, 0, 0.35, 1) 650ms forwards;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    color-mix(in srgb, var(--bg) 48%, transparent);
+  -webkit-backdrop-filter: blur(5px) saturate(0.85);
+  backdrop-filter: blur(5px) saturate(0.85);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  transition: opacity 700ms var(--ease);
+  /* failsafe: if the script never runs, the glass clears by itself */
+  animation: fog-failsafe 700ms var(--ease) 7s forwards;
 }
-.intro .hero-before::before {
-  content: "";
+.intro .hero-fog.is-clearing { opacity: 0; }
+.intro .hero-fog.is-done { display: none; }
+@keyframes fog-failsafe { to { opacity: 0; visibility: hidden; } }
+.hero-fog-hint {
   position: absolute;
-  inset-block: 0;
-  left: 0;
-  z-index: 1;
-  width: 3px;
-  background: var(--accent);
-  box-shadow: 0 0 24px 6px rgba(194, 94, 51, 0.35);
-}
-.hb-inner {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  inset: 0;
-  background: #ECE9D8 repeating-linear-gradient(45deg, rgba(0,0,0,0.035) 0 2px, transparent 2px 8px);
-  color: #000;
-  font-family: "Times New Roman", Times, serif;
-  animation: wipe-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) 650ms forwards;
-}
-@keyframes wipe-out { to { transform: translateX(100%); } }
-@keyframes wipe-in { to { transform: translateX(-100%); } }
-.hero-before.is-done { display: none; }
-/* underline waits for the wipe to pass */
-.intro .ink-underline path { animation-delay: 1500ms; }
-
-.hb-tag {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  background: #1A1A1A;
-  color: #FAFAF8;
-  font: 600 0.75rem/1.4 "Plus Jakarta Sans", system-ui, sans-serif;
+  left: 50%;
+  bottom: clamp(20px, 4vw, 32px);
+  translate: -50% 0;
+  font-size: 0.8rem;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 400ms var(--ease), translate 400ms var(--ease);
 }
-.hb-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 24px;
-  padding: 14px clamp(16px, 4vw, 40px);
-  background: linear-gradient(#3A6EA5, #1D4F86);
-  color: #fff;
-  border-bottom: 3px ridge #9FB8D6;
-}
-.hb-logo { font: italic 700 1.5rem/1.1 "Times New Roman", serif; }
-.hb-links { font-size: 0.95rem; color: #FFFF66; }
-.hb-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  padding: 24px 16px;
-  text-align: center;
-}
-.hb-welcome {
-  font: 700 clamp(1rem, 3vw, 1.4rem)/1.2 "Comic Sans MS", "Comic Sans", "Chalkboard SE", cursive;
-  color: #D10000;
-}
-.hb-title {
-  max-width: 18em;
-  font: 900 clamp(1.6rem, 5.5vw, 3rem)/1.05 Impact, "Arial Black", "Arial Narrow Bold", sans-serif;
-  color: #0033CC;
-  text-shadow: 3px 3px 0 #FFCC00, 5px 5px 0 rgba(0,0,0,0.25);
-}
-.hb-construction {
-  padding: 8px;
-  border: 3px solid #000;
-  background: repeating-linear-gradient(-45deg, #FFD400 0 14px, #1A1A1A 14px 28px);
-}
-.hb-construction span {
-  display: block;
-  padding: 4px 12px;
-  background: #FFD400;
-  color: #000;
-  font: 700 1rem/1.2 Arial, sans-serif;
-}
-.hb-click { font-size: 1.1rem; color: #0000EE; }
-.hb-foot {
-  padding: 10px 16px;
-  border-top: 1px solid #A0A0A0;
-  font: 0.75rem/1.4 Verdana, Geneva, sans-serif;
-  color: #555;
-  text-align: center;
-}
+.hero-fog.show-hint .hero-fog-hint { opacity: 1; translate: -50% -4px; }
+/* underline waits until the glass is clear, then draws */
+.intro .ink-underline path { animation-delay: 250ms; animation-play-state: paused; }
+.intro.fog-clear .ink-underline path { animation-play-state: running; }
 
 /* Review modal: fades and grows in, closes faster than it opens.
    Browsers without @starting-style / allow-discrete keep today's instant behaviour. */
