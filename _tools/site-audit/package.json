@@ -1,0 +1,12 @@
+{
+  "name": "iskostudio-site-audit",
+  "private": true,
+  "type": "module",
+  "description": "Plain-English website findings sheets for prospecting local businesses",
+  "scripts": {
+    "audit": "node audit.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}
