@@ -46,7 +46,7 @@ No second accent colour. Success/error colours are for form states only.
 ## Layout & spacing
 - Max content width ~1100px, centred, with comfortable side padding (clamp for mobile).
 - Use a consistent spacing scale: 8, 16, 24, 40, 64, 96, 128px. Sections breathe — big
-  vertical rhythm (up to ~144px between major sections on desktop).
+  vertical rhythm (96–128px between major sections on desktop).
 - Mobile-first and fully responsive. Test single-column down to 360px.
 - Vary section layouts — do NOT make every section a centred hero. Mix: full-width hero,
   asymmetric two-column, a horizontal scroll or grid for work, an offset about section.

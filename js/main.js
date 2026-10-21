@@ -70,7 +70,7 @@
     var mask = document.createElement("canvas");
     var ctx = mask.getContext("2d", { willReadFrequently: true });
     var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    var last = null, dirty = false, applies = 0, moved = false, cleared = false;
+    var last = null, dirty = false, applies = 0, moved = false, cleared = false, selfWiping = false;
     var idleTimer, hintTimer;
 
     var size = hero.getBoundingClientRect();
@@ -97,7 +97,8 @@
       if (!dirty || cleared) return;
       dirty = false;
       applyMask();
-      if (++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
+      // the 40% shortcut is for people wiping by hand; the self-wipe plays out in full
+      if (!selfWiping && ++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
     };
 
     var dab = function (x, y, r) {
@@ -146,6 +147,7 @@
     // A hand that wipes the glass by itself: three sweeping passes, then the rest fades.
     var selfWipe = function () {
       if (cleared || moved) return;
+      selfWiping = true;
       fog.classList.remove("show-hint");
       var w = size.width, h = size.height, r = Math.max(70, h / 5);
       var pts = [[-0.05, 0.3], [1.05, 0.36], [1.05, 0.5], [-0.05, 0.56], [-0.05, 0.7], [1.05, 0.76]]
