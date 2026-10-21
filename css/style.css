@@ -1603,6 +1603,50 @@ h1, h2, h3 {
 }
 @keyframes ink-draw { to { stroke-dashoffset: 0; } }
 
+/* Hero intro: the hero sits behind misted glass that the visitor wipes clear.
+   Only runs when the head script adds .intro (first visit this session, motion allowed).
+   main.js paints the wiped areas into a small canvas and uses it as the fog's mask. */
+.hero { position: relative; overflow: hidden; }
+.hero-fog { display: none; }
+.intro .hero-fog {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    color-mix(in srgb, var(--bg) 48%, transparent);
+  -webkit-backdrop-filter: blur(5px) saturate(0.85);
+  backdrop-filter: blur(5px) saturate(0.85);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  transition: opacity 700ms var(--ease);
+  /* failsafe: if the script never runs, the glass clears by itself */
+  animation: fog-failsafe 700ms var(--ease) 7s forwards;
+}
+.intro .hero-fog.is-clearing { opacity: 0; }
+.intro .hero-fog.is-done { display: none; }
+@keyframes fog-failsafe { to { opacity: 0; visibility: hidden; } }
+.hero-fog-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(20px, 4vw, 32px);
+  translate: -50% 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 400ms var(--ease), translate 400ms var(--ease);
+}
+.hero-fog.show-hint .hero-fog-hint { opacity: 1; translate: -50% -4px; }
+/* underline waits until the glass is clear, then draws */
+.intro .ink-underline path { animation-delay: 250ms; animation-play-state: paused; }
+.intro.fog-clear .ink-underline path { animation-play-state: running; }
+
 /* Review modal: fades and grows in, closes faster than it opens.
    Browsers without @starting-style / allow-discrete keep today's instant behaviour. */
 .review-modal { transition: display 160ms allow-discrete; }

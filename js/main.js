@@ -51,6 +51,140 @@
     });
   }
 
+  /* ---- Hero intro: misted glass the visitor wipes clear, once per visit ---- */
+  var root = document.documentElement;
+  var fog = document.querySelector(".hero-fog");
+  var maskOk = window.CSS && CSS.supports &&
+    (CSS.supports("mask-image", "url(a.png)") || CSS.supports("-webkit-mask-image", "url(a.png)")) &&
+    (CSS.supports("backdrop-filter", "blur(1px)") || CSS.supports("-webkit-backdrop-filter", "blur(1px)"));
+
+  if (root.classList.contains("intro") && fog && !maskOk) {
+    root.classList.add("fog-clear");
+    fog.classList.add("is-done");
+  } else if (root.classList.contains("intro") && fog) {
+    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+
+    var hero = fog.parentNode;
+    var SCALE = 8;     // the mask is drawn at 1/8 size; stretching it back up softens the brush edge
+    var BRUSH = 64;    // cursor brush radius in CSS px
+    var mask = document.createElement("canvas");
+    var ctx = mask.getContext("2d", { willReadFrequently: true });
+    var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var last = null, dirty = false, applies = 0, moved = false, cleared = false;
+    var idleTimer, hintTimer;
+
+    var size = hero.getBoundingClientRect();
+    mask.width = Math.ceil(size.width / SCALE);
+    mask.height = Math.ceil(size.height / SCALE);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, mask.width, mask.height);
+
+    var applyMask = function () {
+      var url = "url(" + mask.toDataURL() + ")";
+      fog.style.webkitMaskImage = url;
+      fog.style.maskImage = url;
+    };
+    applyMask();
+
+    // Share of the glass already wiped, sampled from the mask's alpha.
+    var wipedShare = function () {
+      var px = ctx.getImageData(0, 0, mask.width, mask.height).data, clear = 0;
+      for (var i = 3; i < px.length; i += 4) if (px[i] < 128) clear++;
+      return clear / (px.length / 4);
+    };
+
+    var frame = function () {
+      if (!dirty || cleared) return;
+      dirty = false;
+      applyMask();
+      if (++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
+    };
+
+    var dab = function (x, y, r) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, "rgba(0,0,0,1)");
+      g.addColorStop(0.6, "rgba(0,0,0,0.85)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
+    // Wipe from the previous point to this one (both in hero px), dabbing along the way.
+    var stroke = function (x, y, radius) {
+      var r = radius / SCALE, mx = x / SCALE, my = y / SCALE;
+      ctx.globalCompositeOperation = "destination-out";
+      if (!last) last = { x: mx, y: my };
+      var dx = mx - last.x, dy = my - last.y;
+      var steps = Math.max(1, Math.ceil(Math.sqrt(dx * dx + dy * dy) / (r / 3)));
+      for (var i = 1; i <= steps; i++) dab(last.x + dx * i / steps, last.y + dy * i / steps, r);
+      last = { x: mx, y: my };
+      if (!dirty) { dirty = true; requestAnimationFrame(frame); }
+    };
+
+    var events = ["keydown", "wheel", "pointerdown", "scroll"];
+    var clearAll = function () {
+      if (cleared) return;
+      cleared = true;
+      clearTimeout(idleTimer);
+      clearTimeout(hintTimer);
+      hero.removeEventListener("pointermove", onMove);
+      events.forEach(function (t) { window.removeEventListener(t, clearAll); });
+      fog.classList.remove("show-hint");
+      fog.classList.add("is-clearing");
+      root.classList.add("fog-clear");
+      var done = function () { fog.classList.add("is-done"); };
+      fog.addEventListener("transitionend", function (e) { if (e.target === fog) done(); });
+      setTimeout(done, 900);
+    };
+
+    // A hand that wipes the glass by itself: three sweeping passes, then the rest fades.
+    var selfWipe = function () {
+      if (cleared || moved) return;
+      fog.classList.remove("show-hint");
+      var w = size.width, h = size.height, r = Math.max(70, h / 5);
+      var pts = [[-0.05, 0.3], [1.05, 0.36], [1.05, 0.5], [-0.05, 0.56], [-0.05, 0.7], [1.05, 0.76]]
+        .map(function (p) { return [p[0] * w, p[1] * h]; });
+      var lens = [], total = 0;
+      for (var i = 1; i < pts.length; i++) {
+        var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+        lens.push(l); total += l;
+      }
+      var start = performance.now(), DURATION = 1400;
+      last = null;
+      var tick = function (now) {
+        if (cleared) return;
+        var t = Math.min(1, (now - start) / DURATION);
+        var d = (0.5 - Math.cos(Math.PI * t) / 2) * total; // ease-in-out (sine)
+        for (var j = 0; j < lens.length && d > lens[j]; j++) d -= lens[j];
+        j = Math.min(j, lens.length - 1);
+        var k = Math.min(1, d / lens[j]);
+        stroke(pts[j][0] + (pts[j + 1][0] - pts[j][0]) * k, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * k, r);
+        if (t < 1) requestAnimationFrame(tick); else setTimeout(clearAll, 150);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    var onMove = function (e) {
+      if (e.pointerType === "touch") return;
+      var rect = hero.getBoundingClientRect();
+      if (!moved) { moved = true; last = null; fog.classList.remove("show-hint"); }
+      stroke(e.clientX - rect.left, e.clientY - rect.top, BRUSH);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(clearAll, 2200); // stopped wiping: finish the job
+    };
+
+    events.forEach(function (t) { window.addEventListener(t, clearAll, { passive: true }); });
+    if (finePointer) {
+      hero.addEventListener("pointermove", onMove);
+      hintTimer = setTimeout(function () { if (!moved) fog.classList.add("show-hint"); }, 700);
+      idleTimer = setTimeout(selfWipe, 3500); // never touched the mouse: wipe it for them
+    } else {
+      idleTimer = setTimeout(selfWipe, 900);
+    }
+  }
+
   /* ---- 3. Scroll reveal ---- */
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
