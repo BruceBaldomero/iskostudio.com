@@ -48,8 +48,9 @@ No second accent colour. Success/error colours are for form states only.
 - Use a consistent spacing scale: 8, 16, 24, 40, 64, 96, 128px. Sections breathe — big
   vertical rhythm (96–128px between major sections on desktop).
 - Mobile-first and fully responsive. Test single-column down to 360px.
-- Vary section layouts — do NOT make every section a centred hero. Mix: full-width hero,
-  asymmetric two-column, a horizontal scroll or grid for work, an offset about section.
+- Centred spine: the nav is a centred floating capsule, so the hero and every section
+  heading (eyebrow, title, lead) are centred to line up with it. Section BODIES still
+  vary: asymmetric two-column about, alternating timeline rows, grids for work and pricing.
 
 ## Motion
 - Subtle and purposeful only. Gentle fade/slide-up on scroll (small distance, ~400ms,
