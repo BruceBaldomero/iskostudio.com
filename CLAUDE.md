@@ -13,27 +13,34 @@ No frameworks, no build step, no Tailwind. Keep it lightweight and fast.
 Minimal, monochrome, confident. The studio's own design is restrained so the CLIENT
 work shown on the page provides the colour and personality. Let whitespace and
 typography do the work. Avoid the generic "AI website" look: no default blue (#3b82f6),
-no Inter-everywhere, no identical rounded cards, no gratuitous gradients, no emoji icons.
+no Inter-everywhere, no identical rounded cards, no gratuitous gradients, no emoji icons. No multi-colour accents.
 
-## Colour palette (use these exact values)
-- Background:        #FAFAF8  (warm off-white / paper)
+## Colour palette (source of truth: the tokens at the top of css/style.css)
+Light theme:
+- Background:        #F6F3EC  (warm cream, so white cards lift off it)
 - Surface (cards):   #FFFFFF
-- Text primary:      #1A1A1A  (near-black, not pure black)
-- Text secondary:    #6B6B6B  (muted grey for sub-text)
-- Borders/hairlines: #E5E4DF
-- Accent:            #B8884D  (muted warm gold — use SPARINGLY: links, small marks, hover)
-- Accent hover:      #9A7240
-Dark sections (optional, for contrast bands like the footer or a single feature strip):
-- Dark bg:           #1A1A1A
-- Dark text:         #FAFAF8
+- Headings (ink):    #1F1D1A  (warm near-black, not pure black)
+- Body text:         #2B2824
+- Muted text:        #5C574F  (passes AA on cream)
+- Borders/hairlines: #E6E1D6
+- Accent:            #C25E33  (burnt terracotta — the ONE accent. Large text, icons, marks,
+                     decorative lines only: it fails AA for small text)
+- Accent text/hover: #A8481F  (terracotta that passes AA for small text on light)
+- Accent on dark:    #D97A52
+Dark contrast sections (inset dark panels and the footer):
+- Panel:             #23211D, panel text #F4F1EA
+- Footer:            #1A1A1A
+Dark mode exists (toggle + system preference): warm near-black #161412 with the same
+terracotta family. Keep the two dark-mode token blocks identical.
+No second accent colour. Success/error colours are for form states only.
 
 ## Typography
 - Display / headings: a refined serif — use "Fraunces" (Google Fonts), weights 400 & 600.
 - Body / UI:          a clean grotesque sans — use "Inter Tight" or "Plus Jakarta Sans"
                       (Google Fonts) for body, weights 400 & 500. (NOT plain Inter.)
-- Type scale (desktop): h1 ~3.5rem, h2 ~2.25rem, h3 ~1.4rem, body 1.0625rem, small 0.875rem.
+- Type scale (desktop): h1 ~3.9rem, h2 ~2.875rem, h3 ~1.4rem, body 1.0625rem, small 0.875rem.
 - Generous line-height on body (1.6). Tight line-height on large headings (1.05–1.15).
-- Letter-spacing: slightly negative on big serif headings (-0.02em). Small uppercase
+- Letter-spacing: slightly negative on big serif headings (-0.02 to -0.025em). Small uppercase
   eyebrow labels can use +0.12em tracking.
 
 ## Layout & spacing
@@ -51,12 +58,19 @@ Dark sections (optional, for contrast bands like the footer or a single feature 
   prefers-reduced-motion.
 
 ## Components
-- Buttons: solid near-black primary with off-white text; ghost/outline secondary.
-  Subtle hover (slight darken or lift). Square-ish corners (4–6px radius), not pill.
-- Cards (work items): image-led, thin hairline border or none, minimal text, hover
-  reveals the project name + a small "View" cue. Consistent aspect ratios.
-- Links in body: gold accent, underline on hover.
-- Eyebrow labels: small, uppercase, tracked, muted grey above section headings.
+- Shape: everything interactive is a full pill (border-radius 999px): buttons, nav CTA,
+  tags, chips. Cards and frames use --radius-card (16px); icon tiles and small floating
+  cards --radius-tile (12px); inputs and tiny chips --radius (5px).
+- Depth: white cards on cream with a hairline border and the soft, wide --shadow-card;
+  --shadow-lift on hover. Nothing harsh.
+- Buttons: solid near-black pill primary with off-white text; ghost/outline pill
+  secondary. Show them as a pair where it makes sense. Subtle hover (darken or lift).
+- Cards (work items): image-led, real client screenshots in a browser frame, minimal
+  text, hover reveals a small "View" cue. Consistent aspect ratios.
+- Links in body: terracotta (--accent-hover), underline on hover.
+- Eyebrow labels: small, uppercase, tracked, terracotta, above section headings.
+- Show, don't describe: put real work and real artefacts next to claims. Never invent
+  dashboards, stats or results.
 
 ## Voice & tone (for copy)
 Confident, plain-English, warm but professional. Short sentences. Speak to a busy
@@ -65,7 +79,7 @@ not feature-led ("Responsive HTML5"). British English spelling.
 
 ## Accessibility
 Semantic HTML5 landmarks. Alt text on all images. Colour contrast AA minimum (check
-gold on off-white for small text — use near-black for body, reserve gold for accents).
+terracotta on cream for small text — use #A8481F or near-black for small text, reserve #C25E33 for large text and accents).
 Visible focus states. Keyboard navigable.
 
 ## Performance

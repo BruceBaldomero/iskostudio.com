@@ -23,7 +23,7 @@
   <meta name="twitter:description" content="Get found on Google. Look credible online. Win more customers. Done for you, fairly priced, looked after every month." />
   <meta name="twitter:image" content="https://iskostudio.com/img/og-image.png" />
 
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF8" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F3EC" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161412" />
   <meta name="google-site-verification" content="0fy1DH1M7Z_50Q0hAsdX2ghNnSm-XKpb4zjzLngG25E" />
 
@@ -109,14 +109,38 @@
       <!-- Intro: misted glass over the hero that the visitor wipes clear, once per visit (decorative only) -->
       <div class="hero-fog" aria-hidden="true"><span class="hero-fog-hint">Move your cursor to wipe the glass</span></div>
       <div class="container hero-inner">
-        <p class="eyebrow reveal">Web design studio · London</p>
+        <a class="hero-badge reveal" href="#contact">
+          <span class="hero-badge-chip">Free</span>
+          <span class="hero-badge-text">Homepage concepts for local businesses</span>
+          <span class="hero-badge-more">Ask for one <span aria-hidden="true">&rsaquo;</span></span>
+        </a>
         <h1 class="hero-title reveal">Get online. Get <span class="accent-word">found<svg class="ink-underline" viewBox="0 0 120 14" preserveAspectRatio="none" fill="none" aria-hidden="true"><path pathLength="1" d="M3 9C26 4 54 3.5 82 6.5c12 1.3 24 2.4 35-1.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg></span>.<br />Get back to running your business.</h1>
         <p class="hero-sub reveal">Your online presence, built to get you found, make you look the part, and bring in more customers.</p>
         <div class="hero-actions reveal">
           <a class="btn btn-primary" href="#work">See the work</a>
-          <a class="btn-text" href="#pricing">View pricing <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn-ghost" href="#pricing">View pricing</a>
         </div>
         <p class="hero-microcopy reveal">Tell me what you need and I'll come back within 24 hours with a straight answer.</p>
+
+        <!-- Real client work under the hero; floating cards only state facts from the project -->
+        <figure class="hero-showcase">
+          <div class="hero-stage">
+          <a class="hero-frame browser-frame" href="https://mukhafaceyoga.com" target="_blank" rel="noopener">
+            <span class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser-url">mukhafaceyoga.com</span></span>
+            <img src="img/mukha-thumbnail.webp" alt="Mukha Face Yoga homepage, designed and built by ISKO Studio" width="1200" height="624" fetchpriority="high" />
+          </a>
+          <div class="float-card fc-before">
+            <p class="fc-row"><span class="fc-label">Before</span> Instagram only</p>
+            <p class="fc-row"><span class="fc-label">Now</span> Own website, local SEO set up</p>
+          </div>
+          <div class="float-card fc-langs">
+            <p class="fc-label">Languages</p>
+            <ul class="fc-chips" aria-label="Site languages"><li>English</li><li>French</li><li>Tagalog</li></ul>
+          </div>
+          <div class="float-card fc-scope"><span class="fc-dot" aria-hidden="true"></span> Built from scratch</div>
+          </div>
+          <figcaption class="hero-showcase-cap">Recent project: Mukha Face Yoga, London</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -222,7 +246,7 @@
               <p class="work-concept-eyebrow">Concepts</p>
               <h3 class="work-name">Your café, salon or clinic could be next.</h3>
               <p class="work-desc">I build free homepage concepts for local businesses I think I can help. Want one?</p>
-              <span class="btn-text work-concept-cta">Get in touch <span class="arrow" aria-hidden="true">&rarr;</span></span>
+              <span class="btn-text work-concept-cta">Ask for a free concept <span class="arrow" aria-hidden="true">&rarr;</span></span>
             </div>
           </a>
         </div>
@@ -286,7 +310,7 @@
               <li>Booking embed</li>
               <li>Google setup + basic SEO</li>
             </ul>
-            <a class="btn btn-ghost btn-block" href="#contact">Start a project</a>
+            <a class="btn btn-ghost btn-block" href="#contact">Start with Starter</a>
           </div>
 
           <div class="tier is-recommended reveal">
@@ -302,7 +326,7 @@
               <li>Custom design</li>
               <li>On-page SEO</li>
             </ul>
-            <a class="btn btn-primary btn-block" href="#contact">Start a project</a>
+            <a class="btn btn-primary btn-block" href="#contact">Choose Standard</a>
           </div>
 
           <div class="tier reveal">
@@ -317,7 +341,7 @@
               <li>Custom copywriting</li>
               <li>Everything in Standard</li>
             </ul>
-            <a class="btn btn-ghost btn-block" href="#contact">Start a project</a>
+            <a class="btn btn-ghost btn-block" href="#contact">Talk about Premium</a>
           </div>
         </div>
 
@@ -439,7 +463,7 @@
             <li>Technical Operations &amp; QA Specialist by day</li>
             <li>First build: mukhafaceyoga.com, live and ranking</li>
           </ul>
-          <a class="btn btn-primary reveal" href="#contact">Start a project</a>
+          <a class="btn btn-primary reveal" href="#contact">Tell me about your business</a>
         </div>
       </div>
     </section>
@@ -517,28 +541,86 @@
           <h2 class="section-title">Four steps, no jargon.</h2>
         </header>
 
-        <ol class="process-steps">
+        <ol class="process-steps timeline">
           <li class="step reveal">
-            <span class="step-num">01</span>
-            <h3 class="step-title">Chat</h3>
-            <p class="step-desc">A quick, no-pressure chat to understand your business, your customers, and what getting this right would mean for you.</p>
+            <div class="step-text">
+              <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <span class="step-num">Step 01</span>
+              <h3 class="step-title">Chat</h3>
+              <p class="step-desc">A quick, no-pressure chat to understand your business, your customers, and what getting this right would mean for you.</p>
+            </div>
+            <div class="step-art" aria-hidden="true">
+              <div class="art-card art-chat">
+                <div class="art-head"><img src="img/bruce.webp" alt="" width="32" height="32" loading="lazy" /><span>Bruce, ISKO Studio</span><span class="art-chip">Quick chat</span></div>
+                <p class="art-bubble">What does your business do?</p>
+                <p class="art-bubble">Who are your customers?</p>
+                <p class="art-bubble">What would getting this right mean for you?</p>
+              </div>
+            </div>
           </li>
           <li class="step reveal">
-            <span class="step-num">02</span>
-            <h3 class="step-title">Design</h3>
-            <p class="step-desc">You get a design built around your business, one that gives customers a reason to stay and a reason to trust you.</p>
+            <div class="step-text">
+              <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></span>
+              <span class="step-num">Step 02</span>
+              <h3 class="step-title">Design</h3>
+              <p class="step-desc">You get a design built around your business, one that gives customers a reason to stay and a reason to trust you.</p>
+            </div>
+            <div class="step-art" aria-hidden="true">
+              <div class="art-card art-design">
+                <p class="art-label">Your homepage design</p>
+                <div class="wire">
+                  <div class="wire-bar"><i></i><i></i><i></i></div>
+                  <div class="wire-body">
+                    <div class="wire-copy"><span class="w-line w-l1"></span><span class="w-line w-l2"></span><span class="w-line w-l3"></span><span class="w-pill"></span></div>
+                    <div class="wire-img"></div>
+                  </div>
+                </div>
+                <p class="art-foot"><span class="art-dot"></span> Ready for your feedback</p>
+              </div>
+            </div>
           </li>
           <li class="step reveal">
-            <span class="step-num">03</span>
-            <h3 class="step-title">Build</h3>
-            <p class="step-desc">Your site goes live fast, built to work on any device, load quickly, and rank on Google from day one.</p>
+            <div class="step-text">
+              <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+              <span class="step-num">Step 03</span>
+              <h3 class="step-title">Build</h3>
+              <p class="step-desc">Your site goes live fast, built to work on any device, load quickly, and rank on Google from day one.</p>
+            </div>
+            <div class="step-art" aria-hidden="true">
+              <div class="art-card art-build">
+                <p class="art-label">Before launch</p>
+                <ul class="art-checks">
+                  <li>Works on any device</li>
+                  <li>Loads quickly</li>
+                  <li>Set up for Google</li>
+                </ul>
+                <div class="art-progress"><span></span></div>
+                <p class="art-foot">Ready to go live</p>
+              </div>
+            </div>
           </li>
           <li class="step reveal">
-            <span class="step-num">04</span>
-            <h3 class="step-title">Launch &amp; look after</h3>
-            <p class="step-desc">We go live, then the care plan keeps it updated, backed up and supported.</p>
+            <div class="step-text">
+              <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="step-num">Step 04</span>
+              <h3 class="step-title">Launch &amp; look after</h3>
+              <p class="step-desc">We go live, then the care plan keeps it updated, backed up and supported.</p>
+            </div>
+            <div class="step-art" aria-hidden="true">
+              <div class="art-card art-care">
+                <div class="art-head"><span>Care plan</span><span class="art-chip">Every month</span></div>
+                <ul class="art-rows">
+                  <li><span class="art-dot"></span> Updates <em>Included</em></li>
+                  <li><span class="art-dot"></span> Backups <em>Included</em></li>
+                  <li><span class="art-dot"></span> Support <em>Included</em></li>
+                </ul>
+              </div>
+            </div>
           </li>
         </ol>
+        <div class="process-cta reveal">
+          <a class="btn btn-primary" href="#contact">Start with a quick chat</a>
+        </div>
        </div>
       </div>
     </section>
@@ -645,6 +727,7 @@
           </details>
 
         </div>
+        <p class="faq-more reveal">Still deciding? <a href="#contact">Ask me directly</a>. You'll get a straight answer, not a sales pitch.</p>
       </div>
     </section>
 

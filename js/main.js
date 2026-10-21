@@ -70,7 +70,7 @@
     var mask = document.createElement("canvas");
     var ctx = mask.getContext("2d", { willReadFrequently: true });
     var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    var last = null, dirty = false, applies = 0, moved = false, cleared = false;
+    var last = null, dirty = false, applies = 0, moved = false, cleared = false, selfWiping = false;
     var idleTimer, hintTimer;
 
     var size = hero.getBoundingClientRect();
@@ -97,7 +97,8 @@
       if (!dirty || cleared) return;
       dirty = false;
       applyMask();
-      if (++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
+      // the 40% shortcut is for people wiping by hand; the self-wipe plays out in full
+      if (!selfWiping && ++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
     };
 
     var dab = function (x, y, r) {
@@ -123,13 +124,17 @@
       if (!dirty) { dirty = true; requestAnimationFrame(frame); }
     };
 
-    var events = ["keydown", "wheel", "pointerdown", "scroll"];
+    var events = ["keydown", "wheel", "pointerdown"];
+    // Phones fire small scroll events on their own while loading (address bar,
+    // scroll restoration), so only a real scroll away from the top counts.
+    var onScrollAway = function () { if (window.scrollY > 40) clearAll(); };
     var clearAll = function () {
       if (cleared) return;
       cleared = true;
       clearTimeout(idleTimer);
       clearTimeout(hintTimer);
       hero.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", onScrollAway);
       events.forEach(function (t) { window.removeEventListener(t, clearAll); });
       fog.classList.remove("show-hint");
       fog.classList.add("is-clearing");
@@ -142,6 +147,7 @@
     // A hand that wipes the glass by itself: three sweeping passes, then the rest fades.
     var selfWipe = function () {
       if (cleared || moved) return;
+      selfWiping = true;
       fog.classList.remove("show-hint");
       var w = size.width, h = size.height, r = Math.max(70, h / 5);
       var pts = [[-0.05, 0.3], [1.05, 0.36], [1.05, 0.5], [-0.05, 0.56], [-0.05, 0.7], [1.05, 0.76]]
@@ -151,7 +157,7 @@
         var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
         lens.push(l); total += l;
       }
-      var start = performance.now(), DURATION = 1400;
+      var start = performance.now(), DURATION = finePointer ? 1400 : 1700;
       last = null;
       var tick = function (now) {
         if (cleared) return;
@@ -176,12 +182,13 @@
     };
 
     events.forEach(function (t) { window.addEventListener(t, clearAll, { passive: true }); });
+    window.addEventListener("scroll", onScrollAway, { passive: true });
     if (finePointer) {
       hero.addEventListener("pointermove", onMove);
       hintTimer = setTimeout(function () { if (!moved) fog.classList.add("show-hint"); }, 700);
       idleTimer = setTimeout(selfWipe, 3500); // never touched the mouse: wipe it for them
     } else {
-      idleTimer = setTimeout(selfWipe, 900);
+      idleTimer = setTimeout(selfWipe, 1100);
     }
   }
 
@@ -232,6 +239,18 @@
 
     reveals.forEach(function (el) { io.observe(el); });
   }
+  // How it works: the connecting line draws itself once the steps scroll into view
+  var timeline = document.querySelector(".timeline");
+  if (timeline && !reduceMotion && "IntersectionObserver" in window) {
+    timeline.classList.add("will-draw");
+    var lineIo = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      lineIo.disconnect();
+      timeline.classList.add("is-drawn");
+    }, { rootMargin: "0px 0px -25% 0px" });
+    lineIo.observe(timeline);
+  }
+
   /* ---- 4. Start a project form — pill toggle + AJAX submit via Formspree ---- */
   var form = document.getElementById("contactForm");
 
