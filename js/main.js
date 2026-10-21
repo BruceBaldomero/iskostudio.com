@@ -81,6 +81,53 @@
     var submitBtn = document.getElementById("formSubmit");
     var successMsg = document.getElementById("formSuccess");
     var errorMsg = document.getElementById("formError");
+    var validationNote = document.getElementById("formValidationNote");
+
+    // Inline validation: highlight invalid required fields and name them in
+    // a visible, aria-live status message, instead of relying solely on the
+    // browser's native validation bubble (easy to miss, especially on mobile).
+    function clearFieldError(input) {
+      var field = input.closest(".field");
+      if (field) field.classList.remove("has-error");
+    }
+
+    function markFieldError(input) {
+      var field = input.closest(".field");
+      if (field) field.classList.add("has-error");
+    }
+
+    function fieldLabelText(input) {
+      var field = input.closest(".field");
+      var label = field && field.querySelector("label");
+      if (!label) return input.name || input.id || "a field";
+      // strip any "(optional)" style suffix span text
+      var clone = label.cloneNode(true);
+      Array.prototype.forEach.call(clone.querySelectorAll(".field-optional"), function (el) { el.remove(); });
+      return clone.textContent.trim();
+    }
+
+    function showValidationNote(invalidInputs) {
+      if (!validationNote) return;
+      var names = invalidInputs.map(fieldLabelText);
+      var list = names.length > 1
+        ? names.slice(0, -1).join(", ") + " and " + names[names.length - 1]
+        : names[0];
+      validationNote.textContent = "Please check: " + list + ".";
+      validationNote.hidden = false;
+    }
+
+    function hideValidationNote() {
+      if (!validationNote) return;
+      validationNote.hidden = true;
+      validationNote.textContent = "";
+    }
+
+    // Clear a field's error state as soon as it becomes valid again.
+    Array.prototype.forEach.call(form.querySelectorAll("input, textarea, select"), function (input) {
+      input.addEventListener("input", function () {
+        if (input.validity.valid) clearFieldError(input);
+      });
+    });
 
     // Pill groups: single-select (data-mode="single") acts like radios,
     // otherwise multi-select toggle. Value stored in a paired hidden field.
@@ -129,10 +176,19 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
+
+      var invalidInputs = Array.prototype.filter.call(
+        form.querySelectorAll("input, textarea, select"),
+        function (input) { return !input.validity.valid; }
+      );
+
+      if (invalidInputs.length) {
+        invalidInputs.forEach(markFieldError);
+        showValidationNote(invalidInputs);
+        invalidInputs[0].focus();
         return;
       }
+      hideValidationNote();
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
