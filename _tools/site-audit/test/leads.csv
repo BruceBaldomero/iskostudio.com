@@ -1,0 +1,4 @@
+business,url
+Smith & Sons Plumbing (test page),http://localhost:8099/_tools/site-audit/test/bad-site.html
+ISKO Studio (own site),http://localhost:8099/
+Nothing here (unreachable test),http://localhost:1/

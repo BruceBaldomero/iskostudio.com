@@ -1,0 +1,5 @@
+# Real lead lists and results stay on your machine, never in the repo
+out/
+leads*.csv
+!test/leads.csv
+node_modules/
