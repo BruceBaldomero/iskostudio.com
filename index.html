@@ -23,7 +23,8 @@
   <meta name="twitter:description" content="Get found on Google. Look credible online. Win more customers. Done for you, fairly priced, looked after every month." />
   <meta name="twitter:image" content="https://iskostudio.com/img/og-image.png" />
 
-  <meta name="theme-color" content="#FAFAF8" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF8" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161412" />
   <meta name="google-site-verification" content="0fy1DH1M7Z_50Q0hAsdX2ghNnSm-XKpb4zjzLngG25E" />
 
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
@@ -35,6 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- Structured data: LocalBusiness -->
@@ -78,6 +80,7 @@
           <li><a class="nav-cta" href="#contact">Start a project</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
 
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
         <span class="nav-toggle-bar"></span>
@@ -185,7 +188,7 @@
                 <span class="tag">Wellness</span>
               </div>
             </a>
-            <figcaption class="work-quote">"Within a week of our initial consultation, a beautiful and fully functional website was ready to go." <cite>Matt Lunberg · MUKHA Face Yoga</cite></figcaption>
+            <figcaption class="work-quote">"Within a week of our initial consultation with Bruce, a beautiful and fully functional website was ready to go&hellip;" <cite>Matt Lunberg · MUKHA Face Yoga</cite></figcaption>
           </figure>
 
           <!-- Coming soon -->
@@ -452,7 +455,7 @@
 
           <article class="review-card reveal" aria-label="Review by Mona B">
             <div class="review-card-stars">★★★★★</div>
-            <p class="review-card-excerpt">"I cannot recommend ISKO Studio highly enough. Bruce has been incredible from the very beginning. He took the time to understand my business and the experience I wanted my clients to have."</p>
+            <p class="review-card-excerpt">"I cannot recommend ISKO Studio highly enough. Bruce has been incredible from the very beginning — he took the time to understand my business and the experience I wanted my clients to have."</p>
             <footer class="review-card-footer">
               <div class="review-card-avatar" aria-hidden="true">M</div>
               <div class="review-card-byline">
@@ -464,7 +467,7 @@
               <p>I cannot recommend ISKO Studio highly enough. Bruce has been incredible from the very beginning. We started with a consultation where he took the time to understand my business, my goals for the website, and the experience I wanted my clients to have. He asked thoughtful questions that helped me clarify my vision and ensured the website was sleek, professional, organised, and easy to navigate for both myself and my clients.</p>
               <p>What really sets Bruce apart is his attention to detail and ongoing support. He is always prompt when I request changes and is proactive in maintaining and updating the website. In fact, he often notices updates I've made on my Instagram and reflects them on my website without me even needing to ask. That level of care and initiative is rare.</p>
               <p>Bruce also regularly suggests improvements to enhance the user experience and encourage client engagement. He actively manages my online presence, ensuring my business is discoverable on Google and helping to keep my Google reviews and business profile up to date.</p>
-              <p>The monthly subscription is absolutely worth it. Knowing that everything is maintained, updated, and optimised gives me complete peace of mind. It allows me to focus on what I do best: providing the highest level of care to my clients while Bruce takes care of the technical side of things.</p>
+              <p>The monthly subscription is absolutely worth it. Knowing that everything is maintained, updated, and optimised gives me complete peace of mind. It allows me to focus on what I do best — providing the highest level of care to my clients while Bruce takes care of the technical side of things.</p>
               <p>If you're looking for someone who is knowledgeable, reliable, proactive, and genuinely invested in the success of your business, Bruce and ISKO Studio are an excellent choice.</p>
             </div>
           </article>
@@ -809,5 +812,6 @@
   </footer>
 
   <script src="js/main.js" defer></script>
+  <script src="js/theme.js" defer></script>
 </body>
 </html>
