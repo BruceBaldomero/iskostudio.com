@@ -51,6 +51,25 @@
     });
   }
 
+  /* ---- Hero intro: wipe away the "old website" once per visit ---- */
+  if (document.documentElement.classList.contains("intro")) {
+    var before = document.querySelector(".hero-before");
+    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+    var endIntro = function () {
+      if (before) before.classList.add("is-done");
+      ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (t) {
+        window.removeEventListener(t, endIntro);
+      });
+    };
+    if (before) before.addEventListener("animationend", function (e) {
+      if (e.target === before) endIntro();
+    });
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (t) {
+      window.addEventListener(t, endIntro, { passive: true });
+    });
+    setTimeout(endIntro, 2500); // fallback if animationend never fires
+  }
+
   /* ---- 3. Scroll reveal ---- */
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
