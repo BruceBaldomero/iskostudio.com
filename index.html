@@ -695,9 +695,10 @@
             <input type="hidden" name="Biggest challenge" id="biggestChallengeInput" />
           </div>
 
-          <!-- Optional details -->
-          <div class="optional-details">
-            <p class="optional-details-label">A few optional details</p>
+          <!-- Optional details: open by default so nothing is hidden, but
+               clearly collapsible for anyone who'd rather skip straight to send -->
+          <details class="optional-details" open>
+            <summary class="optional-details-label">A few optional details <span class="optional-details-hint">(tap to hide)</span></summary>
             <div class="field-row">
               <div class="field">
                 <label for="business">Business name <span class="field-optional">(optional)</span></label>
@@ -739,7 +740,7 @@
                 <input type="tel" id="phone" name="Phone" autocomplete="tel" placeholder="07700 900000" />
               </div>
             </div>
-          </div>
+          </details>
 
           <!-- Honeypot spam trap -->
           <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
@@ -750,6 +751,8 @@
             <button type="submit" class="btn btn-primary" id="formSubmit">Send it over &rarr;</button>
             <span class="form-note-inline">I reply within 24 hours.</span>
           </div>
+
+          <div class="form-validation-note" id="formValidationNote" role="status" aria-live="polite" hidden></div>
 
           <div class="form-success" id="formSuccess" hidden>
             <p>✓ Thanks — I've got your details and I'll reply within 24 hours.</p>
