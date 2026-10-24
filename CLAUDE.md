@@ -16,22 +16,29 @@ typography do the work. Avoid the generic "AI website" look: no default blue (#3
 no Inter-everywhere, no identical rounded cards, no gratuitous gradients, no emoji icons. No multi-colour accents.
 
 ## Colour palette (source of truth: the tokens at the top of css/style.css)
+Ink & forest green. The green is for Isko, the friend the studio is named after, and
+the forests of Pilar, Abra, in the Philippines where we grew up.
 Light theme:
-- Background:        #F6F3EC  (warm cream, so white cards lift off it)
+- Background:        #F3F5F1  (cool paper with a breath of green, so white cards lift off it)
 - Surface (cards):   #FFFFFF
-- Headings (ink):    #1F1D1A  (warm near-black, not pure black)
-- Body text:         #2B2824
-- Muted text:        #5C574F  (passes AA on cream)
-- Borders/hairlines: #E6E1D6
-- Accent:            #C25E33  (burnt terracotta — the ONE accent. Large text, icons, marks,
-                     decorative lines only: it fails AA for small text)
-- Accent text/hover: #A8481F  (terracotta that passes AA for small text on light)
-- Accent on dark:    #D97A52
+- Headings (ink):    #101512  (green-black ink, not pure black)
+- Body text:         #1D2420
+- Muted text:        #525C55  (AA on paper, white and tint)
+- Borders/hairlines: #DFE5E0
+- Accent:            #1F5C45  (forest green, the ONE accent; 7:1 on paper, so it is safe for
+                     small text, links, marks and lines)
+- Accent hover:      #164634
+- Accent on dark:    #7CC7A0  (leaf green for text and marks on dark panels and the footer)
+- Tint (bands):      #E4EEE7
 Dark contrast sections (inset dark panels and the footer):
-- Panel:             #23211D, panel text #F4F1EA
-- Footer:            #1A1A1A
-Dark mode exists (toggle + system preference): warm near-black #161412 with the same
-terracotta family. Keep the two dark-mode token blocks identical.
+- Panel:             #18221D, panel text #EEF3EF
+- Footer:            #0E1311
+Dark mode exists (toggle + system preference): forest-black #0E1311 with leaf-green accent
+#6DBF94. Keep the two dark-mode token blocks identical.
+The ISKO mark: heavy "ISKO" (Archivo Black, OFL, subset to four glyphs in fonts/) with the
+dot centred underneath, never a full stop beside it. The nav and footer draw it with CSS from
+the existing "ISKO<span class=wordmark-dot>" markup; favicon, apple-touch-icon, logo and
+og-image use the same letters as outlines. Ink tile, leaf-green dot (forest green on light).
 No second accent colour. Success/error colours are for form states only.
 
 ## Typography
@@ -68,8 +75,8 @@ No second accent colour. Success/error colours are for form states only.
   secondary. Show them as a pair where it makes sense. Subtle hover (darken or lift).
 - Cards (work items): image-led, real client screenshots in a browser frame, minimal
   text, hover reveals a small "View" cue. Consistent aspect ratios.
-- Links in body: terracotta (--accent-hover), underline on hover.
-- Eyebrow labels: small, uppercase, tracked, terracotta, above section headings.
+- Links in body: forest green (--accent-hover), underline on hover.
+- Eyebrow labels: small, uppercase, tracked, forest green, above section headings.
 - Show, don't describe: put real work and real artefacts next to claims. Never invent
   dashboards, stats or results.
 
@@ -79,8 +86,8 @@ small-business owner, not a designer. Benefit-led ("Get found by local customers
 not feature-led ("Responsive HTML5"). British English spelling.
 
 ## Accessibility
-Semantic HTML5 landmarks. Alt text on all images. Colour contrast AA minimum (check
-terracotta on cream for small text — use #A8481F or near-black for small text, reserve #C25E33 for large text and accents).
+Semantic HTML5 landmarks. Alt text on all images. Colour contrast AA minimum (check any
+new colour pairing; the forest green #1F5C45 passes on paper, white and tint).
 Visible focus states. Keyboard navigable.
 
 ## Performance

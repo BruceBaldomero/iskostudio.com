@@ -6,7 +6,7 @@
 
   var root = document.documentElement;
   var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-  var COLORS = { light: "#FAFAF8", dark: "#161412" };
+  var COLORS = { light: "#F3F5F1", dark: "#0E1311" };
 
   function current() {
     var set = root.getAttribute("data-theme");
