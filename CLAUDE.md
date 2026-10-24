@@ -35,7 +35,10 @@ Dark contrast sections (inset dark panels and the footer):
 - Footer:            #0E1311
 Dark mode exists (toggle + system preference): forest-black #0E1311 with leaf-green accent
 #6DBF94. Keep the two dark-mode token blocks identical.
-Logo, favicon, apple-touch-icon and og-image use the same palette (ink tile, leaf-green dot).
+The ISKO mark: heavy "ISKO" (Archivo Black, OFL, subset to four glyphs in fonts/) with the
+dot centred underneath, never a full stop beside it. The nav and footer draw it with CSS from
+the existing "ISKO<span class=wordmark-dot>" markup; favicon, apple-touch-icon, logo and
+og-image use the same letters as outlines. Ink tile, leaf-green dot (forest green on light).
 No second accent colour. Success/error colours are for form states only.
 
 ## Typography

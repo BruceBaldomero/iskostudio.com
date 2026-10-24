@@ -303,20 +303,42 @@ h1, h2, h3 {
   color: var(--nav-text);
 }
 
-.wordmark {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  color: var(--text);
+/* The ISKO mark: heavy "ISKO" with the dot centred underneath, matching the
+   favicon exactly (both use Archivo Black; the favicon has it as outlines).
+   The markup is still "ISKO<span class=wordmark-dot>.</span>", so the dot
+   span is drawn as a circle and its full stop hidden. */
+@font-face {
+  font-family: "ISKO Mark";
+  src: url("../fonts/isko-mark.woff2") format("woff2");
+  font-display: block; /* four glyphs, 2.6KB: never flash the fallback */
 }
-.wordmark-dot { color: var(--accent-hover); }
+.wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "ISKO Mark", "Arial Black", sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 0.75;
+  letter-spacing: -0.075em;
+  text-decoration: none;
+  color: var(--ink);
+}
+.wordmark-dot {
+  display: block;
+  width: 0.367em;
+  height: 0.367em;
+  margin-top: 0.23em;
+  margin-right: -0.075em; /* re-centre under the letters despite the trailing tracking */
+  border-radius: 50%;
+  background: var(--accent);
+  color: transparent;
+  overflow: hidden;
+}
 .site-header .wordmark { color: var(--nav-text-strong); }
-.site-header .wordmark-dot { color: var(--accent-on-dark); }
+.site-header .wordmark-dot { background: var(--accent-on-dark); }
 .wordmark-light { color: var(--dark-text); }
-/* on the dark footer, the dot needs the dark-safe accent variant to clear AA */
-.wordmark-light .wordmark-dot { color: var(--accent-on-dark); }
+.wordmark-light .wordmark-dot { background: var(--accent-on-dark); }
 
 .primary-nav { margin-left: var(--s-2); }
 .primary-nav .nav-list {
