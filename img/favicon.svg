@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ISKO Studio">
-  <rect width="64" height="64" rx="14" fill="#1A1A1A"/>
-  <text x="32" y="39" text-anchor="middle" font-family="'Arial Black', Arial, Helvetica, sans-serif" font-weight="900" font-size="24" fill="#FAFAF8" letter-spacing="-1.8">ISKO</text>
-  <circle cx="32" cy="50" r="3.8" fill="#B8884D"/>
+  <rect width="64" height="64" rx="14" fill="#101512"/>
+  <text x="32" y="39" text-anchor="middle" font-family="'Arial Black', Arial, Helvetica, sans-serif" font-weight="900" font-size="24" fill="#F3F5F1" letter-spacing="-1.8">ISKO</text>
+  <circle cx="32" cy="50" r="3.8" fill="#7CC7A0"/>
 </svg>
