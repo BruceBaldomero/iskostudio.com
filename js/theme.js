@@ -33,7 +33,14 @@
 
   Array.prototype.forEach.call(document.querySelectorAll(".theme-toggle"), function (btn) {
     btn.addEventListener("click", function () {
-      choose(current() === "dark" ? "light" : "dark");
+      var next = current() === "dark" ? "light" : "dark";
+      // cross-fade the whole page between themes where the browser supports it
+      var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (document.startViewTransition && !still) {
+        document.startViewTransition(function () { choose(next); });
+      } else {
+        choose(next);
+      }
     });
   });
 

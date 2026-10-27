@@ -4,6 +4,18 @@
    2. Mobile nav toggle
    3. Scroll reveal (fade/slide-up), respecting reduced motion
    ========================================================= */
+/* The phone's back gesture (and Esc) closes whatever layer is open instead of
+   leaving the page. Uses CloseWatcher where the browser has it; elsewhere the
+   existing Escape handlers still apply. */
+function watchClose(onClose) {
+  if (!("CloseWatcher" in window)) return null;
+  try {
+    var watcher = new CloseWatcher();
+    watcher.onclose = onClose;
+    return watcher;
+  } catch (e) { return null; }
+}
+
 (function () {
   "use strict";
 
@@ -20,19 +32,23 @@
   var toggle = document.getElementById("navToggle");
   var mobileNav = document.getElementById("mobileNav");
 
+  var navWatcher = null;
+
   function closeNav() {
     if (!toggle || !mobileNav) return;
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "Open menu");
     mobileNav.hidden = true;
+    if (navWatcher) { var w = navWatcher; navWatcher = null; w.destroy(); }
   }
 
   if (toggle && mobileNav) {
     toggle.addEventListener("click", function () {
-      var open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-      mobileNav.hidden = open;
+      if (toggle.getAttribute("aria-expanded") === "true") { closeNav(); return; }
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close menu");
+      mobileNav.hidden = false;
+      navWatcher = watchClose(closeNav);
     });
 
     // Close after tapping a link
@@ -58,138 +74,147 @@
     (CSS.supports("mask-image", "url(a.png)") || CSS.supports("-webkit-mask-image", "url(a.png)")) &&
     (CSS.supports("backdrop-filter", "blur(1px)") || CSS.supports("-webkit-backdrop-filter", "blur(1px)"));
 
-  if (root.classList.contains("intro") && fog && !maskOk) {
-    root.classList.add("fog-clear");
-    fog.classList.add("is-done");
-  } else if (root.classList.contains("intro") && fog) {
-    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
-
-    var hero = fog.parentNode;
-    var SCALE = 8;     // the mask is drawn at 1/8 size; stretching it back up softens the brush edge
-    var BRUSH = 64;    // cursor brush radius in CSS px
-    var mask = document.createElement("canvas");
-    var ctx = mask.getContext("2d", { willReadFrequently: true });
-    var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    var last = null, dirty = false, applies = 0, moved = false, cleared = false, selfWiping = false;
-    var idleTimer, hintTimer;
-
-    var size = hero.getBoundingClientRect();
-    mask.width = Math.ceil(size.width / SCALE);
-    mask.height = Math.ceil(size.height / SCALE);
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, mask.width, mask.height);
-
-    var applyMask = function () {
-      var url = "url(" + mask.toDataURL() + ")";
-      fog.style.webkitMaskImage = url;
-      fog.style.maskImage = url;
-    };
-    applyMask();
-
-    // Share of the glass already wiped, sampled from the mask's alpha.
-    var wipedShare = function () {
-      var px = ctx.getImageData(0, 0, mask.width, mask.height).data, clear = 0;
-      for (var i = 3; i < px.length; i += 4) if (px[i] < 128) clear++;
-      return clear / (px.length / 4);
-    };
-
-    var frame = function () {
-      if (!dirty || cleared) return;
-      dirty = false;
-      applyMask();
-      // the 40% shortcut is for people wiping by hand; the self-wipe plays out in full
-      if (!selfWiping && ++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
-    };
-
-    var dab = function (x, y, r) {
-      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, "rgba(0,0,0,1)");
-      g.addColorStop(0.6, "rgba(0,0,0,0.85)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fill();
-    };
-
-    // Wipe from the previous point to this one (both in hero px), dabbing along the way.
-    var stroke = function (x, y, radius) {
-      var r = radius / SCALE, mx = x / SCALE, my = y / SCALE;
-      ctx.globalCompositeOperation = "destination-out";
-      if (!last) last = { x: mx, y: my };
-      var dx = mx - last.x, dy = my - last.y;
-      var steps = Math.max(1, Math.ceil(Math.sqrt(dx * dx + dy * dy) / (r / 3)));
-      for (var i = 1; i <= steps; i++) dab(last.x + dx * i / steps, last.y + dy * i / steps, r);
-      last = { x: mx, y: my };
-      if (!dirty) { dirty = true; requestAnimationFrame(frame); }
-    };
-
-    var events = ["keydown", "wheel", "pointerdown"];
-    // Phones fire small scroll events on their own while loading (address bar,
-    // scroll restoration), so only a real scroll away from the top counts.
-    var onScrollAway = function () { if (window.scrollY > 40) clearAll(); };
-    var clearAll = function () {
-      if (cleared) return;
-      cleared = true;
-      clearTimeout(idleTimer);
-      clearTimeout(hintTimer);
-      hero.removeEventListener("pointermove", onMove);
-      window.removeEventListener("scroll", onScrollAway);
-      events.forEach(function (t) { window.removeEventListener(t, clearAll); });
-      fog.classList.remove("show-hint");
-      fog.classList.add("is-clearing");
+  // A page prerendered in the background (see the speculation rules in <head>)
+  // runs its scripts before anyone sees it, so the glass waits until it's shown.
+  function startIntro() {
+    if (root.classList.contains("intro") && fog && !maskOk) {
       root.classList.add("fog-clear");
-      var done = function () { fog.classList.add("is-done"); };
-      fog.addEventListener("transitionend", function (e) { if (e.target === fog) done(); });
-      setTimeout(done, 900);
-    };
+      fog.classList.add("is-done");
+    } else if (root.classList.contains("intro") && fog) {
+      try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
 
-    // A hand that wipes the glass by itself: three sweeping passes, then the rest fades.
-    var selfWipe = function () {
-      if (cleared || moved) return;
-      selfWiping = true;
-      fog.classList.remove("show-hint");
-      var w = size.width, h = size.height, r = Math.max(70, h / 5);
-      var pts = [[-0.05, 0.3], [1.05, 0.36], [1.05, 0.5], [-0.05, 0.56], [-0.05, 0.7], [1.05, 0.76]]
-        .map(function (p) { return [p[0] * w, p[1] * h]; });
-      var lens = [], total = 0;
-      for (var i = 1; i < pts.length; i++) {
-        var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-        lens.push(l); total += l;
-      }
-      var start = performance.now(), DURATION = finePointer ? 1400 : 1700;
-      last = null;
-      var tick = function (now) {
-        if (cleared) return;
-        var t = Math.min(1, (now - start) / DURATION);
-        var d = (0.5 - Math.cos(Math.PI * t) / 2) * total; // ease-in-out (sine)
-        for (var j = 0; j < lens.length && d > lens[j]; j++) d -= lens[j];
-        j = Math.min(j, lens.length - 1);
-        var k = Math.min(1, d / lens[j]);
-        stroke(pts[j][0] + (pts[j + 1][0] - pts[j][0]) * k, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * k, r);
-        if (t < 1) requestAnimationFrame(tick); else setTimeout(clearAll, 150);
+      var hero = fog.parentNode;
+      var SCALE = 8;     // the mask is drawn at 1/8 size; stretching it back up softens the brush edge
+      var BRUSH = 64;    // cursor brush radius in CSS px
+      var mask = document.createElement("canvas");
+      var ctx = mask.getContext("2d", { willReadFrequently: true });
+      var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      var last = null, dirty = false, applies = 0, moved = false, cleared = false, selfWiping = false;
+      var idleTimer, hintTimer;
+
+      var size = hero.getBoundingClientRect();
+      mask.width = Math.ceil(size.width / SCALE);
+      mask.height = Math.ceil(size.height / SCALE);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, mask.width, mask.height);
+
+      var applyMask = function () {
+        var url = "url(" + mask.toDataURL() + ")";
+        fog.style.webkitMaskImage = url;
+        fog.style.maskImage = url;
       };
-      requestAnimationFrame(tick);
-    };
+      applyMask();
 
-    var onMove = function (e) {
-      if (e.pointerType === "touch") return;
-      var rect = hero.getBoundingClientRect();
-      if (!moved) { moved = true; last = null; fog.classList.remove("show-hint"); }
-      stroke(e.clientX - rect.left, e.clientY - rect.top, BRUSH);
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(clearAll, 2200); // stopped wiping: finish the job
-    };
+      // Share of the glass already wiped, sampled from the mask's alpha.
+      var wipedShare = function () {
+        var px = ctx.getImageData(0, 0, mask.width, mask.height).data, clear = 0;
+        for (var i = 3; i < px.length; i += 4) if (px[i] < 128) clear++;
+        return clear / (px.length / 4);
+      };
 
-    events.forEach(function (t) { window.addEventListener(t, clearAll, { passive: true }); });
-    window.addEventListener("scroll", onScrollAway, { passive: true });
-    if (finePointer) {
-      hero.addEventListener("pointermove", onMove);
-      hintTimer = setTimeout(function () { if (!moved) fog.classList.add("show-hint"); }, 700);
-      idleTimer = setTimeout(selfWipe, 3500); // never touched the mouse: wipe it for them
-    } else {
-      idleTimer = setTimeout(selfWipe, 1100);
+      var frame = function () {
+        if (!dirty || cleared) return;
+        dirty = false;
+        applyMask();
+        // the 40% shortcut is for people wiping by hand; the self-wipe plays out in full
+        if (!selfWiping && ++applies % 6 === 0 && wipedShare() > 0.4) clearAll();
+      };
+
+      var dab = function (x, y, r) {
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, "rgba(0,0,0,1)");
+        g.addColorStop(0.6, "rgba(0,0,0,0.85)");
+        g.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      // Wipe from the previous point to this one (both in hero px), dabbing along the way.
+      var stroke = function (x, y, radius) {
+        var r = radius / SCALE, mx = x / SCALE, my = y / SCALE;
+        ctx.globalCompositeOperation = "destination-out";
+        if (!last) last = { x: mx, y: my };
+        var dx = mx - last.x, dy = my - last.y;
+        var steps = Math.max(1, Math.ceil(Math.sqrt(dx * dx + dy * dy) / (r / 3)));
+        for (var i = 1; i <= steps; i++) dab(last.x + dx * i / steps, last.y + dy * i / steps, r);
+        last = { x: mx, y: my };
+        if (!dirty) { dirty = true; requestAnimationFrame(frame); }
+      };
+
+      var events = ["keydown", "wheel", "pointerdown"];
+      // Phones fire small scroll events on their own while loading (address bar,
+      // scroll restoration), so only a real scroll away from the top counts.
+      var onScrollAway = function () { if (window.scrollY > 40) clearAll(); };
+      var clearAll = function () {
+        if (cleared) return;
+        cleared = true;
+        clearTimeout(idleTimer);
+        clearTimeout(hintTimer);
+        hero.removeEventListener("pointermove", onMove);
+        window.removeEventListener("scroll", onScrollAway);
+        events.forEach(function (t) { window.removeEventListener(t, clearAll); });
+        fog.classList.remove("show-hint");
+        fog.classList.add("is-clearing");
+        root.classList.add("fog-clear");
+        var done = function () { fog.classList.add("is-done"); };
+        fog.addEventListener("transitionend", function (e) { if (e.target === fog) done(); });
+        setTimeout(done, 900);
+      };
+
+      // A hand that wipes the glass by itself: three sweeping passes, then the rest fades.
+      var selfWipe = function () {
+        if (cleared || moved) return;
+        selfWiping = true;
+        fog.classList.remove("show-hint");
+        var w = size.width, h = size.height, r = Math.max(70, h / 5);
+        var pts = [[-0.05, 0.3], [1.05, 0.36], [1.05, 0.5], [-0.05, 0.56], [-0.05, 0.7], [1.05, 0.76]]
+          .map(function (p) { return [p[0] * w, p[1] * h]; });
+        var lens = [], total = 0;
+        for (var i = 1; i < pts.length; i++) {
+          var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+          lens.push(l); total += l;
+        }
+        var start = performance.now(), DURATION = finePointer ? 1400 : 1700;
+        last = null;
+        var tick = function (now) {
+          if (cleared) return;
+          var t = Math.min(1, (now - start) / DURATION);
+          var d = (0.5 - Math.cos(Math.PI * t) / 2) * total; // ease-in-out (sine)
+          for (var j = 0; j < lens.length && d > lens[j]; j++) d -= lens[j];
+          j = Math.min(j, lens.length - 1);
+          var k = Math.min(1, d / lens[j]);
+          stroke(pts[j][0] + (pts[j + 1][0] - pts[j][0]) * k, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * k, r);
+          if (t < 1) requestAnimationFrame(tick); else setTimeout(clearAll, 150);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      var onMove = function (e) {
+        if (e.pointerType === "touch") return;
+        var rect = hero.getBoundingClientRect();
+        if (!moved) { moved = true; last = null; fog.classList.remove("show-hint"); }
+        stroke(e.clientX - rect.left, e.clientY - rect.top, BRUSH);
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(clearAll, 2200); // stopped wiping: finish the job
+      };
+
+      events.forEach(function (t) { window.addEventListener(t, clearAll, { passive: true }); });
+      window.addEventListener("scroll", onScrollAway, { passive: true });
+      if (finePointer) {
+        hero.addEventListener("pointermove", onMove);
+        hintTimer = setTimeout(function () { if (!moved) fog.classList.add("show-hint"); }, 700);
+        idleTimer = setTimeout(selfWipe, 3500); // never touched the mouse: wipe it for them
+      } else {
+        idleTimer = setTimeout(selfWipe, 1100);
+      }
     }
+  }
+  if (document.prerendering) {
+    document.addEventListener("prerenderingchange", startIntro, { once: true });
+  } else {
+    startIntro();
   }
 
   /* ---- 3. Scroll reveal ---- */
@@ -351,8 +376,11 @@
       });
     });
 
+    var sending = false;
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (sending) return; // a second tap or Enter while sending would post a duplicate enquiry
 
       var invalidInputs = Array.prototype.filter.call(
         form.querySelectorAll("input, textarea, select"),
@@ -367,6 +395,7 @@
       }
       hideValidationNote();
 
+      sending = true;
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
       errorMsg.hidden = true;
@@ -387,6 +416,7 @@
           }
         })
         .catch(function () {
+          sending = false;
           errorMsg.hidden = false;
           submitBtn.disabled = false;
           submitBtn.textContent = "Send it over →";
@@ -447,12 +477,52 @@
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     closeBtn.focus();
+    watcher = watchClose(closeModal);
   }
 
+  var watcher = null;
+  var box = modal.querySelector('.review-modal-box');
+
   function closeModal() {
+    box.classList.remove('is-dragging');
+    box.style.transform = '';
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (watcher) { var w = watcher; watcher = null; w.destroy(); }
+  }
+
+  /* Swipe down to dismiss (phones, where the review is a bottom sheet).
+     A quick flick closes it even if it's short; dragging up meets resistance. */
+  var handle = modal.querySelector('.sheet-handle');
+  var drag = null;
+  if (handle) {
+    handle.addEventListener('pointerdown', function (e) {
+      if (drag || !modal.classList.contains('open')) return; // ignore a second finger
+      drag = { id: e.pointerId, y: e.clientY, t: performance.now(), dy: 0 };
+      handle.setPointerCapture(e.pointerId);
+      box.classList.add('is-dragging');
+    });
+    handle.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dy = e.clientY - drag.y;
+      drag.dy = dy;
+      var shown = dy >= 0 ? dy : -Math.sqrt(-dy) * 2; // friction past the top
+      box.style.transform = 'translateY(' + shown + 'px)';
+    });
+    var release = function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dy = drag.dy, velocity = dy / Math.max(1, performance.now() - drag.t);
+      drag = null;
+      if (dy > box.offsetHeight * 0.25 || velocity > 0.11) {
+        closeModal();
+      } else {
+        box.classList.remove('is-dragging');
+        box.style.transform = '';
+      }
+    };
+    handle.addEventListener('pointerup', release);
+    handle.addEventListener('pointercancel', release);
   }
 
   document.querySelectorAll('.review-card').forEach(function (card) {

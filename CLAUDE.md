@@ -71,6 +71,10 @@ No second accent colour. Success/error colours are for form states only.
   cards --radius-tile (12px); inputs and tiny chips --radius (5px).
 - Depth: white cards on cream with a hairline border and the soft, wide --shadow-card;
   --shadow-lift on hover. Nothing harsh.
+- Corners: where the browser supports `corner-shape: squircle`, cards and tiles get continuous
+  corners with slightly larger radii (set once in the @supports block in style.css).
+- Touch: every :hover rule lives inside `@media (hover: hover) and (pointer: fine)`; every
+  control has an :active press state; small icon buttons get a 44px hit area.
 - Buttons: solid near-black pill primary with off-white text; ghost/outline pill
   secondary. Show them as a pair where it makes sense. Subtle hover (darken or lift).
 - Cards (work items): image-led, real client screenshots in a browser frame, minimal

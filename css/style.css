@@ -124,7 +124,16 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px; /* offset for the floating header */
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent; /* every control has its own :active state */
   overflow-x: hidden;
+}
+
+/* Taps fire straight away (no double-tap-zoom wait), and a long press on a
+   control doesn't select its label. Body text stays selectable. */
+a, button, summary, [role="button"], .pill { touch-action: manipulation; }
+button, summary, .btn, .pill, [role="button"], .nav-toggle, .theme-toggle {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -149,14 +158,17 @@ h1, h2, h3 {
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--ink);
+  text-wrap: balance; /* even line lengths, no lonely last word */
 }
+p, li, dd, blockquote { text-wrap: pretty; }
 
 /* ---------- Layout helpers ---------- */
 .container {
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
-  padding-inline: clamp(20px, 5vw, 40px);
+  padding-left: max(clamp(20px, 5vw, 40px), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(20px, 5vw, 40px), env(safe-area-inset-right, 0px));
 }
 
 .section {
@@ -241,10 +253,12 @@ h1, h2, h3 {
   background: var(--btn-bg);
   color: var(--btn-fg);
 }
-.btn-primary:hover {
-  background: var(--btn-bg-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px -12px rgba(26, 26, 26, 0.55);
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: var(--btn-bg-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px -12px rgba(26, 26, 26, 0.55);
+  }
 }
 
 .btn-ghost {
@@ -252,7 +266,9 @@ h1, h2, h3 {
   color: var(--ink);
   border-color: var(--hairline);
 }
-.btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+}
 
 /* text link with arrow — secondary CTA */
 .btn-text {
@@ -269,8 +285,10 @@ h1, h2, h3 {
   transition: gap 0.18s var(--ease), color 0.18s var(--ease);
 }
 .btn-text .arrow { transition: transform 0.18s var(--ease); }
-.btn-text:hover { color: var(--accent-hover); gap: 0.75em; }
-.btn-text:hover .arrow { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-text:hover { color: var(--accent-hover); gap: 0.75em; }
+  .btn-text:hover .arrow { transform: translateX(3px); }
+}
 
 .btn-block { width: 100%; }
 
@@ -281,7 +299,7 @@ h1, h2, h3 {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 12px clamp(12px, 3vw, 24px) 0;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(clamp(12px, 3vw, 24px), env(safe-area-inset-right, 0px)) 0 max(clamp(12px, 3vw, 24px), env(safe-area-inset-left, 0px));
   pointer-events: none; /* only the capsule and menu take clicks */
 }
 .header-inner {
@@ -335,7 +353,9 @@ h1, h2, h3 {
   color: var(--nav-text);
   transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
 }
-.primary-nav a:hover { color: var(--nav-text-strong); background: rgba(255, 255, 255, 0.07); }
+@media (hover: hover) and (pointer: fine) {
+  .primary-nav a:hover { color: var(--nav-text-strong); background: rgba(255, 255, 255, 0.07); }
+}
 /* thin divider before the call to action, when there are links before it */
 .primary-nav li + li:has(> .nav-cta) {
   margin-left: 10px;
@@ -351,7 +371,9 @@ h1, h2, h3 {
   padding: 10px 20px;
   transition: background-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.primary-nav a.nav-cta:hover { background: #FFFFFF; color: var(--nav-cta-fg); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) {
+  .primary-nav a.nav-cta:hover { background: #FFFFFF; color: var(--nav-cta-fg); transform: translateY(-1px); }
+}
 
 /* Theme toggle: moon shows in light mode, sun in dark */
 .theme-toggle {
@@ -369,7 +391,9 @@ h1, h2, h3 {
   cursor: pointer;
   transition: border-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.theme-toggle:hover { border-color: var(--nav-text); }
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover { border-color: var(--nav-text); }
+}
 .theme-toggle:active { transform: scale(0.94); }
 .theme-toggle svg { width: 18px; height: 18px; }
 .theme-toggle .icon-sun { display: none; }
@@ -434,7 +458,9 @@ h1, h2, h3 {
   font-weight: 500;
   color: var(--nav-text-strong);
 }
-.mobile-nav a:hover { background: rgba(255, 255, 255, 0.07); }
+@media (hover: hover) and (pointer: fine) {
+  .mobile-nav a:hover { background: rgba(255, 255, 255, 0.07); }
+}
 .mobile-nav li:last-child a {
   margin-top: 6px;
   background: var(--nav-cta-bg);
@@ -713,9 +739,11 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   box-shadow: var(--shadow-card);
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
 }
-.work-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lift);
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
 }
 
 /* browser chrome bar overlaid on the screenshot */
@@ -750,7 +778,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   display: block;
   transition: transform 0.4s var(--ease);
 }
-.work-card:hover .work-thumb img { transform: scale(1.03); }
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .work-thumb img { transform: scale(1.03); }
+}
 /* keep the top of the screenshot clear of the overlaid browser bar */
 .work-thumb.browser-frame img { padding-top: 26px; object-position: top; background: #18221D; }
 .is-feature .work-thumb { aspect-ratio: 21 / 9; }
@@ -795,8 +825,10 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   transform: translateY(6px);
   transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.work-card:hover .work-cue,
 .work-card:focus-visible .work-cue { opacity: 1; transform: translateY(0); }
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .work-cue { opacity: 1; transform: translateY(0); }
+}
 
 .work-pages {
   display: grid;
@@ -864,6 +896,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   color: var(--text-muted);
 }
 .work-stats dd {
+  font-variant-numeric: tabular-nums lining-nums;
   font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 600;
@@ -914,7 +947,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   border-color: transparent;
   display: flex;
 }
-.work-card.is-concept:hover { background: var(--tint-hover); border-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .work-card.is-concept:hover { background: var(--tint-hover); border-color: transparent; }
+}
 .work-concept-inner {
   display: flex;
   flex-direction: column;
@@ -1006,6 +1041,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 .tier-name { font-size: 1.5rem; }
 .tier-price {
+  font-variant-numeric: tabular-nums lining-nums;
   font-family: var(--font-serif);
   font-size: 2.4rem;
   font-weight: 600;
@@ -1080,7 +1116,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 .care-line strong { font-weight: 600; }
 .care-line a { color: var(--accent-hover); text-decoration: none; }
-.care-line a:hover { text-decoration: underline; }
+@media (hover: hover) and (pointer: fine) {
+  .care-line a:hover { text-decoration: underline; }
+}
 
 /* ---------- Care plan breakdown ---------- */
 .care-breakdown {
@@ -1142,7 +1180,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   padding-top: var(--s-3);
 }
 .care-addons-note a { color: var(--accent-hover); text-decoration: none; }
-.care-addons-note a:hover { text-decoration: underline; }
+@media (hover: hover) and (pointer: fine) {
+  .care-addons-note a:hover { text-decoration: underline; }
+}
 
 /* ---------- Website Fix-Up band ---------- */
 .fixup-band {
@@ -1177,6 +1217,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 .compare-wrap { width: 100%; }
 .compare-table {
+  font-variant-numeric: tabular-nums lining-nums;
   width: 100%;
   border-collapse: collapse;
   font-size: 1rem;
@@ -1290,7 +1331,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .about-copy p { margin-top: var(--s-3); color: var(--text); }
 .about-copy .section-title { margin-top: var(--s-1); }
 .about-copy p a { color: var(--accent-hover); text-decoration: none; border-bottom: 1px solid var(--link-line); }
-.about-copy p a:hover { border-bottom-color: var(--accent-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .about-copy p a:hover { border-bottom-color: var(--accent-hover); }
+}
 .about-copy .btn { margin-top: var(--s-4); }
 
 /* credential chips */
@@ -1352,10 +1395,12 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   gap: var(--s-2);
 }
 
-.review-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 40px -22px rgba(26, 26, 26, 0.35);
-  border-color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -22px rgba(26, 26, 26, 0.35);
+    border-color: var(--ink);
+  }
 }
 
 /* "Read more" cue on hover */
@@ -1374,8 +1419,10 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   transition: opacity 0.2s var(--ease);
   pointer-events: none;
 }
-.review-card:hover::after,
 .review-card:focus-visible::after { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .review-card:hover::after { opacity: 1; }
+}
 
 .review-card-stars {
   font-size: 0.95rem;
@@ -1464,11 +1511,13 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   position: relative;
   z-index: 1;
   background: var(--bg);
-  border-radius: 4px;
+  border-radius: var(--radius-card);
   max-width: 560px;
   width: 100%;
   max-height: 90vh;
+  max-height: 90dvh; /* the visible height, with the phone's address bar showing */
   overflow-y: auto;
+  overscroll-behavior: contain; /* scrolling the review never scrolls the page behind */
   padding: clamp(1.5rem, 5vw, 2.5rem);
   display: flex;
   flex-direction: column;
@@ -1494,7 +1543,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   transition: border-color 0.2s, color 0.2s;
   line-height: 1;
 }
-.review-modal-close:hover { border-color: var(--text); color: var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  .review-modal-close:hover { border-color: var(--text); color: var(--text); }
+}
 
 .review-modal-stars {
   font-size: 1.1rem;
@@ -1551,6 +1602,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 .step { border-top: 2px solid var(--ink); padding-top: var(--s-2); }
 .step-num {
+  font-variant-numeric: tabular-nums;
   display: block;
   font-family: var(--font-mono);
   font-size: 1.05rem;
@@ -1699,7 +1751,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 
 .process-cta { display: flex; justify-content: center; margin-top: clamp(56px, 8vw, 96px); }
 .panel-dark .btn-primary { background: var(--panel-text); color: #101512; }
-.panel-dark .btn-primary:hover { background: #FFFFFF; }
+@media (hover: hover) and (pointer: fine) {
+  .panel-dark .btn-primary:hover { background: #FFFFFF; }
+}
 
 /* the line draws itself top to bottom when the timeline comes into view
    (main.js adds .will-draw only when motion is allowed, so without JS it's simply there) */
@@ -1716,7 +1770,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 
 .faq-more { margin-top: var(--s-4); color: var(--text); text-align: center; }
 .faq-more a { color: var(--accent-hover); text-decoration: none; border-bottom: 1px solid var(--link-line); }
-.faq-more a:hover { border-bottom-color: var(--accent-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .faq-more a:hover { border-bottom-color: var(--accent-hover); }
+}
 
 /* ---------- Start a project ---------- */
 .start-project-inner { max-width: 44rem; margin-inline: auto; }
@@ -1823,7 +1879,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   cursor: pointer;
   transition: border-color 0.15s var(--ease), background 0.15s var(--ease), color 0.15s var(--ease), transform 0.15s var(--ease);
 }
-.pill:hover { border-color: var(--text-muted); }
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover { border-color: var(--text-muted); }
+}
 .pill.is-selected {
   background: var(--accent-hover);
   border-color: var(--accent-hover);
@@ -1950,13 +2008,15 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 .faq-a p + p { margin-top: var(--s-2); }
 .faq-a a { color: var(--accent-hover); text-decoration: none; }
-.faq-a a:hover { text-decoration: underline; }
+@media (hover: hover) and (pointer: fine) {
+  .faq-a a:hover { text-decoration: underline; }
+}
 
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--dark-bg);
   color: var(--dark-text);
-  padding-block: clamp(48px, 7vw, 80px) var(--s-4);
+  padding-block: clamp(48px, 7vw, 80px) calc(var(--s-4) + env(safe-area-inset-bottom, 0px));
   margin-top: var(--s-4);
 }
 .footer-inner {
@@ -1997,7 +2057,10 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   overflow-wrap: break-word;
   transition: color 0.15s var(--ease);
 }
-.footer-nav a:hover, .footer-contact a:hover { color: var(--accent-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .footer-nav a:hover,
+  .footer-contact a:hover { color: var(--accent-on-dark); }
+}
 
 .footer-base {
   display: flex;
@@ -2009,7 +2072,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   color: rgba(238, 243, 239, 0.55);
 }
 .footer-base a { color: rgba(238, 243, 239, 0.75); text-decoration: none; }
-.footer-base a:hover { color: var(--accent-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .footer-base a:hover { color: var(--accent-on-dark); }
+}
 
 /* ---------- Scroll reveal ---------- */
 .reveal {
@@ -2126,12 +2191,8 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   animation: ink-draw 300ms var(--ease) 380ms forwards;
 }
 
-/* Hover lifts only on devices with a real pointer, so tapped cards don't
-   stay stuck lifted on phones */
-@media (hover: none) {
-  .btn-primary:hover, .btn-ghost:hover, .primary-nav a.nav-cta:hover,
-  .work-card:hover, .review-card:hover { transform: none; box-shadow: var(--shadow-card); }
-}
+/* Every :hover rule sits behind (hover: hover) and (pointer: fine), so a tap on a
+   phone never leaves a card lifted or a button darkened. */
 
 /* Press feedback: the page confirms it heard the tap */
 .btn:active, .pill:active, .primary-nav a.nav-cta:active {
@@ -2152,7 +2213,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   text-decoration: none;
   color: var(--text-muted);
 }
-.back-link:hover { color: var(--accent-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .back-link:hover { color: var(--accent-hover); }
+}
 .local-hero { padding-bottom: clamp(24px, 4vw, 40px); }
 .local-title {
   font-size: clamp(2.2rem, 6vw, 3.25rem);
@@ -2278,6 +2341,91 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   .hero-actions .btn { flex: 1 1 auto; }
   /* stack the category tag under the text so descriptions get the full card width */
   .work-meta { flex-direction: column; }
+}
+
+/* ---------- Touch, phones and modern-browser polish ---------- */
+
+/* Bigger hit areas than the visible control: an invisible ring brings small
+   icon buttons up to a 44px target without changing how they look. */
+.theme-toggle { position: relative; } /* the close button is already absolutely placed */
+.theme-toggle::before,
+.review-modal-close::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+}
+.review-modal-close { width: 36px; height: 36px; }
+
+/* Continuous (squircle) corners where the browser can draw them. A squircle
+   reads smaller than a circular corner at the same radius, so the radii grow
+   to keep the same visual weight. Other browsers keep today's round corners. */
+@supports (corner-shape: squircle) {
+  :root { --radius-card: 26px; --radius-tile: 19px; }
+  .work-card, .hero-frame, .tier, .review-card, .review-modal-box, .float-card,
+  .services-list, .start-project-form, .optional-details, .about-photo,
+  .art-card, .step-icon {
+    corner-shape: squircle;
+  }
+}
+
+/* Page-to-page navigation (home ↔ area pages, privacy, terms) cross-fades
+   instead of flashing white, and the nav capsule stays put. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .site-header .header-inner { view-transition-name: site-nav; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 220ms; }
+}
+/* Theme switch: the whole page cross-fades between light and dark */
+::view-transition-old(root),
+::view-transition-new(root) { animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+
+/* Blurred placeholders: a tiny inline preview of each screenshot shows while
+   the real image loads, so frames never sit empty on a slow connection. */
+.lqip {
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+}
+
+/* Review on a phone: a bottom sheet you can swipe down to close */
+.sheet-handle { display: none; }
+@media (max-width: 560px) {
+  .review-modal { align-items: flex-end; padding: 0; transition: display 240ms allow-discrete; }
+  .review-modal-box {
+    max-width: none;
+    max-height: 88dvh;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    padding-bottom: calc(clamp(1.5rem, 5vw, 2.5rem) + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1), opacity 160ms ease;
+    opacity: 1;
+  }
+  .review-modal.open .review-modal-box { transform: none; transition-duration: 380ms; }
+  .review-modal-box.is-dragging { transition: none; }
+  @starting-style {
+    .review-modal.open .review-modal-box { opacity: 1; transform: translateY(100%); }
+  }
+  .sheet-handle {
+    display: block;
+    flex: none;
+    width: 100%;
+    height: 28px;
+    margin: calc(-1 * clamp(1.5rem, 5vw, 2.5rem)) 0 calc(-1 * var(--s-2));
+    touch-action: none; /* this strip owns the drag */
+    cursor: grab;
+  }
+  .sheet-handle::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin: 10px auto 0;
+    border-radius: 999px;
+    background: var(--hairline);
+  }
 }
 
 /* ---------- Reduced motion ---------- */
