@@ -6,7 +6,7 @@
 
   var root = document.documentElement;
   var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-  var COLORS = { light: "#F3F5F1", dark: "#0E1311" };
+  var COLORS = { light: "#FFFFFF", dark: "#0A0A0A" };
 
   function current() {
     var set = root.getAttribute("data-theme");
@@ -33,7 +33,14 @@
 
   Array.prototype.forEach.call(document.querySelectorAll(".theme-toggle"), function (btn) {
     btn.addEventListener("click", function () {
-      choose(current() === "dark" ? "light" : "dark");
+      var next = current() === "dark" ? "light" : "dark";
+      // cross-fade the whole page between themes where the browser supports it
+      var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (document.startViewTransition && !still) {
+        document.startViewTransition(function () { choose(next); });
+      } else {
+        choose(next);
+      }
     });
   });
 
