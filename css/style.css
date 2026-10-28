@@ -612,28 +612,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   .hero-showcase-cap { margin-top: 56px; }
 }
 
-/* ---------- Ownership value strip ---------- */
-.value-strip {
-  padding-block: clamp(32px, 5vw, 56px);
-}
-.value-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(24px, 3vw, 40px);
-}
-.value-item { padding-top: var(--s-2); border-top: 2px solid var(--accent); }
-.value-title { font-size: 1.1rem; }
-.value-desc { margin-top: 6px; color: var(--text); font-size: 1rem; }
-@media (max-width: 780px) {
-  .value-grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
-}
-@media (max-width: 440px) {
-  .value-grid { grid-template-columns: 1fr; }
-}
-
 /* ---------- Work ---------- */
 .work-grid {
   display: grid;
@@ -927,14 +905,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   letter-spacing: 0.01em;
 }
 .tier-blurb { margin-top: var(--s-2); color: var(--text); font-size: 1rem; }
-.tier-for {
-  margin-top: var(--s-1);
-  padding-top: var(--s-1);
-  font-family: var(--font-display);
-  font-style: normal;
-  font-size: 0.92rem;
-  color: var(--text-muted);
-}
 .tier-features {
   list-style: none;
   padding: 0;
@@ -979,68 +949,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .care-line a { color: var(--accent-hover); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) {
   .care-line a:hover { text-decoration: underline; }
-}
-
-/* ---------- Care plan breakdown ---------- */
-.care-breakdown {
-  margin-top: var(--s-5);
-  padding-top: var(--s-5);
-}
-.care-breakdown-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 6vw, 72px);
-  align-items: start;
-}
-.care-breakdown-heading {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: var(--s-3);
-}
-.care-list {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: var(--s-2);
-}
-.care-list li {
-  position: relative;
-  padding-left: 1.5em;
-  font-size: 1rem;
-}
-.care-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-.care-differentiator {
-  margin-top: var(--s-3);
-  padding-left: var(--s-2);
-  border-left: 2px solid var(--accent);
-  font-size: 1rem;
-  color: var(--text-muted);
-  font-style: normal;
-  line-height: 1.6;
-}
-.care-main-text {
-  font-size: 1rem;
-  color: var(--text);
-  line-height: 1.65;
-  margin-bottom: var(--s-3);
-}
-.care-addons-note {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  padding-top: var(--s-3);
-}
-.care-addons-note a { color: var(--accent-hover); text-decoration: none; }
-@media (hover: hover) and (pointer: fine) {
-  .care-addons-note a:hover { text-decoration: underline; }
 }
 
 /* ---------- Website Fix-Up band ---------- */
@@ -1805,14 +1713,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   font-size: 0.95rem;
   max-width: 22rem;
 }
-.footer-line {
-  margin-top: var(--s-3);
-  font-family: var(--font-display);
-  font-style: normal;
-  font-size: 1rem;
-  color: rgba(245, 245, 245, 0.82);
-  max-width: 24rem;
-}
 .footer-col-title {
   font-family: var(--font-sans);
   font-size: 0.8125rem;
@@ -2045,7 +1945,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 
   .tier-grid { grid-template-columns: 1fr; max-width: 28rem; margin-inline: auto; }
   .process-steps:not(.timeline) { grid-template-columns: repeat(2, 1fr); }
-  .care-breakdown-inner { grid-template-columns: 1fr; }
 
   .footer-inner { grid-template-columns: 1fr 1fr; gap: var(--s-4) var(--s-3); }
   .footer-brand { grid-column: 1 / -1; }
@@ -2160,7 +2059,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .site-footer.on-mat .footer-inner { padding-top: var(--s-3); }
 .on-mat .footer-tag, .on-mat .footer-col-title, .on-mat .footer-base,
 .on-mat .footer-nav a, .on-mat .footer-contact a, .on-mat .footer-base a { color: var(--on-mat-muted); }
-.on-mat .footer-line { color: var(--on-mat); }
 .footer-mark {
   margin: clamp(32px, 6vw, 72px) 0 0;
   padding-inline: var(--mat-edge);

@@ -89,6 +89,13 @@ function watchClose(onClose) {
     });
   }
 
+  /* ---- Links to an FAQ answer open it, so the reader lands on the answer ---- */
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest && e.target.closest('a[href^="#faq-"]');
+    var item = link && document.getElementById(link.getAttribute("href").slice(1));
+    if (item && item.tagName === "DETAILS") item.open = true;
+  });
+
   /* ---- 3. Scroll reveal ---- */
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -96,7 +103,7 @@ function watchClose(onClose) {
   // Cards in a row cascade in: each gets its index (capped at 4) as --i, which
   // the CSS turns into a 60ms-per-item delay.
   Array.prototype.forEach.call(
-    document.querySelectorAll(".value-grid, .services-list, .tier-grid, .process-steps, .review-scatter"),
+    document.querySelectorAll(".services-list, .tier-grid, .process-steps, .review-scatter"),
     function (group) {
       Array.prototype.forEach.call(group.children, function (child, i) {
         if (child.classList.contains("reveal")) child.style.setProperty("--i", Math.min(i, 4));
