@@ -217,6 +217,28 @@ function watchClose(onClose) {
     startIntro();
   }
 
+  /* ---- Cutting mats: number the ruler along the top edge, one mark per
+     5-square block, like a real mat. Purely decorative (the mat is aria-hidden). */
+  var rulers = document.querySelectorAll(".mat-ruler");
+  function numberRulers() {
+    Array.prototype.forEach.call(rulers, function (ruler) {
+      var block = parseFloat(getComputedStyle(ruler).getPropertyValue("--mat-block")) || 120;
+      var count = Math.floor(ruler.clientWidth / block);
+      if (ruler.childElementCount === count) return;
+      var html = "";
+      for (var n = 1; n <= count; n++) html += "<span style=\"left:" + (n * block) + "px\">" + n + "</span>";
+      ruler.innerHTML = html;
+    });
+  }
+  if (rulers.length) {
+    numberRulers();
+    var rulerTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(rulerTimer);
+      rulerTimer = setTimeout(numberRulers, 150);
+    });
+  }
+
   /* ---- 3. Scroll reveal ---- */
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -437,7 +459,6 @@ function watchClose(onClose) {
 
   const backdrop  = document.getElementById('review-modal-backdrop');
   const closeBtn  = document.getElementById('review-modal-close');
-  const starsEl   = document.getElementById('review-modal-stars');
   const textEl    = document.getElementById('review-modal-text');
   const nameEl    = document.getElementById('review-modal-name');
   const metaEl    = document.getElementById('review-modal-meta');
@@ -446,12 +467,10 @@ function watchClose(onClose) {
     const fullDiv = card.querySelector('.review-full');
     if (!fullDiv) return;
 
-    var starsNode  = card.querySelector('.review-card-stars');
     var nameNode   = card.querySelector('.review-card-name');
     var sourceNode = card.querySelector('.review-card-source');
     var avatarNode = card.querySelector('.review-card-avatar');
 
-    starsEl.textContent = starsNode  ? starsNode.textContent  : '★★★★★';
     nameEl.textContent  = nameNode   ? nameNode.textContent   : '';
     metaEl.textContent  = sourceNode ? sourceNode.textContent : '';
 
