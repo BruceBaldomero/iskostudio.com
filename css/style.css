@@ -125,6 +125,7 @@ html {
   scroll-padding-top: 96px; /* offset for the floating header */
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent; /* every control has its own :active state */
+  overflow-x: hidden; /* fallback for browsers without clip */
   overflow-x: clip; /* clip, not hidden: hidden turns the page into a scroll box and breaks position: sticky */
 }
 
@@ -145,6 +146,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden; /* fallback for browsers without clip */
   overflow-x: clip; /* clip, not hidden: hidden turns the page into a scroll box and breaks position: sticky */
 }
 
@@ -1543,15 +1545,8 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   .panel-dark .btn-primary:hover { background: #FFFFFF; }
 }
 
-/* the line draws itself top to bottom when the timeline comes into view
-   (main.js adds .will-draw only when motion is allowed, so without JS it's simply there) */
-.timeline.will-draw::before { transform: scaleY(0); transition: transform 1600ms var(--ease); }
-.timeline.will-draw.is-drawn::before { transform: none; }
-
 @media (max-width: 760px) {
-  .timeline::before { left: 5px; }
-  .timeline .step { grid-template-columns: 1fr; gap: var(--s-4); padding-left: 36px; }
-  .timeline .step::before { left: 5px; top: 20px; }
+  .timeline .step { grid-template-columns: 1fr; gap: var(--s-4); }
   .timeline .step:nth-child(even) .step-text { order: 0; }
   .timeline .step-art { justify-content: flex-start; }
 }
@@ -1627,11 +1622,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .field.has-error select {
   border-color: var(--err-field);
   box-shadow: 0 0 0 3px rgba(194, 59, 59, 0.12); /* taste-skill-ignore: error ring on a form field */
-}
-.field-error-msg {
-  margin-top: 6px;
-  font-size: 0.85rem;
-  color: var(--err-fg);
 }
 .form-validation-note {
   margin-top: var(--s-3);
@@ -2354,7 +2344,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   :root { --radius-card: 26px; --radius-tile: 19px; }
   .work-card, .hero-frame, .tier, .review-card, .review-modal-box, .float-card,
   .services-list, .start-project-form, .optional-details, .about-photo,
-  .art-card, .step-icon {
+  .art-card {
     corner-shape: squircle;
   }
 }
