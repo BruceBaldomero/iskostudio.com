@@ -130,7 +130,7 @@ html {
   scroll-padding-top: 96px; /* offset for the floating header */
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent; /* every control has its own :active state */
-  overflow-x: hidden;
+  overflow-x: clip; /* clip, not hidden: hidden turns the page into a scroll box and breaks position: sticky */
 }
 
 /* Taps fire straight away (no double-tap-zoom wait), and a long press on a
@@ -150,7 +150,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip, not hidden: hidden turns the page into a scroll box and breaks position: sticky */
 }
 
 img { max-width: 100%; display: block; height: auto; }
@@ -463,9 +463,8 @@ p, li, dd, blockquote { text-wrap: pretty; }
 /* ---------- Hero ---------- */
 /* the floating header overlaps the hero so its texture runs to the top edge */
 body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
-.hero {
-  padding-block: calc(68px + clamp(56px, 12vw, 128px)) clamp(72px, 10vw, 120px);
-}
+.hero { padding: 0; }
+.hero-pin { padding-block: calc(68px + clamp(56px, 12vw, 128px)) clamp(72px, 10vw, 120px); }
 .hero-inner { max-width: 68rem; text-align: center; }
 .hero-sub, .hero-microcopy { margin-inline: auto; }
 .hero-showcase { text-align: left; }
@@ -1886,7 +1885,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 /* Hero intro: the hero sits behind misted glass that the visitor wipes clear.
    Only runs when the head script adds .intro (first visit this session, motion allowed).
    main.js paints the wiped areas into a small canvas and uses it as the fog's mask. */
-.hero { position: relative; overflow: hidden; }
+.hero { position: relative; overflow: clip; }
 .hero-fog { display: none; }
 .intro .hero-fog {
   display: block;
@@ -2137,7 +2136,8 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   --mat-block: 120px; /* five squares */
   --mat-edge: clamp(12px, 2.4vw, 32px);
 }
-.on-mat > :not(.mat) { position: relative; z-index: 1; }
+.on-mat > :not(.mat), .mat-stage > :not(.mat) { position: relative; z-index: 1; }
+.mat-stage { position: relative; }
 .mat { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .mat-grid {
   position: absolute;
@@ -2156,14 +2156,23 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   overflow: visible;
 }
 .mat-diag line { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1; }
-/* light through reeded glass, drifting slowly across the mat */
+/* light through reeded glass, swaying gently across the mat, the way
+   sunlight through rippled glass moves when the air does */
 .mat-light {
   position: absolute;
-  inset: -12%;
+  inset: -14%;
+  transform-origin: 30% 0;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='none'%3E%3Cfilter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='34'/%3E%3C/filter%3E%3Cg filter='url(%23b)' fill='black' transform='rotate(-32 800 500)'%3E%3Crect x='-400' y='40' width='2400' height='120' fill-opacity='.30'/%3E%3Crect x='-400' y='250' width='2400' height='70' fill-opacity='.22'/%3E%3Crect x='-400' y='400' width='2400' height='150' fill-opacity='.34'/%3E%3Crect x='-400' y='640' width='2400' height='90' fill-opacity='.24'/%3E%3Crect x='-400' y='820' width='2400' height='130' fill-opacity='.30'/%3E%3Crect x='-400' y='1040' width='2400' height='80' fill-opacity='.2'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  animation: mat-drift 28s ease-in-out infinite alternate;
+  animation: mat-sway 9s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
-@keyframes mat-drift { to { transform: translate3d(5%, 3%, 0); } }
+@keyframes mat-sway {
+  0%   { transform: rotate(-1.6deg) translate3d(-1.5%, 0, 0); }
+  45%  { transform: rotate(0.8deg) translate3d(1%, 0.6%, 0); }
+  100% { transform: rotate(1.8deg) translate3d(2.2%, 1%, 0); }
+}
+/* each mat sways on its own beat, so they never move in lockstep */
+.process .mat-light { animation-duration: 11s; animation-delay: -4s; }
+.site-footer .mat-light { animation-duration: 13s; animation-delay: -7s; }
 /* the ruler: ticks along the bottom edge, a number every five squares */
 .mat-ruler {
   position: absolute;
@@ -2199,7 +2208,8 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .hero.on-mat .hero-actions { gap: var(--s-4); }
 
 /* how it works: the steps laid out on the mat */
-.process.on-mat { padding-block: clamp(96px, 13vw, 168px); }
+.process.on-mat { padding-block: 0; }
+.process-pin { padding-block: clamp(96px, 13vw, 168px); }
 .on-mat .panel { background: none; padding: 0; border-radius: 0; }
 .on-mat .step-desc { color: var(--on-mat-muted); }
 .on-mat .art-card { background: #111312; } /* solid, like an object laid on the mat */
@@ -2229,6 +2239,113 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 
 /* the thank-you page borrows the hero type at a size that keeps two lines */
 .ty-hero .hero-title { font-size: clamp(2.6rem, 8vw, 5.5rem); }
+
+/* ---------- Scroll scenes ----------
+   Two stretches of the page hold still while you scroll, and the scroll drives
+   what happens on the mat (CSS scroll-driven animations: no library, runs off
+   the main thread). Everywhere else, and for anyone who prefers reduced
+   motion, the same sections are laid out normally, exactly as above.
+   1. First screen: the headline lifts away and the work rises from the bottom
+      of the mat until it fills the screen.
+   2. How it works: one step at a time on the mat, while the 45° line is cut. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 900px) and (min-height: 620px) {
+
+    /* 1. the work rises */
+    .scene-hero { height: 240svh; view-timeline: --hero-scene block; }
+    .scene-hero .hero-pin {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: clip;
+      padding-block: calc(68px + clamp(28px, 6svh, 64px)) 0;
+    }
+    .scene-hero .hero-inner { position: static; }
+    .scene-hero .hero-title { font-size: clamp(3rem, min(12.5vw, 16svh), 8.25rem); }
+    .scene-hero .hero-copy,
+    .scene-hero .hero-stage,
+    .scene-hero .hero-showcase-cap {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --hero-scene;
+      animation-range: contain 0% contain 100%;
+    }
+    .scene-hero .hero-copy { animation-name: hero-lift; }
+    .scene-hero .hero-showcase {
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      width: min(1100px, 84vw);
+      margin: 0;
+      translate: -50% -50%;
+      z-index: 2;
+    }
+    .scene-hero .hero-stage { animation-name: hero-rise; transform-origin: 50% 40%; will-change: transform; }
+    .scene-hero .hero-showcase-cap { animation-name: hero-cap; }
+    @keyframes hero-lift {
+      0%, 6% { opacity: 1; transform: none; }
+      36%, 100% { opacity: 0; transform: translateY(-12svh) scale(0.96); visibility: hidden; }
+    }
+    @keyframes hero-rise {
+      0% { transform: translateY(74svh) scale(0.78); }
+      72%, 100% { transform: translateY(0) scale(1.04); }
+    }
+    @keyframes hero-cap {
+      0%, 66% { opacity: 0; }
+      82%, 100% { opacity: 1; }
+    }
+
+    /* 2. one step at a time, and the cut */
+    .scene-steps { height: 440svh; view-timeline: --steps block; }
+    .scene-steps .process-pin {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: clip;
+      display: flex;
+      align-items: center;
+      padding-block: 88px 48px;
+    }
+    .scene-steps .process-pin > .container { width: 100%; }
+    .scene-steps .section-head { margin-bottom: clamp(24px, 4svh, 40px); }
+    .scene-steps .process-steps.timeline { display: grid; gap: 0; margin-top: 0; }
+    .scene-steps .timeline .step {
+      grid-area: 1 / 1;
+      animation: step linear both;
+      animation-timeline: --steps;
+      animation-range: contain calc(var(--i) * 25%) contain calc(var(--i) * 25% + 25%);
+    }
+    .scene-steps .timeline .step:nth-child(1) { --i: 0; animation-name: step-first; }
+    .scene-steps .timeline .step:nth-child(2) { --i: 1; }
+    .scene-steps .timeline .step:nth-child(3) { --i: 2; }
+    .scene-steps .timeline .step:nth-child(4) { --i: 3; animation-name: step-last; }
+    .scene-steps .process-cta { margin-top: clamp(24px, 5svh, 56px); }
+    .scene-steps .mat-diag {
+      animation: mat-cut linear both;
+      animation-timeline: --steps;
+      animation-range: contain 0% contain 100%;
+    }
+    /* a step that has faded out is hidden too, so it can't be read,
+       focused or clicked through the one on show */
+    @keyframes step {
+      0% { opacity: 0; translate: 0 6svh; visibility: hidden; }
+      10%, 90% { opacity: 1; translate: 0 0; visibility: visible; }
+      100% { opacity: 0; translate: 0 -6svh; visibility: hidden; }
+    }
+    @keyframes step-first {
+      0%, 90% { opacity: 1; translate: 0 0; visibility: visible; }
+      100% { opacity: 0; translate: 0 -6svh; visibility: hidden; }
+    }
+    @keyframes step-last {
+      0% { opacity: 0; translate: 0 6svh; visibility: hidden; }
+      10%, 100% { opacity: 1; translate: 0 0; visibility: visible; }
+    }
+    @keyframes mat-cut {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+  }
+}
 
 /* ---------- Components without ornaments ---------- */
 /* Services: a list set in large type, not a grid of icon cards */
