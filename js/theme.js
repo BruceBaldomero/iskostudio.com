@@ -6,7 +6,13 @@
 
   var root = document.documentElement;
   var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  // The browser-bar colour for each theme comes from the page's own theme-color
+  // tags (the homepage opens on the green cutting mat, the other pages on white).
   var COLORS = { light: "#FFFFFF", dark: "#0A0A0A" };
+  Array.prototype.forEach.call(document.querySelectorAll('meta[name="theme-color"][media]'), function (m) {
+    var scheme = /dark/.test(m.getAttribute("media")) ? "dark" : "light";
+    COLORS[scheme] = m.getAttribute("content");
+  });
 
   function current() {
     var set = root.getAttribute("data-theme");

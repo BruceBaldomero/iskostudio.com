@@ -23,8 +23,8 @@
   <meta name="twitter:description" content="Get found on Google. Look credible online. Win more customers. Done for you, fairly priced, looked after every month." />
   <meta name="twitter:image" content="https://iskostudio.com/img/og-image.png" />
 
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#176B55" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F4A3A" />
   <meta name="google-site-verification" content="0fy1DH1M7Z_50Q0hAsdX2ghNnSm-XKpb4zjzLngG25E" />
 
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
@@ -39,8 +39,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&text=ISKO.&display=swap" rel="stylesheet" />
 
   <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <script>try{if(!location.hash&&!sessionStorage.getItem("introSeen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=20261028" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
 
@@ -110,9 +109,11 @@
 
     <!-- ============ HERO ============ -->
     <!-- The first screen is a cutting mat: the surface every ISKO site is made on -->
-    <section class="hero on-mat">
+    <section class="hero on-mat scene-hero" aria-label="ISKO Studio: get online, get found">
+      <div class="mat-stage hero-pin">
       <div class="mat" aria-hidden="true"><div class="mat-light"></div><div class="mat-grid"><svg class="mat-diag" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="100" x2="100" y2="0" vector-effect="non-scaling-stroke"/></svg></div><div class="mat-ruler"></div></div>
       <div class="container hero-inner">
+        <div class="hero-copy">
         <h1 class="hero-title reveal">Get online. Get&nbsp;found.</h1>
         <p class="hero-sub reveal">Then get back to running your business. Your website, built to get you found, make you look the part and bring in more customers.</p>
         <div class="hero-actions reveal">
@@ -120,12 +121,11 @@
           <a class="btn-text" href="#pricing">View pricing <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
         <p class="hero-microcopy reveal">Tell me what you need and I'll come back within 24 hours with a straight answer. <a href="#contact">Limited free homepage concepts for local businesses: ask for one.</a></p>
+        </div>
 
         <!-- Real client work under the hero; floating cards only state facts from the project -->
         <figure class="hero-showcase">
           <div class="hero-stage">
-          <!-- Intro: reeded glass over the work that the visitor wipes clear, once per visit (decorative only) -->
-          <div class="hero-fog" aria-hidden="true"><span class="hero-fog-hint">Move your cursor to wipe the glass</span></div>
           <a class="hero-frame browser-frame" href="https://mukhafaceyoga.com" target="_blank" rel="noopener">
             <span class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser-url">mukhafaceyoga.com</span></span>
             <img class="lqip" style="background-image:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwBACdASoUAAsAPu1iqU2ppaOiMAgBMB2JYgCdMoRwACWa2CX4Z3J2gRAA/Z0yS7vPTt7F+7Z3eGXW23DLBE+IWhLE998+x07m6zJ7qVkP9vV1HmMf5Y7Q+RoQAA==)" src="img/mukha-desktop-hero.webp" alt="Mukha Face Yoga homepage on desktop, designed and built by ISKO Studio" width="1400" height="773" fetchpriority="high" />
@@ -145,6 +145,7 @@
           </div>
           <figcaption class="hero-showcase-cap">Recent project: Mukha Face Yoga, London</figcaption>
         </figure>
+      </div>
       </div>
     </section>
 
@@ -512,7 +513,8 @@
     </div>
 
     <!-- ============ PROCESS ============ -->
-    <section class="section process panel-dark on-mat" id="process">
+    <section class="section process panel-dark on-mat scene-steps" id="process">
+      <div class="mat-stage process-pin">
       <div class="mat" aria-hidden="true"><div class="mat-light"></div><div class="mat-grid"><svg class="mat-diag" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="100" x2="100" y2="0" vector-effect="non-scaling-stroke"/></svg></div><div class="mat-ruler"></div></div>
       <div class="container">
        <div class="panel reveal">
@@ -593,6 +595,7 @@
           <a class="btn btn-primary" href="#contact">Start with a quick chat</a>
         </div>
        </div>
+      </div>
       </div>
     </section>
 
@@ -869,7 +872,7 @@
     <p class="footer-mark" aria-hidden="true">ISKO<span class="wordmark-dot">.</span></p>
   </footer>
 
-  <script src="js/main.js" defer></script>
-  <script src="js/theme.js" defer></script>
+  <script src="js/main.js?v=20261028" defer></script>
+  <script src="js/theme.js?v=20261028" defer></script>
 </body>
 </html>

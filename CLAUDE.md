@@ -34,7 +34,7 @@ Light theme:
 - Borders/hairlines: #E4E4E7
 - Tint (bands):      #F4F4F5
 - Logo dot:          #1F5C45 forest green on light, #7CC7A0 leaf green on dark (tokens --dot, --dot-on-dark)
-Dark contrast sections: panel #161616, panel text #F5F5F5; footer #0A0A0A.
+Dark contrast sections: panel #161616 (services), panel text #F5F5F5. The footer is on the mat.
 Dark mode exists (toggle + system preference): page #0A0A0A, ink #F5F5F5, leaf-green logo dot.
 Keep the two dark-mode token blocks identical.
 The ISKO logo is the nav wordmark: "ISKO." in Fraunces 600 (the only place Fraunces is used;
@@ -67,6 +67,14 @@ No accent colour beyond ink. Success/error colours are for form states only.
   ease-out). Smooth hover transitions (150–200ms) on links/buttons/cards.
 - No bouncing, no parallax overload, no autoplaying carousels. Respect
   prefers-reduced-motion.
+- The light on the mat sways slowly (one CSS animation per mat, stopped for reduced motion).
+- Two pinned scroll scenes, built with CSS scroll-driven animations (no GSAP, no Three.js):
+  the hero (the work rises to fill the mat) and how it works (one step at a time, the 45° cut).
+  They only switch on with @supports (animation-timeline: view()), motion allowed, and a
+  viewport at least 900px wide and 620px tall; everyone else gets the normal layout, which
+  must always read complete on its own. Text that has faded out is also visibility: hidden.
+- Page-level overflow uses `overflow-x: clip`, never `hidden`: hidden breaks position: sticky
+  (the nav and both scenes).
 
 ## Components
 - Shape: everything interactive is a full pill (border-radius 999px): buttons, nav CTA,
@@ -100,6 +108,10 @@ new colour pairing).
 Visible focus states. Keyboard navigable.
 
 ## Performance
+- Stylesheet and scripts are linked with a version query (css/style.css?v=YYYYMMDD). Bump it
+  on EVERY page whenever css/ or js/ changes, so visitors never get new HTML with old CSS.
+- Homepage budget today: about 350 KB and 15 requests; main content in ~1.8s on a throttled
+  phone; layout shift ~0. Keep it there.
 - Optimise/lazy-load images (use width/height attributes, loading="lazy", WebP if possible).
 - Load Google Fonts efficiently (preconnect, only the weights listed above).
 - Keep JS minimal and defer it.
