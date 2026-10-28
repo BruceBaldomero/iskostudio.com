@@ -35,7 +35,6 @@
   --btn-bg-hover:  #2A2A2A;
   --on-accent:     #FFFFFF;  /* text on ink-filled pills, avatars, badges */
   --header-glass:  rgba(255, 255, 255, 0.85);
-  --hero-stripe:   rgba(10, 10, 10, 0.03);
   --nav-bg:          rgba(10, 10, 10, 0.94);   /* floating capsule: always dark */
   --nav-solid:       #0A0A0A;                  /* mobile menu panel, which sits over text */
   --nav-line:        rgba(255, 255, 255, 0.10);
@@ -43,8 +42,6 @@
   --nav-text-strong: #F5F5F5;
   --nav-cta-bg:      #FFFFFF;
   --nav-cta-fg:      #0A0A0A;
-  --hero-rib-hi:   rgba(255, 255, 255, 0.6);   /* bright edge of each reeded-glass rib */
-  --hero-light:    rgba(255, 255, 255, 0.95);  /* soft light falling on the hero */
   --tint:          #F4F4F5;  /* grey bands and cards */
   --tint-hover:    #EBEBED;
   --tint-line:     #DCDCE0;
@@ -89,9 +86,8 @@
   --dot: #7CC7A0; --dot-on-dark: #7CC7A0; --mat: #0F4A3A;
   --dark-bg: #000000; --panel: #141414;
   --btn-bg: #F5F5F5; --btn-fg: #0A0A0A; --btn-bg-hover: #FFFFFF; --on-accent: #0A0A0A;
-  --header-glass: rgba(10, 10, 10, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --header-glass: rgba(10, 10, 10, 0.85);
   --nav-bg: rgba(30, 30, 30, 0.92); --nav-solid: #1C1C1C; --nav-line: rgba(255, 255, 255, 0.09);
-  --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(255, 255, 255, 0.03);
   --tint: #161616; --tint-hover: #1E1E1E; --tint-line: #2A2A2A;
   --tint-soft: #121212; --tint-soft-line: #222222; --link-line: rgba(255, 255, 255, 0.35);
   --ok-bg: #12261A; --ok-fg: #9BD8B3; --ok-line: #24503A;
@@ -106,9 +102,8 @@
   --dot: #7CC7A0; --dot-on-dark: #7CC7A0; --mat: #0F4A3A;
   --dark-bg: #000000; --panel: #141414;
   --btn-bg: #F5F5F5; --btn-fg: #0A0A0A; --btn-bg-hover: #FFFFFF; --on-accent: #0A0A0A;
-  --header-glass: rgba(10, 10, 10, 0.85); --hero-stripe: rgba(255, 255, 255, 0.03);
+  --header-glass: rgba(10, 10, 10, 0.85);
   --nav-bg: rgba(30, 30, 30, 0.92); --nav-solid: #1C1C1C; --nav-line: rgba(255, 255, 255, 0.09);
-  --hero-rib-hi: rgba(0, 0, 0, 0.22); --hero-light: rgba(255, 255, 255, 0.03);
   --tint: #161616; --tint-hover: #1E1E1E; --tint-line: #2A2A2A;
   --tint-soft: #121212; --tint-soft-line: #222222; --link-line: rgba(255, 255, 255, 0.35);
   --ok-bg: #12261A; --ok-fg: #9BD8B3; --ok-line: #24503A;
@@ -593,9 +588,6 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   color: var(--text-muted);
 }
 @keyframes float-in { from { opacity: 0; transform: translateY(10px); } }
-/* while the misted-glass intro plays, the cards wait until it has cleared */
-.intro .float-card, .intro .phone-frame { animation-play-state: paused; }
-.intro.fog-clear .float-card, .intro.fog-clear .phone-frame { animation-play-state: running; }
 
 @media (max-width: 1240px) {
   .fc-before { left: 12px; }
@@ -1882,49 +1874,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 /* ---------- Motion pass ---------- */
 @keyframes ink-draw { to { stroke-dashoffset: 0; } }
 
-/* Hero intro: the hero sits behind misted glass that the visitor wipes clear.
-   Only runs when the head script adds .intro (first visit this session, motion allowed).
-   main.js paints the wiped areas into a small canvas and uses it as the fog's mask. */
 .hero { position: relative; overflow: clip; }
-.hero-fog { display: none; }
-.intro .hero-fog {
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 5; /* above the showcase frame and its floating cards */
-  pointer-events: none;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    color-mix(in srgb, var(--bg) 48%, transparent);
-  -webkit-backdrop-filter: blur(5px) saturate(0.85); /* taste-skill-ignore: the reeded-glass intro over the work */
-  backdrop-filter: blur(5px) saturate(0.85); /* taste-skill-ignore: the reeded-glass intro over the work */
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  transition: opacity 700ms var(--ease);
-  /* failsafe: if the script never runs, the glass clears by itself */
-  animation: fog-failsafe 700ms var(--ease) 7s forwards;
-}
-.intro .hero-fog.is-clearing { opacity: 0; }
-.intro .hero-fog.is-done { display: none; }
-@keyframes fog-failsafe { to { opacity: 0; visibility: hidden; } }
-.hero-fog-hint {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--surface);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--text-muted);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 400ms var(--ease), translate 400ms var(--ease);
-}
-.hero-fog.show-hint .hero-fog-hint { opacity: 1; translate: -50% calc(-50% - 4px); }
 
 /* Review modal: fades and grows in, closes faster than it opens.
    Browsers without @starting-style / allow-discrete keep today's instant behaviour. */
