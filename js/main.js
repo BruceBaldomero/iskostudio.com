@@ -272,6 +272,11 @@ function watchClose(onClose) {
               if (child !== successMsg && child !== errorMsg) child.hidden = true;
             });
             successMsg.hidden = false;
+            // The form shrinks to one line, so the page gets shorter and the
+            // reader would be left looking at the footer: bring the section
+            // back into view and move focus to the message so it's announced.
+            document.getElementById("contact").scrollIntoView({ block: "start" });
+            successMsg.focus({ preventScroll: true });
           } else {
             return res.json().then(function (data) { throw data; });
           }

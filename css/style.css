@@ -1612,6 +1612,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   text-align: center;
 }
 .form-success { background: var(--ok-bg); color: var(--ok-fg); border: 1px solid var(--ok-line); }
+.form-success:focus { outline: none; } /* focused by script only, so the message is read out; not a control */
 .form-error   { background: var(--err-bg); color: var(--err-fg); border: 1px solid var(--err-line); }
 .form-error a { color: inherit; font-weight: 600; }
 .btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
