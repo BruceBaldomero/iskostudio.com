@@ -1,0 +1,5 @@
+# GitHub Pages builds this repo with Jekyll. These are notes for working on
+# the site, not pages, so keep them off iskostudio.com.
+exclude:
+  - CLAUDE.md
+  - README.md
