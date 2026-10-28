@@ -18,9 +18,13 @@ no Inter-everywhere, no identical rounded cards, no gratuitous gradients, no emo
 ## Colour palette (source of truth: the tokens at the top of css/style.css)
 Black and white. The page is pure white with neutral greys and near-black ink, so the client
 work shown on it brings the colour. Deliberately NOT warm cream/off-white paper (that reads as
-the generic "AI assistant" look). The only colour is the green dot in the logo: it is for Isko,
-the friend the studio is named after, and the forests of Pilar, Abra, in the Philippines where
-we grew up. Nothing else on the site is green.
+the generic "AI assistant" look). The green dot in the logo is for Isko, the friend the studio
+is named after, and the forests of Pilar, Abra, in the Philippines where we grew up.
+The one field of colour is the CUTTING MAT (token --mat): every ISKO site is made on one, so a
+self-healing cutting mat is the ground of the first screen, "how it works" and the footer.
+Mat: --mat #176B55 (dark mode #0F4A3A), white ink on it (6.4:1), muted #DCEBE4 (5.2:1). Its
+grid, 45° cutting line, numbered ruler and the soft light through reeded glass are drawn in CSS
+(the .mat block in style.css); change the colour with the token only.
 Light theme:
 - Background:        #FFFFFF
 - Surface (cards):   #F4F4F5  (one tone step below the page)
@@ -44,8 +48,8 @@ No accent colour beyond ink. Success/error colours are for form states only.
   design-taste-frontend skill's type system for this direction.
 - Display (hero, section titles, prices): weight 800, tracking -0.04 to -0.045em, leading ~1.
 - Smaller headings (h3): weight 700, tracking -0.03em. Body: weight 400, line-height 1.6.
-- Type scale (desktop): h1 ~3.8rem (two lines down to tablet width), h2 ~3rem, h3 ~1.4rem,
-  body 1.0625rem, small 0.875rem.
+- Type scale (desktop): h1 ~8rem (the one big thing; two lines at every width, so keep it to
+  about 22 characters), h2 ~3rem, h3 ~1.4rem, body 1.0625rem, small 0.875rem. Nothing under 13px.
 - No serif, no monospace, no italics in running copy. The logo is the only exception (Fraunces).
 - Headlines are one colour: no coloured, underlined or italic accent word.
 
@@ -55,7 +59,7 @@ No accent colour beyond ink. Success/error colours are for form states only.
   vertical rhythm (96–128px between major sections on desktop).
 - Mobile-first and fully responsive. Test single-column down to 360px.
 - Centred spine: the nav is a centred floating capsule, so the hero and every section
-  heading (eyebrow, title, lead) are centred to line up with it. Section BODIES still
+  heading (title, lead) are centred to line up with it. Section BODIES still
   vary: asymmetric two-column about, alternating timeline rows, grids for work and pricing.
 
 ## Motion
@@ -68,18 +72,20 @@ No accent colour beyond ink. Success/error colours are for form states only.
 - Shape: everything interactive is a full pill (border-radius 999px): buttons, nav CTA,
   tags, chips. Cards and frames use --radius-card (16px); icon tiles and small floating
   cards --radius-tile (12px); inputs and tiny chips --radius (5px).
-- Depth: white cards on cream with a hairline border and the soft, wide --shadow-card;
-  --shadow-lift on hover. Nothing harsh.
+- Depth: no shadows and no 1px outlines on things at rest. Cards are a fill one tone off the
+  page (#F4F4F5 on white). Only the sticky nav, the open mobile menu and the dialog cast a shadow.
 - Corners: where the browser supports `corner-shape: squircle`, cards and tiles get continuous
   corners with slightly larger radii (set once in the @supports block in style.css).
 - Touch: every :hover rule lives inside `@media (hover: hover) and (pointer: fine)`; every
   control has an :active press state; small icon buttons get a 44px hit area.
-- Buttons: solid near-black pill primary with off-white text; ghost/outline pill
-  secondary. Show them as a pair where it makes sense. Subtle hover (darken or lift).
+- Buttons: solid near-black pill primary with white text (white with ink text on the mat);
+  the secondary is a quiet grey-filled pill or a text link with an arrow. Subtle hover.
 - Cards (work items): image-led, real client screenshots in a browser frame, minimal
   text, hover reveals a small "View" cue. Consistent aspect ratios.
 - Links in body: ink, underline on hover.
-- Eyebrow labels: small, uppercase, tracked, ink, above section headings.
+- No eyebrow labels, pill badges or "Step 01" numbers above headings, no small uppercase tracked
+  labels, no icons in tinted squares, no star characters. Put the information in the heading or
+  the first sentence. Check changes with the design-taste-frontend skill's lint and inspect scripts.
 - Show, don't describe: put real work and real artefacts next to claims. Never invent
   dashboards, stats or results.
 
