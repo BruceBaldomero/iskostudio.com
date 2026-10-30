@@ -5,6 +5,9 @@ Follow it on every decision. Do not deviate from the palette, type, or spacing w
 
 Business knowledge (offer, prices, process, accounts, leads) is not kept in this public repo. It lives
 in the owner's private Google Drive folder "ISKO Studio — Ops": read `00 START HERE — ISKO HQ.md` there first.
+Standing rule: when something changes that the owner's ISKO Client Journey page or that HQ file covers
+(leads, prices, offer, forms, accounts, rules, or this website), tell the owner in one line and offer to
+update both.
 
 ## What this is
 A portfolio/marketing site for ISKO Studio — a web design studio that builds clean,
