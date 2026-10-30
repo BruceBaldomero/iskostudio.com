@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Page not found — ISKO Studio</title>
   <meta name="robots" content="noindex" />
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="img/favicon-48.png" sizes="48x48" type="image/png" />
-  <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&display=swap" rel="stylesheet" />
@@ -16,7 +16,7 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
   <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="css/style.css?v=20261030c" />
+  <link rel="stylesheet" href="/css/style.css?v=20261030d" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
   <style>
@@ -28,12 +28,12 @@
       justify-content: center;
       padding-block: var(--s-7);
     }
-    .not-found-num {
-      font-family: var(--font-serif);
+    .not-found .not-found-num {
+      font-family: var(--font-display);
       font-size: clamp(6rem, 20vw, 12rem);
-      font-weight: 600;
+      font-weight: 800;
       line-height: 1;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.045em;
       color: var(--hairline);
     }
     .not-found h1 {
@@ -46,6 +46,8 @@
       max-width: 32rem;
     }
     .not-found .btn { margin-top: var(--s-4); }
+    .not-found p.not-found-contact { margin-top: var(--s-3); font-size: 0.9375rem; }
+    .not-found-contact a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--link-line); text-underline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -53,14 +55,14 @@
 
   <header class="site-header is-scrolled">
     <div class="container header-inner">
-      <a class="wordmark" href="index.html" aria-label="ISKO Studio — home">ISKO<span class="wordmark-dot">.</span></a>
+      <a class="wordmark" href="/" aria-label="ISKO Studio — home">ISKO<span class="wordmark-dot">.</span></a>
       <nav class="primary-nav" aria-label="Primary">
         <ul class="nav-list">
-          <li><a href="index.html#work">Work</a></li>
-          <li><a href="index.html#services">Services</a></li>
-          <li><a href="index.html#pricing">Pricing</a></li>
-          <li><a href="index.html#about">About</a></li>
-          <li><a class="nav-cta" href="index.html#contact">Start a project</a></li>
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a class="nav-cta" href="/#contact">Start a project</a></li>
         </ul>
       </nav>
       <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
@@ -69,20 +71,21 @@
 
   <main id="main">
     <div class="container not-found">
-      <p class="not-found-num">404</p>
+      <p class="not-found-num" aria-hidden="true">404</p>
       <h1>This page doesn't exist.</h1>
       <p>You might have followed a broken link, or the page has moved. Either way, let's get you back on track.</p>
-      <a class="btn btn-primary" href="index.html">Back to home</a>
+      <a class="btn btn-primary" href="/">Back to home</a>
+      <p class="not-found-contact">Looking for something specific? Email <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a>.</p>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-base">
       <p>© 2026 ISKO Studio. All rights reserved.</p>
-      <p><a href="index.html">Home</a> <button type="button" class="footer-cookie-btn" data-consent-open hidden>Cookie settings</button></p>
+      <p><a href="/">Home</a> <button type="button" class="footer-cookie-btn" data-consent-open hidden>Cookie settings</button></p>
     </div>
   </footer>
-  <script src="js/theme.js?v=20261030c" defer></script>
-  <script src="js/consent.js?v=20261030c" defer></script>
+  <script src="/js/theme.js?v=20261030d" defer></script>
+  <script src="/js/consent.js?v=20261030d" defer></script>
 </body>
 </html>

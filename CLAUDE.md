@@ -114,6 +114,11 @@ Visible focus states. Keyboard navigable.
 - Homepage budget today: about 350 KB and 15 requests; main content in ~1.8s on a throttled
   phone; layout shift ~0. Keep it there.
 - Optimise/lazy-load images (use width/height attributes, loading="lazy", WebP if possible).
+  Small images ship a phone-sized copy via srcset (the Mukha page thumbs have -320.webp, the phone
+  screenshot -300.webp); keep the sizes attribute in step with the layout.
+- 404.html is served at whatever missing URL was asked for, so every path in it starts with "/".
+- Links and buttons outside running text are at least 24px tall to tap (footer links get 4px
+  padding top and bottom).
 - Load Google Fonts efficiently (preconnect, only the weights listed above).
 - Keep JS minimal and defer it.
 
