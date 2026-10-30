@@ -3,6 +3,9 @@
 This file defines the design system and rules for building the iskostudio.com website.
 Follow it on every decision. Do not deviate from the palette, type, or spacing without being asked.
 
+Business knowledge (offer, prices, process, accounts, leads) is not kept in this public repo. It lives
+in the owner's private Google Drive folder "ISKO Studio — Ops": read `00 ISKO-HQ.md` there first.
+
 ## What this is
 A portfolio/marketing site for ISKO Studio — a web design studio that builds clean,
 modern websites for small local businesses (beauty, clinics, cafés, trades, any niche).
