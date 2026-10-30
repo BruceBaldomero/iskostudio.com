@@ -244,6 +244,20 @@ function watchClose(onClose) {
       });
     });
 
+    // Once the essentials are in, point at the optional details: a few more
+    // answers (budget, timeline, location) make the first reply much better.
+    var details = form.querySelector(".optional-details");
+    var hint = details && details.querySelector(".od-hint");
+    if (details && hint) {
+      var hintStart = hint.textContent;
+      var essentials = ["name", "email", "message"].map(function (id) { return document.getElementById(id); });
+      form.addEventListener("input", function () {
+        var ready = essentials.every(function (el) { return el && el.value.trim() && el.validity.valid; });
+        details.classList.toggle("is-ready", ready);
+        hint.textContent = ready ? hint.getAttribute("data-ready") : hintStart;
+      });
+    }
+
     var sending = false;
 
     form.addEventListener("submit", function (e) {

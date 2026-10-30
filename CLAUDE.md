@@ -59,7 +59,8 @@ No accent colour beyond ink. Success/error colours are for form states only.
   vertical rhythm (96–128px between major sections on desktop).
 - Mobile-first and fully responsive. Test single-column down to 360px.
 - Centred spine: the nav is a centred floating capsule, so the hero and every section
-  heading (title, lead) are centred to line up with it. Section BODIES still
+  heading (title, lead) are centred to line up with it. The one exception is the contact
+  section: heading, note and form share one two-column card so the form starts beside it. Section BODIES still
   vary: asymmetric two-column about, alternating timeline rows, grids for work and pricing.
 
 ## Motion
@@ -81,7 +82,7 @@ No accent colour beyond ink. Success/error colours are for form states only.
   tags, chips. Cards and frames use --radius-card (16px); icon tiles and small floating
   cards --radius-tile (12px); inputs and tiny chips --radius (5px).
 - Depth: no shadows and no 1px outlines on things at rest. Cards are a fill one tone off the
-  page (#F4F4F5 on white). Only the sticky nav, the open mobile menu and the dialog cast a shadow.
+  page (#F4F4F5 on white). Only the sticky nav, the open mobile menu, the dialog and the cookie card cast a shadow.
 - Corners: where the browser supports `corner-shape: squircle`, cards and tiles get continuous
   corners with slightly larger radii (set once in the @supports block in style.css).
 - Touch: every :hover rule lives inside `@media (hover: hover) and (pointer: fine)`; every
@@ -121,3 +122,14 @@ Visible focus states. Keyboard navigable.
   Use clearly-labelled placeholders the owner will replace.
 - Do not add e-commerce, login, or a CMS unless asked.
 - Do not use stock-photo clichés or AI faces.
+
+## Cookies & analytics
+- js/consent.js holds the GA4 Measurement ID: G-M3T1QPVGNV (property iskostudio.com, created on the
+  ISKO Google account iskostudio.inbox@gmail.com, 30 Oct 2026). Google Analytics loads only after the
+  visitor presses Accept; "Cookie settings" in every footer lets them change their mind. If GA_ID is
+  emptied, the card and the footer link disappear and nothing loads.
+- privacy.html sections 2, 3, 4 and 6 (#cookies) describe the analytics. Change them in the same
+  commit as anything that changes what is collected. "Google products and services" data sharing is
+  off in the GA account; the policy says so.
+- Test links set window.ISKO_CONSENT_PREVIEW = true: the card shows but Analytics never loads.
+- Accept and Decline stay the same size and weight. No pre-ticked choices, no "accept to continue".

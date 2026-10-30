@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&text=ISKO.&display=swap" rel="stylesheet" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
-  <link rel="stylesheet" href="css/style.css?v=20261028d" />
+  <link rel="stylesheet" href="css/style.css?v=20261030c" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
   <style>
@@ -49,7 +49,7 @@
     <div class="container legal">
       <a class="back-link" href="index.html">← Back to ISKO Studio</a>
       <h1>Privacy Policy</h1>
-      <p class="legal-meta">Last updated 14 June 2026.</p>
+      <p class="legal-meta">Last updated 30 October 2026.</p>
 
       <p>ISKO Studio ("ISKO Studio", "I", "me", "my") is committed to protecting your privacy. This policy explains what personal data I collect, why I collect it, how I use and protect it, and the rights you have over it. It applies to the website <a href="https://iskostudio.com">iskostudio.com</a> and to my dealings with enquirers and clients.</p>
       <p>I handle personal data in line with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.</p>
@@ -61,8 +61,9 @@
       <h2>2. The data I collect</h2>
       <p>I only collect data that I need. Depending on how you interact with me, this may include:</p>
       <ul>
-        <li><strong>Enquiry data</strong> — when you use the contact form or email me: your name, business name (if given), email address, and the contents of your message.</li>
+        <li><strong>Enquiry data</strong> — when you use the contact form or email me: your name, email address and the contents of your message, plus anything else you choose to give (phone number, business name, current website, location, budget or timeline).</li>
         <li><strong>Client data</strong> — if you become a client: billing details, project information, and any login or account details you share with me so I can build and maintain your website.</li>
+        <li><strong>Analytics data</strong> — only if you press Accept on the cookie notice: Google Analytics records which pages you view, roughly where you are (town or region, not your exact location), the kind of device and browser you use, and how you found the site. I see this as totals, not as individuals.</li>
         <li><strong>Technical data</strong> — when you visit this site, my hosting provider may automatically log limited technical information such as your IP address, browser type and the pages you request, for security and reliability.</li>
       </ul>
       <p>I do not knowingly collect special-category data (such as health, ethnicity or religious information). Please do not send me such data through the contact form.</p>
@@ -73,6 +74,7 @@
         <li><strong>To provide my services and manage our contract</strong> — legal basis: performance of a contract.</li>
         <li><strong>To send invoices and keep accounting records</strong> — legal basis: legal obligation and legitimate interests.</li>
         <li><strong>To keep this website secure and working</strong> — legal basis: legitimate interests.</li>
+        <li><strong>To understand how many people visit and which pages help</strong> (Google Analytics) — legal basis: your consent, which you can withdraw at any time.</li>
       </ul>
       <p>I do not sell your data, and I will not use it for marketing without your clear consent.</p>
 
@@ -82,6 +84,7 @@
         <li><strong>Formspree</strong> — processes contact-form submissions and forwards them to my inbox. See the <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Formspree privacy policy</a>.</li>
         <li><strong>GitHub Pages</strong> — hosts this website and may log technical data. See the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub privacy statement</a>.</li>
         <li><strong>Email provider</strong> — I use a standard email service to receive and reply to messages.</li>
+        <li><strong>Google Analytics</strong> (Google Ireland Ltd) — only if you accept analytics cookies. I've turned off the setting that lets Google use this data for its own products and services. See <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">how Google uses data from sites that use its services</a>.</li>
       </ul>
       <p>I may also disclose data if required to do so by law. Some of these providers are based outside the UK; where that is the case, they operate under safeguards (such as UK-approved data-transfer mechanisms) that protect your data.</p>
 
@@ -92,8 +95,15 @@
         <li><strong>Invoices and financial records</strong> — kept for at least 6 years, as required by UK tax law.</li>
       </ul>
 
-      <h2>6. Cookies &amp; analytics</h2>
-      <p>This website does not set advertising or tracking cookies, and does not currently use analytics. If I add analytics in future, I will update this policy and, where required, ask for your consent first.</p>
+      <h2 id="cookies">6. Cookies &amp; analytics</h2>
+      <p>This website uses Google Analytics to count visits and see which pages are useful. It only runs if you press <strong>Accept</strong> on the cookie notice. If you press <strong>Decline</strong>, or make no choice, no analytics cookies are set and nothing is sent to Google.</p>
+      <p>If you accept, Google Analytics sets these cookies:</p>
+      <ul>
+        <li><strong>_ga</strong> — tells one visit from another. Lasts up to 2 years.</li>
+        <li><strong>_ga_M3T1QPVGNV</strong> — keeps track of your current visit. Lasts up to 2 years.</li>
+      </ul>
+      <p>The site also remembers two choices in your browser's storage: whether you picked light or dark mode, and your cookie choice (kept for about six months, then you're asked again). Neither is sent anywhere.</p>
+      <p>You can change your mind at any time with <strong>Cookie settings</strong> at the bottom of every page. Choosing Decline after accepting deletes the analytics cookies. The site sets no advertising cookies.</p>
 
       <h2>7. Your rights</h2>
       <p>Under UK GDPR you have the right to:</p>
@@ -121,8 +131,9 @@
   <footer class="site-footer">
     <div class="container footer-base">
       <p>© 2026 ISKO Studio. All rights reserved.</p>
-      <p><a href="index.html">Home</a></p>
+      <p><a href="index.html">Home</a> <button type="button" class="footer-cookie-btn" data-consent-open hidden>Cookie settings</button></p>
     </div>
   </footer>
+  <script src="js/consent.js?v=20261030c" defer></script>
 </body>
 </html>

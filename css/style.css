@@ -1471,17 +1471,45 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 }
 
 /* ---------- Start a project ---------- */
-.start-project-inner { max-width: 44rem; margin-inline: auto; }
-.start-project-intro { text-align: center; }
-.start-project-intro .section-lead { margin-inline: auto; }
-
-.start-project-form {
-  margin-top: var(--s-5);
+/* One card: who you're writing to on the left, a short form on the right.
+   The rest of the page centres its headings; this one sits in the card so
+   the form starts beside it instead of a screen further down. */
+.contact-card {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 5vw, 64px);
   background: var(--surface);
-  border: 0;
   border-radius: var(--radius-card);
-  padding: clamp(24px, 4vw, 40px);
+  padding: clamp(24px, 4vw, 48px);
 }
+.contact-side .section-title { font-size: clamp(2rem, 4vw, 3rem); text-wrap: balance; }
+.contact-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+.contact-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.contact-note p { color: var(--text); }
+.contact-alt { margin-top: var(--s-4); }
+.contact-alt-title { font-size: 0.875rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.contact-alt a,
+.contact-fixup a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--link-line); text-underline-offset: 3px; }
+.contact-fixup { margin-top: var(--s-3); font-size: 0.9375rem; color: var(--text-muted); }
+@media (hover: hover) and (pointer: fine) {
+  .contact-alt a:hover,
+  .contact-fixup a:hover { text-decoration-color: currentColor; }
+}
+@media (max-width: 860px) {
+  .contact-card { grid-template-columns: 1fr; }
+}
+
 .field { margin-bottom: var(--s-3); }
 .field label,
 .field-group-label {
@@ -1550,7 +1578,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--s-3);
+  column-gap: var(--s-3); /* rows get their spacing from each field's margin */
 }
 @media (max-width: 480px) {
   .field-row { grid-template-columns: 1fr; }
@@ -1583,70 +1611,77 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   outline-offset: 2px;
 }
 
-/* Optional details box */
-.optional-details {
-  margin-top: var(--s-4);
-  background: var(--bg);
-  border: 0;
-  border-radius: var(--radius-tile);
-  padding: var(--s-3);
-}
+/* Optional details: a white row inside the grey card that opens in place.
+   Once name, email and message are filled in, main.js adds .is-ready: the
+   plus turns ink and the hint says why it's worth a few more seconds. */
+.optional-details { margin-top: var(--s-1); }
 .optional-details-label {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--s-2);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--text-muted);
-  margin-bottom: var(--s-3);
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-radius: var(--radius-tile);
   cursor: pointer;
   list-style: none;
   user-select: none;
+  transition: background 0.15s var(--ease);
 }
 .optional-details-label::-webkit-details-marker { display: none; }
-.optional-details-label::after {
-  content: '−';
-  font-family: var(--font-sans);
-  font-size: 1.1rem;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--text-muted);
+.od-plus {
+  position: relative;
   flex-shrink: 0;
-  transition: transform 0.2s var(--ease);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.optional-details:not([open]) .optional-details-label::after { content: '+'; }
-.optional-details-hint {
-  font-size: 0.8125rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  color: var(--text-muted);
-  opacity: 0.75;
+.od-plus::before,
+.od-plus::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  margin: -1px 0 0 -6px;
+  border-radius: 1px;
+  background: currentColor;
 }
-.optional-details:not([open]) .optional-details-hint { display: none; }
+.od-plus::after { transform: rotate(90deg); }
+.od-text { display: flex; flex-direction: column; gap: 2px; }
+.od-title { font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.od-hint { font-size: 0.875rem; color: var(--text-muted); }
+.optional-details.is-ready .od-plus { background: var(--btn-bg); color: var(--btn-fg); }
+.optional-details[open] .od-plus { transform: rotate(45deg); }
+.optional-details[open] .optional-details-label { margin-bottom: var(--s-3); }
+.optional-details-label:active .od-plus { transform: scale(0.92); }
+.optional-details[open] .optional-details-label:active .od-plus { transform: rotate(45deg) scale(0.92); }
+.optional-details-label:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .optional-details-label:hover .od-plus { background: var(--btn-bg); color: var(--btn-fg); }
+}
 .optional-details .field:last-child { margin-bottom: 0; }
 
-.form-personal-note {
-  margin-top: var(--s-4);
-  font-family: var(--font-display);
-  font-style: normal;
-  font-size: 1.05rem;
-  color: var(--ink);
-}
 .form-submit-row {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  margin-top: var(--s-4);
+  margin-top: var(--s-3);
   flex-wrap: wrap;
 }
-.form-note-inline {
-  font-size: 0.88rem;
+.form-privacy {
+  font-size: 0.875rem;
   color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--link-line);
+  text-underline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .form-privacy:hover { color: var(--ink); }
 }
 
 /* hidden attribute must always win over flex/inline-flex display */
@@ -2248,7 +2283,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 @supports (corner-shape: squircle) {
   :root { --radius-card: 26px; --radius-tile: 19px; }
   .work-card, .hero-frame, .tier, .review-card, .review-modal-box, .float-card,
-  .services-list, .start-project-form, .optional-details, .about-photo,
+  .services-list, .contact-card, .about-photo,
   .art-card {
     corner-shape: squircle;
   }
@@ -2311,6 +2346,72 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
     border-radius: 999px;
     background: var(--hairline);
   }
+}
+
+/* ---------- Cookie choice ----------
+   A dark card that floats at the bottom like the nav, so it reads as part of
+   the site. Accept and Decline are the same size: no nudging. Only shown
+   when analytics is set up (js/consent.js). */
+.consent {
+  position: fixed;
+  z-index: 900;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: min(640px, calc(100% - 24px));
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-2) var(--s-2) var(--s-3);
+  background: var(--nav-solid);
+  color: var(--nav-text-strong);
+  border-radius: var(--radius-card);
+  box-shadow: 0 18px 48px -12px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, 16px);
+  opacity: 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.consent.is-open { transform: translate(-50%, 0); opacity: 1; }
+.consent-text { font-size: 0.9375rem; line-height: 1.5; color: var(--nav-text); }
+.consent-text strong { color: var(--nav-text-strong); font-weight: 600; }
+.consent-text a { color: var(--nav-text-strong); text-decoration: underline; text-decoration-color: rgba(245, 245, 245, 0.4); text-underline-offset: 3px; }
+.consent-actions { display: flex; gap: var(--s-1); flex-shrink: 0; }
+.consent-btn {
+  min-height: 44px;
+  min-width: 96px;
+  padding: 0 1.2em;
+  font: 600 0.9375rem/1 var(--font-sans);
+  color: var(--nav-text-strong);
+  background: rgba(255, 255, 255, 0.12);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+}
+.consent-btn-accept { background: var(--nav-cta-bg); color: var(--nav-cta-fg); }
+.consent-btn:active { transform: scale(0.97); }
+.consent-btn:focus-visible { outline: 2px solid var(--nav-text-strong); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .consent-btn:hover { background: rgba(255, 255, 255, 0.2); }
+  .consent-btn-accept:hover { background: #E8E8EA; }
+}
+@media (max-width: 560px) {
+  .consent { flex-direction: column; align-items: stretch; gap: var(--s-2); padding: var(--s-3) var(--s-2) var(--s-2); }
+  .consent-text { padding-inline: 4px; }
+  .consent-btn { flex: 1; }
+}
+
+/* "Cookie settings" sits with the footer links and looks like one */
+.footer-cookie-btn {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.footer-cookie-btn::before { content: "·"; margin-right: 0.35em; }
+@media (hover: hover) and (pointer: fine) {
+  .footer-cookie-btn:hover { text-decoration: underline; }
 }
 
 /* ---------- Reduced motion ---------- */
