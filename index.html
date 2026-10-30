@@ -39,7 +39,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&text=ISKO.&display=swap" rel="stylesheet" />
 
   <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="css/style.css?v=20261028d" />
+  <link rel="stylesheet" href="css/style.css?v=20261030" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
 
@@ -652,86 +652,54 @@
 
     <!-- ============ CONTACT ============ -->
     <section class="section start-project" id="contact">
-      <div class="container start-project-inner">
-        <div class="start-project-intro">
-          <h2 class="section-title reveal">Tell me about your project.</h2>
-          <p class="section-lead reveal">Fill this in with as much or as little as you've got. I read every one myself and come back within 24 hours with a straight answer on whether I can help and what it would cost.</p>
-        </div>
-
-        <form class="start-project-form reveal" id="contactForm" action="https://formspree.io/f/mnjylqod" method="POST" novalidate>
-
-          <!-- Service type: multi-select pills -->
-          <div class="field">
-            <span class="field-group-label">What do you need?</span>
-            <div class="pill-group" id="serviceTypeGroup" role="group" aria-label="What do you need?">
-              <button type="button" class="pill" data-value="A new website">A new website</button>
-              <button type="button" class="pill" data-value="Fix my current site">Fix my current site</button>
-              <button type="button" class="pill" data-value="Not sure yet">Not sure yet</button>
+      <div class="container">
+        <div class="contact-card reveal">
+          <div class="contact-side">
+            <h2 class="section-title">Tell me about your project.</h2>
+            <div class="contact-note">
+              <img class="contact-avatar" src="img/bruce.webp" alt="" width="56" height="56" loading="lazy" />
+              <p>It comes straight to me, and I reply within 24 hours with a straight answer. A few lines is plenty.</p>
             </div>
-            <input type="hidden" name="What they need" id="serviceTypeInput" />
+            <div class="contact-alt">
+              <p class="contact-alt-title">Or, if you'd rather</p>
+              <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a>
+            </div>
+            <p class="contact-fixup">Already have a site? <a href="#contact" data-preselect="Fix my current site">Website Fix-Up from £150</a>.</p>
           </div>
 
-          <!-- Name & email -->
-          <div class="field-row">
+          <form class="start-project-form" id="contactForm" action="https://formspree.io/f/mnjylqod" method="POST" novalidate>
+
             <div class="field">
-              <label for="name">Your name</label>
-              <input type="text" id="name" name="Name" autocomplete="name" placeholder="Jane Smith" required />
+              <span class="field-group-label">What do you need? <span class="field-optional">(pick any, or skip it)</span></span>
+              <div class="pill-group" id="serviceTypeGroup" role="group" aria-label="What do you need?">
+                <button type="button" class="pill" data-value="A new website">A new website</button>
+                <button type="button" class="pill" data-value="Fix my current site">Fix my current site</button>
+                <button type="button" class="pill" data-value="Not sure yet">Not sure yet</button>
+              </div>
+              <input type="hidden" name="What they need" id="serviceTypeInput" />
             </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input type="text" id="name" name="Name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Enter a valid email address, e.g. jane@example.com" required />
+              </div>
+            </div>
+
             <div class="field">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@example.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Enter a valid email address, e.g. jane@example.com" required />
+              <label for="message">What does your business do, and what do you need?</label>
+              <textarea id="message" name="Message" rows="3" placeholder="For example, I run a café in Surbiton and need a site with our menu and opening hours." required></textarea>
             </div>
-          </div>
 
-          <!-- What's going on -->
-          <div class="field">
-            <label for="message">What's going on?</label>
-            <textarea id="message" name="Message" rows="4" placeholder="Tell me about your business and what you're trying to achieve. The more you tell me, the more useful my reply." required></textarea>
-          </div>
-
-          <!-- Biggest challenge: single-select pills -->
-          <div class="field">
-            <span class="field-group-label">What's your biggest challenge right now? <span class="field-optional">(optional)</span></span>
-            <div class="pill-group" id="biggestChallengeGroup" data-mode="single" role="group" aria-label="What's your biggest challenge right now?">
-              <button type="button" class="pill" data-value="Not showing up on Google">Not showing up on Google</button>
-              <button type="button" class="pill" data-value="Website looks outdated">Website looks outdated</button>
-              <button type="button" class="pill" data-value="No website yet">No website yet</button>
-              <button type="button" class="pill" data-value="Not enough enquiries">Not enough enquiries</button>
-              <button type="button" class="pill" data-value="Something else">Something else</button>
-            </div>
-            <input type="hidden" name="Biggest challenge" id="biggestChallengeInput" />
-          </div>
-
-          <!-- Optional details: open by default so nothing is hidden, but
-               clearly collapsible for anyone who'd rather skip straight to send -->
-          <details class="optional-details" open>
-            <summary class="optional-details-label">A few optional details <span class="optional-details-hint">(tap to hide)</span></summary>
             <div class="field-row">
               <div class="field">
-                <label for="business">Business name <span class="field-optional">(optional)</span></label>
-                <input type="text" id="business" name="Business name" autocomplete="organization" placeholder="The Corner Café" />
+                <label for="phone">Phone <span class="field-optional">(optional, if you'd rather I rang)</span></label>
+                <input type="tel" id="phone" name="Phone" autocomplete="tel" />
               </div>
-              <div class="field">
-                <label for="website">Current website <span class="field-optional">(optional)</span></label>
-                <input type="text" inputmode="url" id="website" name="Current website" autocomplete="url" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="www.yourbusiness.co.uk" />
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="location">Where you're based <span class="field-optional">(optional)</span></label>
-                <input type="text" id="location" name="Location" autocomplete="address-level2" placeholder="London" />
-              </div>
-              <div class="field">
-                <label for="timeline">Rough timeline <span class="field-optional">(optional)</span></label>
-                <select id="timeline" name="Timeline">
-                  <option value="">Select one</option>
-                  <option value="No rush">No rush</option>
-                  <option value="Within a month">Within a month</option>
-                  <option value="As soon as possible">As soon as possible</option>
-                </select>
-              </div>
-            </div>
-            <div class="field-row">
               <div class="field">
                 <label for="budget">Rough budget <span class="field-optional">(optional)</span></label>
                 <select id="budget" name="Budget">
@@ -742,33 +710,67 @@
                   <option value="£1,000+">£1,000+</option>
                 </select>
               </div>
-              <div class="field">
-                <label for="phone">Phone <span class="field-optional">(if you'd rather I call)</span></label>
-                <input type="tel" id="phone" name="Phone" autocomplete="tel" placeholder="07700 900000" />
-              </div>
             </div>
-          </details>
 
-          <!-- Honeypot spam trap -->
-          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+            <details class="optional-details">
+              <summary class="optional-details-label">More details <span class="field-optional">(optional)</span></summary>
+              <div class="field">
+                <span class="field-group-label">Biggest challenge right now</span>
+                <div class="pill-group" id="biggestChallengeGroup" data-mode="single" role="group" aria-label="Biggest challenge right now">
+                  <button type="button" class="pill" data-value="Not showing up on Google">Not showing up on Google</button>
+                  <button type="button" class="pill" data-value="Website looks outdated">Website looks outdated</button>
+                  <button type="button" class="pill" data-value="No website yet">No website yet</button>
+                  <button type="button" class="pill" data-value="Not enough enquiries">Not enough enquiries</button>
+                  <button type="button" class="pill" data-value="Something else">Something else</button>
+                </div>
+                <input type="hidden" name="Biggest challenge" id="biggestChallengeInput" />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="business">Business name</label>
+                  <input type="text" id="business" name="Business name" autocomplete="organization" />
+                </div>
+                <div class="field">
+                  <label for="website">Current website</label>
+                  <input type="text" inputmode="url" id="website" name="Current website" autocomplete="url" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="www.yourbusiness.co.uk" />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="location">Where you're based</label>
+                  <input type="text" id="location" name="Location" autocomplete="address-level2" />
+                </div>
+                <div class="field">
+                  <label for="timeline">Rough timeline</label>
+                  <select id="timeline" name="Timeline">
+                    <option value="">Select one</option>
+                    <option value="No rush">No rush</option>
+                    <option value="Within a month">Within a month</option>
+                    <option value="As soon as possible">As soon as possible</option>
+                  </select>
+                </div>
+              </div>
+            </details>
 
-          <p class="form-personal-note">I read every one of these myself.</p>
+            <!-- Honeypot spam trap -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
-          <div class="form-submit-row">
-            <button type="submit" class="btn btn-primary" id="formSubmit">Send it over &rarr;</button>
-            <span class="form-note-inline">I reply within 24 hours.</span>
-          </div>
+            <div class="form-submit-row">
+              <button type="submit" class="btn btn-primary" id="formSubmit">Send it over &rarr;</button>
+              <a class="form-privacy" href="privacy.html">How I use your details</a>
+            </div>
 
-          <div class="form-validation-note" id="formValidationNote" role="status" aria-live="polite" hidden></div>
+            <div class="form-validation-note" id="formValidationNote" role="status" aria-live="polite" hidden></div>
 
-          <div class="form-success" id="formSuccess" tabindex="-1" hidden>
-            <svg class="success-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-            <p>Thanks, I've got your details and I'll reply within 24 hours.</p>
-          </div>
-          <div class="form-error" id="formError" hidden>
-            <p>Something went wrong. Email me directly at <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a>.</p>
-          </div>
-        </form>
+            <div class="form-success" id="formSuccess" tabindex="-1" hidden>
+              <svg class="success-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              <p>Thanks, I've got your details and I'll reply within 24 hours.</p>
+            </div>
+            <div class="form-error" id="formError" hidden>
+              <p>Something went wrong. Email me directly at <a href="mailto:contact@iskostudio.com">contact@iskostudio.com</a>.</p>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -812,12 +814,13 @@
 
     <div class="container footer-base">
       <p>© 2026 ISKO Studio. All rights reserved.</p>
-      <p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms &amp; Conditions</a></p>
+      <p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms &amp; Conditions</a> <button type="button" class="footer-cookie-btn" data-consent-open hidden>Cookie settings</button></p>
     </div>
     <p class="footer-mark" aria-hidden="true">ISKO<span class="wordmark-dot">.</span></p>
   </footer>
 
-  <script src="js/main.js?v=20261028d" defer></script>
-  <script src="js/theme.js?v=20261028d" defer></script>
+  <script src="js/main.js?v=20261030" defer></script>
+  <script src="js/theme.js?v=20261030" defer></script>
+  <script src="js/consent.js?v=20261030" defer></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&text=ISKO.&display=swap" rel="stylesheet" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
-  <link rel="stylesheet" href="css/style.css?v=20261028d" />
+  <link rel="stylesheet" href="css/style.css?v=20261030" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
   <style>
@@ -92,7 +92,7 @@
         <li><strong>Invoices and financial records</strong> — kept for at least 6 years, as required by UK tax law.</li>
       </ul>
 
-      <h2>6. Cookies &amp; analytics</h2>
+      <h2 id="cookies">6. Cookies &amp; analytics</h2>
       <p>This website does not set advertising or tracking cookies, and does not currently use analytics. If I add analytics in future, I will update this policy and, where required, ask for your consent first.</p>
 
       <h2>7. Your rights</h2>
@@ -121,8 +121,9 @@
   <footer class="site-footer">
     <div class="container footer-base">
       <p>© 2026 ISKO Studio. All rights reserved.</p>
-      <p><a href="index.html">Home</a></p>
+      <p><a href="index.html">Home</a> <button type="button" class="footer-cookie-btn" data-consent-open hidden>Cookie settings</button></p>
     </div>
   </footer>
+  <script src="js/consent.js?v=20261030" defer></script>
 </body>
 </html>
