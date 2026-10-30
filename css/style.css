@@ -328,7 +328,7 @@ p, li, dd, blockquote { text-wrap: pretty; }
 .wordmark-dot { color: var(--dot); }
 .site-header .wordmark { color: var(--nav-text-strong); }
 .site-header .wordmark-dot { color: var(--dot-on-dark); } /* leaf green on the dark capsule */
-.wordmark-light { color: var(--dark-text); }
+.wordmark-light { color: var(--dark-text); padding-block: 4px; } /* 24px+ to tap in the footer */
 .wordmark-light .wordmark-dot { color: var(--dot-on-dark); }
 
 .primary-nav { margin-left: var(--s-2); }
@@ -1762,8 +1762,12 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   color: rgba(245, 245, 245, 0.6);
   margin-bottom: var(--s-2);
 }
-.footer-nav ul { list-style: none; padding: 0; display: grid; gap: var(--s-1); }
+.footer-nav ul { list-style: none; padding: 0; display: grid; gap: 0; }
+/* 4px above and below makes each link at least 24px tall to tap (WCAG 2.5.8)
+   while keeping the same 8px rhythm the list had before */
 .footer-nav a, .footer-contact a {
+  display: inline-block;
+  padding-block: 4px;
   color: rgba(245, 245, 245, 0.75);
   text-decoration: none;
   font-size: 0.95rem;
@@ -1784,7 +1788,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   font-size: 0.85rem;
   color: rgba(245, 245, 245, 0.55);
 }
-.footer-base a { color: rgba(245, 245, 245, 0.75); text-decoration: none; }
+.footer-base a { display: inline-block; padding-block: 4px; color: rgba(245, 245, 245, 0.75); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) {
   .footer-base a:hover { color: var(--accent-on-dark); }
 }
@@ -1868,7 +1872,8 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 /* ---------- Local SEO pages ---------- */
 .back-link {
   display: inline-block;
-  margin-bottom: var(--s-3);
+  padding-block: 10px; /* a 44px tap area without moving the text */
+  margin-block: -10px calc(var(--s-3) - 10px);
   font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
@@ -2354,7 +2359,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
    when analytics is set up (js/consent.js). */
 .consent {
   position: fixed;
-  z-index: 900;
+  z-index: 850; /* under the review sheet (900), over everything else */
   left: 50%;
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   width: min(640px, calc(100% - 24px));
@@ -2406,7 +2411,7 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   color: inherit;
   background: none;
   border: 0;
-  padding: 0;
+  padding: 4px 0;
   cursor: pointer;
 }
 .footer-cookie-btn::before { content: "·"; margin-right: 0.35em; }
