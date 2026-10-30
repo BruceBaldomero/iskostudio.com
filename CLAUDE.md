@@ -124,9 +124,12 @@ Visible focus states. Keyboard navigable.
 - Do not use stock-photo clichés or AI faces.
 
 ## Cookies & analytics
-- js/consent.js holds the GA4 Measurement ID (GA_ID). While it is empty, no cookie card shows and
-  nothing loads, because the site sets no cookies. Once it is set, Google Analytics loads only after
-  the visitor presses Accept; "Cookie settings" in every footer lets them change their mind.
-- When GA_ID is set, update privacy.html section 6 (#cookies) in the same change so the policy
-  says what the site actually does.
+- js/consent.js holds the GA4 Measurement ID: G-M3T1QPVGNV (property iskostudio.com, created on the
+  ISKO Google account iskostudio.inbox@gmail.com, 30 Oct 2026). Google Analytics loads only after the
+  visitor presses Accept; "Cookie settings" in every footer lets them change their mind. If GA_ID is
+  emptied, the card and the footer link disappear and nothing loads.
+- privacy.html sections 2, 3, 4 and 6 (#cookies) describe the analytics. Change them in the same
+  commit as anything that changes what is collected. "Google products and services" data sharing is
+  off in the GA account; the policy says so.
+- Test links set window.ISKO_CONSENT_PREVIEW = true: the card shows but Analytics never loads.
 - Accept and Decline stay the same size and weight. No pre-ticked choices, no "accept to continue".

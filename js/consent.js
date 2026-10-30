@@ -7,11 +7,11 @@
 (function () {
   "use strict";
 
-  var GA_ID = ""; // GA4 Measurement ID, e.g. "G-ABC123XYZ"
+  var GA_ID = "G-M3T1QPVGNV"; // GA4 Measurement ID (property iskostudio.com, ISKO Google account)
   var KEY = "isko-consent";
   var ASK_AGAIN_AFTER = 1000 * 60 * 60 * 24 * 182; // about six months
 
-  var preview = window.ISKO_CONSENT_PREVIEW === true; // test links only
+  var preview = window.ISKO_CONSENT_PREVIEW === true; // test links: show the card, never load Analytics
   if (!GA_ID && !preview) return;
 
   function readChoice() {
@@ -27,7 +27,7 @@
 
   var loaded = false;
   function loadAnalytics() {
-    if (loaded || !GA_ID) return;
+    if (loaded || !GA_ID || preview) return;
     loaded = true;
     var start = function () {
       window.dataLayer = window.dataLayer || [];
