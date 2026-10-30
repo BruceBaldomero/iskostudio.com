@@ -1611,32 +1611,59 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
   outline-offset: 2px;
 }
 
-/* Optional details: a quiet "More details" row that opens in place */
+/* Optional details: a white row inside the grey card that opens in place.
+   Once name, email and message are filled in, main.js adds .is-ready: the
+   plus turns ink and the hint says why it's worth a few more seconds. */
 .optional-details { margin-top: var(--s-1); }
 .optional-details-label {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--ink);
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-radius: var(--radius-tile);
   cursor: pointer;
   list-style: none;
   user-select: none;
+  transition: background 0.15s var(--ease);
 }
 .optional-details-label::-webkit-details-marker { display: none; }
-.optional-details-label::before {
-  content: "+";
-  display: inline-block;
-  width: 1em;
-  font-size: 1.15rem;
-  font-weight: 400;
-  text-align: center;
-  transition: transform 0.2s var(--ease);
+.od-plus {
+  position: relative;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.optional-details[open] .optional-details-label::before { transform: rotate(45deg); }
-.optional-details[open] .optional-details-label { margin-bottom: var(--s-2); }
+.od-plus::before,
+.od-plus::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  margin: -1px 0 0 -6px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.od-plus::after { transform: rotate(90deg); }
+.od-text { display: flex; flex-direction: column; gap: 2px; }
+.od-title { font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.od-hint { font-size: 0.875rem; color: var(--text-muted); }
+.optional-details.is-ready .od-plus { background: var(--btn-bg); color: var(--btn-fg); }
+.optional-details[open] .od-plus { transform: rotate(45deg); }
+.optional-details[open] .optional-details-label { margin-bottom: var(--s-3); }
+.optional-details-label:active .od-plus { transform: scale(0.92); }
+.optional-details[open] .optional-details-label:active .od-plus { transform: rotate(45deg) scale(0.92); }
+.optional-details-label:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .optional-details-label:hover .od-plus { background: var(--btn-bg); color: var(--btn-fg); }
+}
 .optional-details .field:last-child { margin-bottom: 0; }
 
 .form-submit-row {

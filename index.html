@@ -39,7 +39,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&text=ISKO.&display=swap" rel="stylesheet" />
 
   <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="css/style.css?v=20261030" />
+  <link rel="stylesheet" href="css/style.css?v=20261030b" />
   <!-- Hovering a link to another page loads it in the background, so it opens instantly -->
   <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/thankyou*"}},{"not":{"href_matches":"/start*"}}]},"eagerness":"moderate"}]}</script>
 
@@ -713,7 +713,13 @@
             </div>
 
             <details class="optional-details">
-              <summary class="optional-details-label">More details <span class="field-optional">(optional)</span></summary>
+              <summary class="optional-details-label">
+                <span class="od-plus" aria-hidden="true"></span>
+                <span class="od-text">
+                  <span class="od-title">Add a few more details</span>
+                  <span class="od-hint" data-ready="Optional, but it helps me give you an accurate price.">Business name, website, timeline. All optional.</span>
+                </span>
+              </summary>
               <div class="field">
                 <span class="field-group-label">Biggest challenge right now</span>
                 <div class="pill-group" id="biggestChallengeGroup" data-mode="single" role="group" aria-label="Biggest challenge right now">
@@ -819,8 +825,8 @@
     <p class="footer-mark" aria-hidden="true">ISKO<span class="wordmark-dot">.</span></p>
   </footer>
 
-  <script src="js/main.js?v=20261030" defer></script>
-  <script src="js/theme.js?v=20261030" defer></script>
-  <script src="js/consent.js?v=20261030" defer></script>
+  <script src="js/main.js?v=20261030b" defer></script>
+  <script src="js/theme.js?v=20261030b" defer></script>
+  <script src="js/consent.js?v=20261030b" defer></script>
 </body>
 </html>
