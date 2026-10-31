@@ -2128,8 +2128,9 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
    the main thread). Everywhere else, and for anyone who prefers reduced
    motion, the same sections are laid out normally, exactly as above.
    1. First screen: the headline lifts away and the work rises from the bottom
-      of the mat until it fills the screen.
-   2. How it works: one step at a time on the mat, while the 45° line is cut. */
+      of the mat until it fills the screen. Wide screens only (900 x 620 up).
+   2. How it works: one step at a time on the mat, while the 45° line is cut.
+      Any width, phones included, on screens at least 560px tall. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) and (min-width: 900px) and (min-height: 620px) {
 
@@ -2177,7 +2178,11 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
       82%, 100% { opacity: 1; }
     }
 
-    /* 2. one step at a time, and the cut */
+  }
+
+  /* 2. one step at a time, and the cut: on phones too (any width), as long as
+     the screen is tall enough for one step, its card and the button */
+  @media (prefers-reduced-motion: no-preference) and (min-height: 560px) {
     .scene-steps { height: 440svh; view-timeline: --steps block; }
     .scene-steps .process-pin {
       position: sticky;
@@ -2202,6 +2207,25 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
     .scene-steps .timeline .step:nth-child(3) { --i: 2; }
     .scene-steps .timeline .step:nth-child(4) { --i: 3; animation-name: step-last; }
     .scene-steps .process-cta { margin-top: clamp(24px, 5svh, 56px); }
+    /* phones: one step, its card and the button have to share one screen,
+       so the gaps close up and the card gets smaller as the screen gets shorter */
+    @media (max-width: 899px) {
+      .scene-steps .process-pin { padding-block: 84px 16px; }
+      .scene-steps .section-head { margin-bottom: var(--s-3); }
+      .scene-steps .timeline .step { gap: var(--s-3); }
+      .scene-steps .process-cta { margin-top: var(--s-3); }
+    }
+    @media (max-width: 899px) and (max-height: 860px) {
+      .scene-steps .timeline .step-art { zoom: 0.86; }
+    }
+    @media (max-width: 899px) and (max-height: 740px) {
+      .scene-steps .process-pin { padding-block: 76px 12px; }
+      .scene-steps .section-head { margin-bottom: var(--s-2); }
+      .scene-steps .timeline .step { gap: var(--s-2); }
+      .scene-steps .timeline .step-art { zoom: 0.74; }
+      .scene-steps .timeline .step-desc { margin-top: 6px; font-size: 1rem; }
+      .scene-steps .process-cta { margin-top: var(--s-2); }
+    }
     .scene-steps .mat-diag {
       animation: mat-cut linear both;
       animation-timeline: --steps;
