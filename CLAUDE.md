@@ -84,9 +84,10 @@ No accent colour beyond ink. Success/error colours are for form states only.
 - The light on the mat sways slowly (one CSS animation per mat, stopped for reduced motion).
 - Two pinned scroll scenes, built with CSS scroll-driven animations (no GSAP, no Three.js):
   the hero (the work rises to fill the mat) and how it works (one step at a time, the 45° cut).
-  They only switch on with @supports (animation-timeline: view()), motion allowed, and a
-  viewport at least 900px wide and 620px tall; everyone else gets the normal layout, which
-  must always read complete on its own. Text that has faded out is also visibility: hidden.
+  They only switch on with @supports (animation-timeline: view()) and motion allowed. The hero
+  scene also needs a viewport at least 900px wide and 620px tall; how it works runs at any width
+  (phones too, with tighter gaps and a smaller card) on viewports at least 560px tall. Everyone
+  else gets the normal layout, which must always read complete on its own. Text that has faded out is also visibility: hidden.
 - Page-level overflow uses `overflow-x: clip`, never `hidden`: hidden breaks position: sticky
   (the nav and both scenes).
 
