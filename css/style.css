@@ -53,10 +53,9 @@
   color-scheme: light;
 
   /* One family does the work: Schibsted Grotesk, heavy and tight for display,
-     regular for text. Fraunces survives only in the ISKO. wordmark. */
+     regular for text. The ISKO. wordmark is drawn from it too (an SVG in each page). */
   --font-display: "Schibsted Grotesk", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   --font-sans:    "Schibsted Grotesk", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-mark:    "Fraunces", Georgia, "Times New Roman", serif;
 
   --maxw: 1100px;
   --radius: 5px;        /* small chips, inputs */
@@ -317,19 +316,20 @@ p, li, dd, blockquote { text-wrap: pretty; }
   color: var(--nav-text);
 }
 
+/* The ISKO. wordmark: Schibsted Grotesk 800 S K O, a plain-bar I and the
+   green full stop, drawn once per page (#isko-wordmark) and reused. Letters
+   take currentColor; the dot takes --wm-dot. */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 .wordmark {
-  font-family: var(--font-mark);
-  font-weight: 600;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   color: var(--text);
+  --wm-dot: var(--dot);
 }
-.wordmark-dot { color: var(--dot); }
-.site-header .wordmark { color: var(--nav-text-strong); }
-.site-header .wordmark-dot { color: var(--dot-on-dark); } /* leaf green on the dark capsule */
-.wordmark-light { color: var(--dark-text); padding-block: 4px; } /* 24px+ to tap in the footer */
-.wordmark-light .wordmark-dot { color: var(--dot-on-dark); }
+.wordmark-svg { display: block; height: 16px; width: auto; overflow: visible; }
+.site-header .wordmark { color: var(--nav-text-strong); --wm-dot: var(--dot-on-dark); } /* leaf green on the dark capsule */
+.wordmark-light { color: var(--dark-text); padding-block: 4px; --wm-dot: var(--dot-on-dark); } /* 24px+ to tap in the footer */
 
 .primary-nav { margin-left: var(--s-2); }
 .primary-nav .nav-list {
@@ -2108,16 +2108,13 @@ body:has(main > .hero:first-child) .site-header { margin-bottom: -68px; }
 .footer-mark {
   margin: clamp(32px, 6vw, 72px) 0 0;
   padding-inline: var(--mat-edge);
-  font-family: var(--font-mark);
-  font-weight: 600;
   font-size: clamp(5.5rem, 30vw, 24rem);
-  line-height: 0.74;
-  letter-spacing: -0.02em;
+  line-height: 0;
   color: var(--on-mat);
-  white-space: nowrap;
+  --wm-dot: var(--dot-on-dark);
   transform: translateY(0.06em);
 }
-.footer-mark .wordmark-dot { color: var(--dot-on-dark); }
+.footer-mark .wordmark-svg { height: 0.7em; }
 .site-footer .mat-ruler { top: var(--mat-edge); bottom: auto; }
 .site-footer .mat-ruler { transform: scaleY(-1); }
 .site-footer .mat-ruler span { transform: scaleY(-1); }

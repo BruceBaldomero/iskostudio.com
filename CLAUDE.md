@@ -43,10 +43,17 @@ Light theme:
 Dark contrast sections: panel #161616 (services), panel text #F5F5F5. The footer is on the mat.
 Dark mode exists (toggle + system preference): page #0A0A0A, ink #F5F5F5, leaf-green logo dot.
 Keep the two dark-mode token blocks identical.
-The ISKO logo is the nav wordmark: "ISKO." in Fraunces 600 (the only place Fraunces is used;
-the page loads just those five characters), dot in green. The favicon and apple-touch-icon use
-the same Fraunces letters (as outlines) with the green dot centred UNDERNEATH. logo.png and
-og-image use "ISKO." with the green dot beside it, like the nav.
+The logo family (31 Oct 2026). The dot is always there.
+- Icon "I.": a plain-bar I and the leaf-green dot on a mat-green tile with a faint grid
+  (img/favicon.svg, favicon-48.png, apple-touch-icon.png, profile-1080.png for Instagram/Google).
+- Wordmark "ISKO.": S K O from Schibsted Grotesk 800 (outlined), a plain-bar I instead of the
+  font's slab I, and the font's own full stop as a round dot. Drawn once per page as
+  <g id="isko-wordmark"> in a hidden sprite and reused with <use> in the nav, footer and giant
+  footer mark; letters are currentColor, the dot is --wm-dot (--dot on light, --dot-on-dark on
+  the nav, mat and footer). Files: img/wordmark.svg.
+- Full name "ISKO. Studio": the wordmark plus "Studio" in Schibsted Grotesk 500
+  (img/logo.svg, logo-white.svg, logo.png). The sharing image img/og-image.png uses it on the mat.
+- The source script is not in the repo; regenerate from the outlines in these SVGs if needed.
 No accent colour beyond ink. Success/error colours are for form states only.
 
 ## Typography
@@ -56,7 +63,7 @@ No accent colour beyond ink. Success/error colours are for form states only.
 - Smaller headings (h3): weight 700, tracking -0.03em. Body: weight 400, line-height 1.6.
 - Type scale (desktop): h1 ~8rem (the one big thing; two lines at every width, so keep it to
   about 22 characters), h2 ~3rem, h3 ~1.4rem, body 1.0625rem, small 0.875rem. Nothing under 13px.
-- No serif, no monospace, no italics in running copy. The logo is the only exception (Fraunces).
+- No serif, no monospace, no italics anywhere. The wordmark is drawn from Schibsted Grotesk too.
 - Headlines are one colour: no coloured, underlined or italic accent word.
 
 ## Layout & spacing
